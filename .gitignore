@@ -1,0 +1,8 @@
+#IntelliJ
+.idea
+
+#Mac
+*.iml
+
+#Node
+node_modules
