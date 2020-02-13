@@ -4,8 +4,9 @@
 #Mac
 *.iml
 
-#Node
+#Node bzw yarn
 node_modules
+yarn-error.log
 
 #webpack
-dist/bundle.js
+dist/
