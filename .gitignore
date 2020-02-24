@@ -3,6 +3,7 @@
 
 #Mac
 *.iml
+*.DS-Store
 
 #Node bzw yarn
 node_modules
