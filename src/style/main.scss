@@ -1,5 +1,47 @@
 @import "colors";
 
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Lucida Console", Monaco, monospace;
+}
+
+html, body {
+ height: 100%;
+}
+
 body {
-  background-color: $green;
+  display: flex;
+  flex-direction: column;
+}
+
+#root {
+  overflow: scroll;
+  height:100%;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  background-color: $purple;
+  color: $white;
+  padding: 20px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  background-color: $purple;
+  color: $white;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.footer .col {
+  padding: 10px 30px;
+}
+
+.row {
+  display: flex;
 }
