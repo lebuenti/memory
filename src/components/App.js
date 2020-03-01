@@ -2,24 +2,25 @@ import React, {Component} from "react";
 
 class App extends Component {
     render() {
-        return <div><h1>llllloremloremlorem
-            llllloremloremloremllllloremloremloremllllloremloremloremllllloremloremlorem
-            llllloremloremloremllllloremloremlorem
-            llllloremloremloremllllloremloremloremllllloremloremloremllllloremloremlorem
+        return <>
+            <div className="header">
+                <div className="row">
+                    <div className="col">
+                        <h1>memory</h1>
+                    </div>
+                </div>
+            </div>
 
-            llllloremloremloremllllloremloremlorem
-            llllloremloremlorem
-            llllloremloremlorem
-            llllloremloremlorem
-            llllloremloremlorem
-            llllloremloremlorem
-            llllloremloremlorem
-            llllloremloremlorem
-            llllloremloremlorem
-            llllloremloremloremllllloremloremlorem
+            <div id="content"/>
 
-
-        </h1></div>;
+            <footer className="footer">
+                <div className="row">
+                    <div className="col"><i className="fas fa-home"/></div>
+                    <div className="col"><i className="fas fa-redo"/></div>
+                    <div className="col"><i className="fas fa-user"/></div>
+                </div>
+            </footer>
+        </>;
     }
 }
 

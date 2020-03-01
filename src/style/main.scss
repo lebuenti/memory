@@ -6,16 +6,16 @@
   font-family: "Lucida Console", Monaco, monospace;
 }
 
-html, body {
+html, body, #root {
  height: 100%;
 }
 
-body {
+#root {
   display: flex;
   flex-direction: column;
 }
 
-#root {
+#content {
   overflow: scroll;
   height:100%;
 }

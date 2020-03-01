@@ -8,4 +8,3 @@ import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 
 ReactDOM.render(<App/>, document.getElementById('root'));
-console.log("hello my name is lea");
