@@ -1,4 +1,6 @@
+import '../style/main.scss';
 import React, {Component} from "react";
+import Home from './Home'
 
 class App extends Component {
     render() {
@@ -11,13 +13,27 @@ class App extends Component {
                 </div>
             </div>
 
-            <div id="content"/>
+            <div id="content">
+                <Home/>
+            </div>
 
             <footer className="footer">
                 <div className="row">
-                    <div className="col"><i className="fas fa-home"/></div>
-                    <div className="col"><i className="fas fa-redo"/></div>
-                    <div className="col"><i className="fas fa-user"/></div>
+                    <div className="col">
+                        <button>
+                            <i className="fas fa-home"/>
+                        </button>
+                    </div>
+                    <div className="col">
+                        <button>
+                            <i className="fas fa-redo"/>
+                        </button>
+                    </div>
+                    <div className="col">
+                        <button>
+                            <i className="fas fa-user"/>
+                        </button>
+                    </div>
                 </div>
             </footer>
         </>;

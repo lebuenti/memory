@@ -33,13 +33,27 @@ html, body, #root {
   display: flex;
   justify-content: center;
   background-color: $purple;
-  color: $white;
   overflow: hidden;
   flex-shrink: 0;
 }
 
-.footer .col {
+.footer button {
+  color: $white;
   padding: 10px 30px;
+  font-size:16pt;
+  margin: 5px 10px;
+  background-color: $purple;
+  border: none;
+  border-radius: 5px;
+}
+
+.footer button:active, .footer button:hover  {
+  color: $purple;
+  background-color: $purple_contrast;
+}
+
+button:focus {
+  outline:0;
 }
 
 .row {
