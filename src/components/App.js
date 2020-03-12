@@ -21,17 +21,17 @@ class App extends Component {
                 <div className="row">
                     <div className="col">
                         <button>
-                            <i className="fas fa-home"/>
+                            <i className="fas fa-home icon"/>
                         </button>
                     </div>
                     <div className="col">
                         <button>
-                            <i className="fas fa-redo"/>
+                            <i className="fas fa-redo icon"/>
                         </button>
                     </div>
                     <div className="col">
                         <button>
-                            <i className="fas fa-user"/>
+                            <i className="fas fa-user icon"/>
                         </button>
                     </div>
                 </div>

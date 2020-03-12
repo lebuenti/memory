@@ -4,11 +4,19 @@
   padding: 0;
   margin: 0;
   font-family: "Lucida Console", Monaco, monospace;
-  font-size:16pt;
+  font-size:14pt;
 }
 
 h1 {
   font-size: 22pt;
+}
+
+h2 {
+  font-size: 16pt;
+}
+
+.icon {
+  font-size: 20pt;
 }
 
 html, body, #root {
@@ -73,10 +81,46 @@ button.add {
   margin: 10px 0;
   border: none;
   color: $white;
-  font-size: 22pt;
 }
 
 button.add:active, button.add:hover {
   background-color: $purple;
   color: $green
+}
+
+.subject {
+  background-color: red;
+  margin: 10px 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.card {
+  width: 100%;
+  background: $cardBackground;
+  background-size: 100% 10px;
+  border: 1px solid black;
+  border-radius: 7.5px;
+}
+.cards {
+  margin: 10px 0;
+  max-width: 250px;
+  width: 100%;
+}
+.cardBack {
+  height: 20px;
+}
+
+.cardMiddle {
+  height: 20px;
+  margin-top:-10px;
+}
+
+.cardFront {
+  margin-top:-10px;
+  height:100px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display:flex;
 }

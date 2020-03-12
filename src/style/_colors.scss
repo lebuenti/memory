@@ -5,3 +5,13 @@ $purple: #4E3E4C;
 $purple_contrast: #F6F67F;
 
 $green: #3CB371;
+
+$lightyellow: #FCFCCF;
+$lightyellowWithGray: #E1E1B0;
+
+$cardBackground: linear-gradient(
+                to bottom,
+                $lightyellow,
+                $lightyellow 85%,
+                $lightyellowWithGray 90%,
+                $lightyellowWithGray);
