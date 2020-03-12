@@ -4,6 +4,11 @@
   padding: 0;
   margin: 0;
   font-family: "Lucida Console", Monaco, monospace;
+  font-size:16pt;
+}
+
+h1 {
+  font-size: 22pt;
 }
 
 html, body, #root {
@@ -40,7 +45,6 @@ html, body, #root {
 .footer button {
   color: $white;
   padding: 10px 30px;
-  font-size:16pt;
   margin: 5px 10px;
   background-color: $purple;
   border: none;
@@ -58,4 +62,21 @@ button:focus {
 
 .row {
   display: flex;
+  justify-content: center
+}
+
+button.add {
+  background-color: $green;
+  width: 70px;
+  height:70px;
+  border-radius: 70px;
+  margin: 10px 0;
+  border: none;
+  color: $white;
+  font-size: 22pt;
+}
+
+button.add:active, button.add:hover {
+  background-color: $purple;
+  color: $green
 }
