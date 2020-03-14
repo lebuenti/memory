@@ -6,4 +6,7 @@ import '@fortawesome/fontawesome-free/js/solid'
 import '@fortawesome/fontawesome-free/js/regular'
 import '@fortawesome/fontawesome-free/js/brands'
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render(
+    <App content="home"/>,
+    document.getElementById('root')
+);
