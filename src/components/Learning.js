@@ -1,7 +1,5 @@
-import React, {Component} from "react";
+import React from "react";
 
-export default class Learning extends Component {
-    render() {
-        return <div>Ich bin eine Lernseite.</div>;
-    }
+export default function Learning() {
+    return <div>Ich bin eine Lernseite.</div>;
 }

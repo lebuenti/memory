@@ -1,8 +1,5 @@
-import React, {Component} from "react";
+import React from "react";
 
-export default class Profile extends Component {
-
-    render() {
-        return <div>Ich bin eine ProfilSeite</div>;
-    }
+export default function Profile() {
+    return <div>Ich bin eine ProfilSeite</div>;
 }
