@@ -1,35 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
+import Subject from "./Subject";
+import uuid from './uuid';
 
 export default function Home() {
+    const [subjects, setSubjects] = useState([]);
+
+    const addSubject = () => {
+        setSubjects(curr => [...curr, {id: uuid(), name: "math"}]);
+    };
+
     return <>
         <div className="row">
             <div className="col">
-                <button className='add'>
+                <button className='add' onClick={addSubject}>
                     <i className="fas fa-plus icon"/>
                 </button>
             </div>
         </div>
-
-        <div className="subject">
-            <div className="row subjectHeader">
-                <div className="col">
-                    <h2>Mathe</h2>
-                </div>
-            </div>
-            <div className="row">
-                <div className="cards">
-                    <div className="row">
-                        <div className="card cardBack"/>
-                    </div>
-                    <div className="row">
-                        <div className="card cardMiddle"/>
-                    </div>
-                    <div className="row">
-                        <div className="card cardFront">Binomische Formeln</div>
-                    </div>
-                </div>
-            </div>
-
+        <div id="subjects">
+            {subjects.map(subject => (
+                <Subject key={subject.id} name={subject.name}/>
+            ))}
         </div>
     </>
 }
