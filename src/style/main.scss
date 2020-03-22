@@ -4,7 +4,7 @@
   padding: 0;
   margin: 0;
   font-family: "Lucida Console", Monaco, monospace;
-  font-size:14pt;
+  font-size: 12pt;
 }
 
 h1 {
@@ -15,12 +15,17 @@ h2 {
   font-size: 16pt;
 }
 
+h4 {
+  margin-bottom: 10px;
+  color: lightgreen;
+}
+
 .icon {
-  font-size: 20pt;
+  font-size: 25pt;
 }
 
 html, body, #root {
- height: 100%;
+  height: 100%;
 }
 
 #root {
@@ -30,7 +35,7 @@ html, body, #root {
 
 #content {
   overflow: scroll;
-  height:100%;
+  height: 100%;
 }
 
 .header {
@@ -59,24 +64,25 @@ html, body, #root {
   border-radius: 5px;
 }
 
-.footer button:active, .footer button:hover  {
+.footer button:active, .footer button:hover {
   color: $purple;
   background-color: $purple_contrast;
 }
 
 button:focus {
-  outline:0;
+  outline: 0;
 }
 
 .row {
   display: flex;
-  justify-content: center
+  justify-content: center;
+  text-align: center;
 }
 
 button.add {
   background-color: $green;
   width: 70px;
-  height:70px;
+  height: 70px;
   border-radius: 70px;
   margin: 10px 0;
   border: none;
@@ -89,10 +95,42 @@ button.add:active, button.add:hover {
 }
 
 .subject {
-  background-color: red;
   margin: 10px 10px;
   border-radius: 10px;
   padding: 10px;
+}
+
+.formAdd {
+  background-color: $green;
+  margin: 10px 10px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.formAdd button {
+  background-color: $white;
+  border-radius: 40px;
+  width: 50px;
+  height: 50px;
+  margin: 5px 20px;
+  border: none;
+}
+
+.buttonSuccess {
+  color: $green;
+}
+
+.buttonReset {
+  color: $red;
+}
+
+.col input {
+  width: 100%;
+  height: 30px;
+}
+
+.col {
+  margin: 10px 0;
 }
 
 .card {
@@ -102,25 +140,26 @@ button.add:active, button.add:hover {
   border: 1px solid black;
   border-radius: 7.5px;
 }
+
 .cards {
   margin: 10px 0;
   max-width: 250px;
   width: 100%;
 }
+
 .cardBack {
   height: 20px;
 }
 
 .cardMiddle {
   height: 20px;
-  margin-top:-10px;
+  margin-top: -10px;
 }
 
 .cardFront {
-  margin-top:-10px;
-  height:100px;
-  text-align: center;
+  margin-top: -10px;
+  height: 100px;
   justify-content: center;
   align-items: center;
-  display:flex;
+  display: flex;
 }

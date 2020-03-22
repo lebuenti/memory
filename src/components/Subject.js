@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function Subject(props) {
-    return <div className="subject">
+    return <div className="subject" style={{backgroundColor: props.color}}>
         <div className="row subjectHeader">
             <div className="col">
                 <h2>{props.name}</h2>
