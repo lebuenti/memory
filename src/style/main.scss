@@ -83,7 +83,7 @@ button.add {
   background-color: $green;
   width: 70px;
   height: 70px;
-  border-radius: 70px;
+  border-radius: 20px;
   margin: 10px 0;
   border: none;
   color: $white;
@@ -100,6 +100,15 @@ button.add:active, button.add:hover {
   padding: 10px;
 }
 
+.card.add {
+  color: $green;
+  border: 1px solid black;
+}
+
+button.card.add:active, button.card.add:hover {
+  color: black;
+}
+
 .formAdd {
   background-color: $green;
   margin: 10px 10px;
@@ -107,13 +116,21 @@ button.add:active, button.add:hover {
   padding: 10px;
 }
 
+.card .formAdd {
+  background-color: transparent;
+}
+
 .formAdd button {
   background-color: $white;
-  border-radius: 40px;
+  border-radius: 20px;
   width: 50px;
   height: 50px;
   margin: 5px 20px;
   border: none;
+}
+
+.card .formAdd button {
+  border: 1px solid black;
 }
 
 .buttonSuccess {
@@ -143,8 +160,9 @@ button.add:active, button.add:hover {
 
 .cards {
   margin: 10px 0;
-  max-width: 250px;
+  max-width: 300px;
   width: 100%;
+  cursor: pointer;
 }
 
 .cardBack {
@@ -158,7 +176,7 @@ button.add:active, button.add:hover {
 
 .cardFront {
   margin-top: -10px;
-  height: 100px;
+  height: 150px;
   justify-content: center;
   align-items: center;
   display: flex;
