@@ -73,7 +73,7 @@ export default function Subject(props) {
 
         <div id="oldCards">
             {cardStack.map(stack => (
-                <CardStack key={stack.id} name={stack.name}/>
+                <CardStack key={stack.id} id={stack.id} name={stack.name} goTo={(value) => props.goTo(value)}/>
             ))}
         </div>
     </div>

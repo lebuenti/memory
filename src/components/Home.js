@@ -4,7 +4,7 @@ import uuid from './uuid';
 
 const initialColor = '#ff0000';
 
-export default function Home() {
+export default function Home(props) {
     const [subjects, setSubjects] = useState([]);
     const [subjectName, setSubjectName] = useState('');
     const [subjectColor, setSubjectColor] = useState(initialColor);
@@ -65,7 +65,7 @@ export default function Home() {
 
         <div id="subjects">
             {subjects.map(subject => (
-                <Subject key={subject.id} name={subject.name} color={subject.color}/>
+                <Subject key={subject.id} name={subject.name} color={subject.color} goTo={(value) => props.goTo(value)}/>
             ))}
         </div>
     </>

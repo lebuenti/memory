@@ -1,7 +1,11 @@
 import React from "react";
 
 export default function CardStack(props) {
-    return <div className="row oldCards">
+    const openCards = () => {
+        props.goTo('cards/' + props.id);
+    };
+
+    return <div className="row oldCards" onClick={openCards}>
         <div className="cards">
             <div className="row">
                 <div className="card cardBack"/>

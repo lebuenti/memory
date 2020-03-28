@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import Home from "./Home";
 import Profile from "./Profile";
 import Learning from "./Learning";
+import CardView from "./CardView";
 
 export default function App() {
     const [content, setContent] = useState('home');
@@ -12,15 +13,14 @@ export default function App() {
     }, []);
 
     useEffect(() => {
-        let popstateListener = () => setContentFromPath();
-        window.addEventListener("popstate", popstateListener);
-        return () => window.removeEventListener("popstate", popstateListener)
+        window.onpopstate = () => setContentFromPath();
+        return () => window.onpopstate = undefined;
     }, []);
 
     const nextPage = (value) => {
         setContent(() => {
-            if (value === "home") history.pushState(value, value, "/");
-            else history.pushState(value, value, value);
+            if (value === "home") window.history.pushState({}, '', "/");
+            else window.history.pushState({}, '', value);
             return value;
         });
     };
@@ -32,6 +32,8 @@ export default function App() {
             setContent('learning');
         } else if (location.pathname.endsWith('/')) {
             setContent('home');
+        } else if (location.pathname.match('cards')) {
+            setContent('cards');
         }
     };
 
@@ -47,11 +49,16 @@ export default function App() {
         <div id="content">
             {function () {
                 if (content === "home") {
-                    return <Home/>;
+                    return <Home goTo={(value) => {
+                        nextPage(value);
+                        setContentFromPath();
+                    }}/>;
                 } else if (content === "profile") {
                     return <Profile/>;
                 } else if (content === "learning") {
                     return <Learning/>;
+                } else if (content === "cards") {
+                    return <CardView/>
                 }
             }()}
         </div>
