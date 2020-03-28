@@ -1,6 +1,7 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Subject from "./Subject";
 import uuid from './uuid';
+import firebase from "./firebase";
 
 const initialColor = '#ff0000';
 
@@ -9,6 +10,17 @@ export default function Home(props) {
     const [subjectName, setSubjectName] = useState('');
     const [subjectColor, setSubjectColor] = useState(initialColor);
     const [showInput, setShowInput] = useState(false);
+
+    useEffect(() => {
+        const db = firebase.firestore();
+
+        //TODO read only from the logged in user.
+        db.collection('subject').get().then((querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                setSubjects(curr => [{id: doc.id, name: doc.data().name, color: '#' + doc.data().color}, ...curr]);
+            });
+        });
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
