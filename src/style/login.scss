@@ -1,0 +1,30 @@
+@import "colors";
+
+#loginBody {
+  height:100%;
+  background: $cardBackground;
+  background-size: 100% 10px;
+}
+
+#login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+#login .formAdd {
+  background-color: $purple;
+  color: white;
+}
+
+#headerLogin {
+  margin-bottom: 25px;
+  border-bottom: 2px dotted white;
+}
+
+p {
+  color: $purple_contrast;
+  text-decoration: underline;
+  font-size: 10pt;
+}

@@ -2,6 +2,8 @@ import React, {useEffect, useState} from "react";
 import Subject from "./Subject";
 import uuid from './uuid';
 import firebase from "./firebase";
+//import "../style/main.scss";
+import "../style/home.scss";
 
 const initialColor = '#ff0000';
 
