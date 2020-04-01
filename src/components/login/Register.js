@@ -1,17 +1,31 @@
 import React, {useState} from "react";
+import firebase from "firebase";
+import ReactDOM from "react-dom";
+import App from "../App";
 
 export default function Register() {
-    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .catch((error) => alert(error))
+            .then(() => {
+                firebase.auth().signInWithEmailAndPassword(email, password)
+                    .catch((error) => alert(error))
+                    .then(() => {
+                        ReactDOM.render(
+                            <App/>,
+                            document.getElementById('root')
+                        );
+                    });
+            });
     };
 
     const handleReset = () => {
-        /*setShowInput(false);
-        setCardName('');*/
+        setEmail('');
+        setPassword('');
     };
 
     return <div className="row formAdd">
@@ -21,12 +35,6 @@ export default function Register() {
             </div>
             <div className="col">
                 <h5>Register</h5>
-            </div>
-            <div className="col">
-                <label>
-                    <input type="text" value={username} placeholder="Username"
-                           onChange={e => setUsername(e.target.value)}/>
-                </label>
             </div>
             <div className="col">
                 <label>

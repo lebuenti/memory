@@ -1,22 +1,27 @@
 import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import App from "../App.js";
+import firebase from "firebase";
 
 export default function Login(props) {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        ReactDOM.render(
-            <App/>,
-            document.getElementById('root')
-        );
+        firebase.auth().signInWithEmailAndPassword(email, password)
+            .catch((error) => alert(error))
+            .then(() => {
+                ReactDOM.render(
+                    <App/>,
+                    document.getElementById('root')
+                );
+            });
     };
 
     const handleReset = () => {
-        /*setShowInput(false);
-        setCardName('');*/
+        setEmail('');
+        setPassword('');
     };
 
     return <div className="row formAdd">
@@ -32,13 +37,13 @@ export default function Login(props) {
             </div>
             <div className="col">
                 <label>
-                    <input type="text" value={username} placeholder="Username"
-                           onChange={e => setUsername(e.target.value)}/>
+                    <input type="text" value={email} placeholder="email"
+                           onChange={e => setEmail(e.target.value)}/>
                 </label>
             </div>
             <div className="col">
                 <label>
-                    <input type="password" value={password}
+                    <input type="password" value={password} placeholder="password"
                            onChange={e => setPassword(e.target.value)}/>
                 </label>
             </div>
