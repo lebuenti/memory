@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import CardStack from "./CardStack";
-import firebase from "./firebase";
+import firebase from "../db/firebase";
 
 const collectionSubject = 'subject';
 const collectionsCardstacks = 'cardstacks';

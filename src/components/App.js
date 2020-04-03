@@ -1,9 +1,9 @@
 import '../style/main.scss';
 import React, {useEffect, useState} from "react";
 import Home from "./Home";
-import Profile from "./Profile";
-import Learning from "./Learning";
-import CardView from "./CardView";
+import Profile from "./profile/Profile";
+import Learning from "./learning/Learning";
+import CardView from "./cards/CardView";
 
 export default function App() {
     const [content, setContent] = useState('home');

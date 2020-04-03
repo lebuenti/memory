@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import firebase from "./firebase";
+import firebase from "../../db/firebase";
 
 export default function Profile() {
     const [email, setEmail] = useState('');
