@@ -1,16 +1,50 @@
-import React, {useState} from "react";
-import uuid from "./uuid";
+import React, {useEffect, useState} from "react";
 import CardStack from "./CardStack";
+import firebase from "./firebase";
+
+const collectionSubject = 'subject';
+const collectionsCardstacks = 'cardstacks';
 
 export default function Subject(props) {
     const [cardStack, setCardStack] = useState([]);
     const [cardName, setCardName] = useState('');
     const [showInput, setShowInput] = useState(false);
 
+    useEffect(() => {
+        firebase.firestore().collection(collectionSubject)
+            .doc(props.id)
+            .get()
+            .then((docSubject) => {
+                if (!docSubject.data().cardstacks) return;
+                docSubject.data().cardstacks.forEach((cardstackId) => {
+
+                    firebase.firestore().collection(collectionsCardstacks)
+                        .doc(cardstackId)
+                        .get()
+                        .then((docCardstack) => {
+                            setCardStack(curr => [{id: docCardstack.id, name: docCardstack.data().name}, ...curr]);
+                        })
+                });
+            })
+    }, []);
+
     const handleSubmit = (event) => {
         event.preventDefault();
-        setCardStack(curr => [{id: uuid(), name: cardName}, ...curr]);
-        handleReset();
+        firebase.firestore().collection(collectionsCardstacks)
+            .add({
+                name: cardName
+            })
+            .then((docRef) => {
+                firebase.firestore().collection(collectionSubject)
+                    .doc(props.id)
+                    .update({
+                        cardstacks: firebase.firestore.FieldValue.arrayUnion(docRef.id)
+                    })
+                    .then(() => {
+                        setCardStack(curr => [{id: docRef.id, name: cardName}, ...curr]);
+                        handleReset();
+                    })
+            })
     };
 
     const handleReset = () => {

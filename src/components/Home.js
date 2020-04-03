@@ -19,7 +19,7 @@ export default function Home(props) {
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
-                    setSubjects(curr => [{id: doc.id, name: doc.data().name, color: '#' + doc.data().color}, ...curr]);
+                    setSubjects(curr => [{id: doc.id, name: doc.data().name, color: doc.data().color}, ...curr]);
                 });
             });
     }, []);
@@ -88,7 +88,7 @@ export default function Home(props) {
 
         <div id="subjects">
             {subjects.map(subject => (
-                <Subject key={subject.id} name={subject.name} color={subject.color} goTo={(value) => props.goTo(value)}/>
+                <Subject key={subject.id} id={subject.id}  name={subject.name} color={subject.color} goTo={(value) => props.goTo(value)}/>
             ))}
         </div>
     </>
