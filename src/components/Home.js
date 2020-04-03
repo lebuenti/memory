@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import Subject from "./Subject";
 import uuid from './uuid';
 import firebase from "./firebase";
-//import "../style/main.scss";
 import "../style/home.scss";
 
 const initialColor = '#ff0000';
+const collectionSubject = 'subject';
 
 export default function Home(props) {
     const [subjects, setSubjects] = useState([]);
@@ -14,19 +14,28 @@ export default function Home(props) {
     const [showInput, setShowInput] = useState(false);
 
     useEffect(() => {
-        const db = firebase.firestore();
-
-        //TODO read only from the logged in user.
-        db.collection('subject').get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                setSubjects(curr => [{id: doc.id, name: doc.data().name, color: '#' + doc.data().color}, ...curr]);
+        firebase.firestore().collection(collectionSubject)
+            .where('user', '==', firebase.auth().currentUser.uid)
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    setSubjects(curr => [{id: doc.id, name: doc.data().name, color: '#' + doc.data().color}, ...curr]);
+                });
             });
-        });
     }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setSubjects(curr => [{id: uuid(), name: subjectName, color: subjectColor}, ...curr]);
+
+        firebase.firestore().collection(collectionSubject)
+            .doc()
+            .set({
+                color: subjectColor,
+                name: subjectName,
+                user: firebase.auth().currentUser.uid
+            }).then(() => {
+            setSubjects(curr => [{id: uuid(), name: subjectName, color: subjectColor}, ...curr]);
+        });
         handleReset();
     };
 
