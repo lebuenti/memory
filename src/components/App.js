@@ -72,7 +72,7 @@ export default function App() {
                 </div>
                 <div className="col">
                     <button onClick={() => nextPage("learning")}>
-                        <i className="fas fa-redo icon"/>
+                        <i className="fas fa-graduation-cap icon"/>
                     </button>
                 </div>
                 <div className="col">

@@ -61,7 +61,7 @@ export default function Subject(props) {
 
         <div className="row">
             <div className="col">
-                <button className='add card' onClick={() => {
+                <button className='add card button' onClick={() => {
                     setShowInput(true);
                 }}>
                     <i className="fas fa-plus icon"/>
@@ -91,10 +91,10 @@ export default function Subject(props) {
                                     </label>
                                 </div>
                                 <div className="col">
-                                    <button type="reset" className="buttonReset" onClick={handleReset}>
+                                    <button type="reset" className="buttonReset button" onClick={handleReset}>
                                         <i className="fas fa-times icon"/>
                                     </button>
-                                    <button type="submit" className="buttonSuccess">
+                                    <button type="submit" className="buttonSuccess button">
                                         <i className="fas fa-check icon"/>
                                     </button>
                                 </div>

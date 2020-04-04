@@ -49,10 +49,10 @@ export default function Register() {
                 </label>
             </div>
             <div className="col">
-                <button type="reset" className="buttonReset" onClick={handleReset}>
+                <button type="reset" className="buttonReset button" onClick={handleReset}>
                     <i className="fas fa-times icon"/>
                 </button>
-                <button type="submit" className="buttonSuccess">
+                <button type="submit" className="buttonSuccess button">
                     <i className="fas fa-check icon"/>
                 </button>
             </div>
