@@ -1,20 +1,41 @@
 import React, {useEffect, useState} from "react";
 import "../../style/cardview.scss";
+import Card from "./Card";
+import firebase from "../../db/firebase";
+
+const collectionsCardstacks = 'cardstacks';
 
 export default function CardView() {
-    const [subjectId, setSubjectId] = useState('');
-    const [subjectColor, setSubjectColor] = useState('mathe');
-    const [cardStackname, setCardstackname] = useState('binomische formeln');
+    const [cardStackname, setCardstackname] = useState('');
+    const [cards, setCards] = useState([]);
+
 
     useEffect(() => {
-        //substring
-        //if not undefined
-        setSubjectId(location.pathname);
+        let i = location.pathname.lastIndexOf('/');
+        let cardStackId = location.pathname.substring(i + 1, location.pathname.length);
+        if (cardStackId.length < 20) {
+            //throw error
+            console.error('id from cardstack is less then 20 chars!');
+            return;
+        }
 
-        //read cards with this id
-        //background with this color??
+        firebase.firestore().collection(collectionsCardstacks)
+            .doc(cardStackId)
+            .get()
+            .then((doc) => {
+                setCardstackname(doc.data().name);
+                if (!doc.data().cards) return;
 
-    });
+                doc.data().cards.forEach((cardId) => {
+                    firebase.firestore().collection('cards')
+                        .doc(cardId)
+                        .get()
+                        .then((docCard) => {
+                            setCards(curr => [{id: cardId, question: docCard.data().question, answer: docCard.data().answer}, ...curr]);
+                        })
+                })
+            })
+    }, []);
 
     return <div id="cardview">
         <div className="row">
@@ -22,28 +43,13 @@ export default function CardView() {
                 <h3>{cardStackname}</h3>
             </div>
         </div>
+        <div>Add new Card</div>
         <div className="row oldCards">
 
             <div className="cards">
-
-                <div className="row">
-                    <div className="card cardFront">Frage</div>
-                </div>
-                <div className="row">
-                    <button className="switch button">
-                        <i className="fas fa-redo icon"/>
-                    </button>
-                </div>
-
-                <div className="row">
-                    <div className="card cardFront">Frage</div>
-                </div>
-                <div className="row">
-                    <button className="switch button">
-                        <i className="fas fa-redo icon"/>
-                    </button>
-                </div>
-
+                {cards.map(card => (
+                    <Card key={card.id} id={card.id} answer={card.answer} question={card.question}/>
+                ))}
             </div>
         </div>
     </div>
