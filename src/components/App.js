@@ -6,7 +6,7 @@ import Learning from "./learning/Learning";
 import CardView from "./cards/CardView";
 
 export default function App() {
-    const [content, setContent] = useState('home');
+    const [content, setContent] = useState(null);
 
     useEffect(() => {
         setContentFromPath();
@@ -30,10 +30,10 @@ export default function App() {
             setContent('profile');
         } else if (location.pathname.endsWith('learning')) {
             setContent('learning');
-        } else if (location.pathname.endsWith('/')) {
-            setContent('home');
         } else if (location.pathname.match('cards')) {
             setContent('cards');
+        } else {
+            setContent('home');
         }
     };
 
@@ -59,6 +59,8 @@ export default function App() {
                     return <Learning/>;
                 } else if (content === "cards") {
                     return <CardView/>
+                } else if (content === null) {
+                    return 'loading';
                 }
             }()}
         </div>
