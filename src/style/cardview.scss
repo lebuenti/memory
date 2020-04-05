@@ -15,6 +15,11 @@ button.switch {
   transform: rotateY(180deg);
 }
 
+.cardFront.addCard, .flip-container.addCard, .front.addCard, .back.addCard {
+  height:200px;
+  width:350px;
+}
+
 .flip-container, .front, .back {
   width: 300px;
   height: 150px;
@@ -40,4 +45,9 @@ button.switch {
 
 .back {
   transform: rotateY(180deg);
+}
+
+.card textarea {
+  width: 270px;
+  height: 100px;
 }

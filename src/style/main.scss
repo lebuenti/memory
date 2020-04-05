@@ -92,18 +92,18 @@ button:focus {
   height: 50px;
 }
 
-.formAdd button {
+.buttonSuccess {
+  color: $green;
   background-color: $white;
   margin: 5px 20px;
   border: none;
 }
 
-.buttonSuccess {
-  color: $green;
-}
-
 .buttonReset {
   color: $red;
+  background-color: $white;
+  margin: 5px 20px;
+  border: none;
 }
 
 .col input {
