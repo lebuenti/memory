@@ -4,6 +4,7 @@ import Card from "./Card";
 import firebase from "../../db/firebase";
 
 const collectionsCardstacks = 'cardstacks';
+const collectionCards = 'cards';
 
 export default function CardView() {
     const [showInput, setShowInput] = useState(false);
@@ -11,44 +12,61 @@ export default function CardView() {
     const [answer, setAnswer] = useState('');
     const [flip, setFlip] = useState(false);
     const [cardStackname, setCardstackname] = useState('');
+    const [cardStackId, setCardStackId] = useState('');
     const [cards, setCards] = useState([]);
-
 
     useEffect(() => {
         let i = location.pathname.lastIndexOf('/');
-        let cardStackId = location.pathname.substring(i + 1, location.pathname.length);
-        if (cardStackId.length < 20) {
+        let sub = location.pathname.substring(i + 1, location.pathname.length);
+        if (sub.length < 20) {
             //throw error
             console.error('id from cardstack is less then 20 chars!');
             return;
         }
 
-        firebase.firestore().collection(collectionsCardstacks)
-            .doc(cardStackId)
-            .get()
-            .then((doc) => {
-                setCardstackname(doc.data().name);
-                if (!doc.data().cards) return;
+        setCardStackId(() => {
+            firebase.firestore().collection(collectionsCardstacks)
+                .doc(sub)
+                .get()
+                .then((doc) => {
+                    setCardstackname(doc.data().name);
+                    if (!doc.data().cards) return;
 
-                doc.data().cards.forEach((cardId) => {
-                    firebase.firestore().collection('cards')
-                        .doc(cardId)
-                        .get()
-                        .then((docCard) => {
-                            setCards(curr => [{id: cardId, question: docCard.data().question, answer: docCard.data().answer}, ...curr]);
-                        })
-                })
-            })
+                    doc.data().cards.forEach((cardId) => {
+                        firebase.firestore().collection(collectionCards)
+                            .doc(cardId)
+                            .get()
+                            .then((docCard) => {
+                                setCards(curr => [{id: cardId, question: docCard.data().question, answer: docCard.data().answer}, ...curr]);
+                            })
+                    })
+                });
+            return sub;
+        })
     }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+        firebase.firestore().collection(collectionCards)
+            .add({
+                question: question,
+                answer: answer
+            })
+            .then((cardId) => {
+                firebase.firestore().collection(collectionsCardstacks)
+                    .doc(cardStackId)
+                    .update({cards: firebase.firestore.FieldValue.arrayUnion(cardId.id)})
+                    .then(() => {
+                        setCards(curr => [{id: cardId.id, question: question, answer: answer}, ...curr]);
+                        clearInput();
+                        setShowInput(false);
+                    })
+            })
     };
 
-    const handleReset = () => {
-        //erst alles löschen. Wenn alles gelöscjt ist -> input unsichtbar machen.
-
+    const clearInput = () => {
+        setQuestion('');
+        setAnswer('');
     };
 
     return <div id="cardview">
@@ -83,6 +101,23 @@ export default function CardView() {
                                                 {question}
                                             </textarea>
                                         </div>
+                                        <div className="row">
+                                            <div className="col">
+                                                <button type="reset" className="buttonReset button" onClick={() => {
+                                                    if (question === '') {
+                                                        setShowInput(false);
+                                                        clearInput();
+                                                    } else {
+                                                        setQuestion('');
+                                                    }
+                                                }}>
+                                                    <i className="fas fa-times icon"/>
+                                                </button>
+                                                <button type="submit" className="buttonSuccess button">
+                                                    <i className="fas fa-check icon"/>
+                                                </button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -90,14 +125,21 @@ export default function CardView() {
                                 <div className="card cardFront addCard">
                                     <div>
                                         <div className="row">
-                                    <textarea placeholder="Your answer"
-                                              value={answer} onChange={e => setAnswer(e.target.value)}>
-                                        {answer}
-                                    </textarea>
+                                            <textarea placeholder="Your answer"
+                                                      value={answer} onChange={e => setAnswer(e.target.value)}>
+                                                {answer}
+                                            </textarea>
                                         </div>
                                         <div className="row">
                                             <div className="col">
-                                                <button type="reset" className="buttonReset button" onClick={handleReset}>
+                                                <button type="reset" className="buttonReset button" onClick={() => {
+                                                    if (answer === '') {
+                                                        setShowInput(false);
+                                                        clearInput();
+                                                    } else {
+                                                        setAnswer('');
+                                                    }
+                                                }}>
                                                     <i className="fas fa-times icon"/>
                                                 </button>
                                                 <button type="submit" className="buttonSuccess button">
@@ -112,7 +154,7 @@ export default function CardView() {
                     </div>
                 </div>
                 <div className="row">
-                    <button className="switch button" onClick={() => {
+                    <button type="button" className="switch button" onClick={() => {
                         setFlip(!flip);
                     }}>
                         <i className="fas fa-redo icon"/>
