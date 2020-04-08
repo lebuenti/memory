@@ -6,22 +6,48 @@ import firebase from "firebase";
 export default function Login(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setEmailError(false);
+        setPasswordError(false);
+
+        if (email.length === 0) {
+            setEmailError(true);
+            //TODO Toast
+            console.error('Email is empty');
+            if (password.length !== 0) return;
+        }
+
+        if (password.length === 0) {
+            setPasswordError(true);
+            //TODO Toast
+            console.error('Password is empty');
+            return;
+        }
+
         firebase.auth().signInWithEmailAndPassword(email, password)
-            .catch((error) => alert(error))
             .then(() => {
                 ReactDOM.render(
                     <App/>,
                     document.getElementById('root')
                 );
-            });
+            })
+            .catch((error) => {
+                //TODO Toast
+                console.error(error.message);
+                if (error.code.includes('email') || error.code.includes('user')) setEmailError(true);
+                if (error.code.includes('password')) setPasswordError(true);
+            })
     };
 
     const handleReset = () => {
         setEmail('');
         setPassword('');
+        setEmailError(false);
+        setPasswordError(false);
     };
 
     return <div className="row formAdd">
@@ -36,16 +62,13 @@ export default function Login(props) {
                 <p onClick={() => props.showRegister(true)}>or register</p>
             </div>
             <div className="col">
-                <label>
-                    <input type="text" value={email} placeholder="email"
-                           onChange={e => setEmail(e.target.value)}/>
-                </label>
+                <input className={(emailError ? 'inputError' : '')} type="text" value={email} placeholder="email"
+                       onChange={e => setEmail(e.target.value)}/>
             </div>
             <div className="col">
-                <label>
-                    <input type="password" value={password} placeholder="password"
-                           onChange={e => setPassword(e.target.value)}/>
-                </label>
+                <input className={(passwordError ? 'inputError' : '')} type="password"
+                       value={password} placeholder="password"
+                       onChange={e => setPassword(e.target.value)}/>
             </div>
             <div className="col">
                 <button type="reset" className="buttonReset button" onClick={handleReset}>

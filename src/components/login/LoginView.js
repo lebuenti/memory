@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import "../../style/login.scss"
 import "../../style/main.scss"
 import Login from "./Login";
@@ -26,7 +26,7 @@ export default function LoginView() {
 
     return <div id="loginBody">
         <div id="login">
-            <div className="row">
+            <div>
                 {showRegister ? <Register/> : <Login showRegister={(value) => {
                     setShowRegister(value);
                     history.pushState({}, '', 'register');

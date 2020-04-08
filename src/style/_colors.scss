@@ -3,16 +3,18 @@ $white: #ffffff;
 
 $purple: #4E3E4C;
 $purple_contrast: #F6F67F;
+$purple_outline: #A79FA6;
 
 $green: #3CB371;
 $red: #FF0000;
+$lightred: #FF8080;
 
 $lightyellow: #FCFCCF;
 $lightyellowWithGray: #E1E1B0;
 
 $cardBackground: linear-gradient(
                 to bottom,
-                $lightyellow ,
+                $lightyellow,
                 $lightyellow 85%,
                 $lightyellowWithGray 90%,
                 $lightyellowWithGray);

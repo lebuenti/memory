@@ -1,7 +1,7 @@
 @import "colors";
 
 #loginBody {
-  height:100%;
+  height: 100%;
   background: $cardBackground;
   background-size: 100% 10px;
 }
@@ -27,4 +27,17 @@ p {
   color: $purple_contrast;
   text-decoration: underline;
   font-size: 10pt;
+}
+
+#login input {
+  width: 95%;
+}
+
+input.inputError {
+  background-color: $lightred;
+}
+
+.inputError::placeholder {
+  color: red;
+  opacity: 1;
 }
