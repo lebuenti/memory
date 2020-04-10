@@ -13,14 +13,22 @@
   height: 100%;
 }
 
+#login div:first-child {
+  width:90%;
+}
+
 #login .formAdd {
   background-color: $purple;
   color: white;
 }
 
+#login .formAdd form {
+  width:100%;
+}
+
 #headerLogin {
   margin-bottom: 25px;
-  border-bottom: 2px dotted white;
+  width:100% !important;
 }
 
 p {
