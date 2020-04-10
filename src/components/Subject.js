@@ -1,13 +1,15 @@
 import React, {useEffect, useState} from "react";
 import CardStack from "./CardStack";
 import firebase from "../db/firebase";
+import {toast} from "./toast/toast";
 
 const collectionSubject = 'subject';
 const collectionsCardstacks = 'cardstacks';
 
 export default function Subject(props) {
     const [cardStack, setCardStack] = useState([]);
-    const [cardName, setCardName] = useState('');
+    const [cardStackName, setCardStackName] = useState('');
+    const [cardStackNameError, setCardStackNameError] = useState(false);
     const [showInput, setShowInput] = useState(false);
 
     useEffect(() => {
@@ -30,9 +32,18 @@ export default function Subject(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        setCardStackNameError(false);
+
+        if (cardStackName.length === 0) {
+            setCardStackNameError(true);
+            toast.fail('Name of card stack is empty');
+            return;
+        }
+
         firebase.firestore().collection(collectionsCardstacks)
             .add({
-                name: cardName
+                name: cardStackName
             })
             .then((docRef) => {
                 firebase.firestore().collection(collectionSubject)
@@ -41,7 +52,7 @@ export default function Subject(props) {
                         cardstacks: firebase.firestore.FieldValue.arrayUnion(docRef.id)
                     })
                     .then(() => {
-                        setCardStack(curr => [{id: docRef.id, name: cardName}, ...curr]);
+                        setCardStack(curr => [{id: docRef.id, name: cardStackName}, ...curr]);
                         handleReset();
                     })
             })
@@ -49,7 +60,8 @@ export default function Subject(props) {
 
     const handleReset = () => {
         setShowInput(false);
-        setCardName('');
+        setCardStackNameError(false);
+        setCardStackName('');
     };
 
     return <div className="subject" style={{backgroundColor: props.color}}>
@@ -86,8 +98,9 @@ export default function Subject(props) {
                                 </div>
                                 <div className="col">
                                     <label>
-                                        <input type="text" value={cardName} placeholder="Geometry"
-                                               onChange={e => setCardName(e.target.value)}/>
+                                        <input className={(cardStackNameError ? 'inputError' : '')}
+                                               type="text" value={cardStackName} placeholder="Geometry"
+                                               onChange={e => setCardStackName(e.target.value)}/>
                                     </label>
                                 </div>
                                 <div className="col">

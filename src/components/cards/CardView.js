@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import "../../style/cardview.scss";
 import Card from "./Card";
 import firebase from "../../db/firebase";
+import {toast} from "../toast/toast";
 
 const collectionsCardstacks = 'cardstacks';
 const collectionCards = 'cards';
@@ -11,16 +12,17 @@ export default function CardView() {
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [flip, setFlip] = useState(false);
-    const [cardStackname, setCardstackname] = useState('');
+    const [cardStackName, setCardStackName] = useState('');
     const [cardStackId, setCardStackId] = useState('');
     const [cards, setCards] = useState([]);
+    const [questionError, setQuestionError] = useState(false);
+    const [answerError, setAnswerError] = useState(false);
 
     useEffect(() => {
         let i = location.pathname.lastIndexOf('/');
         let sub = location.pathname.substring(i + 1, location.pathname.length);
         if (sub.length < 20) {
-            //throw error
-            console.error('id from cardstack is less then 20 chars!');
+            toast.fail('id from card stack is less then 20 chars!');
             return;
         }
 
@@ -29,7 +31,7 @@ export default function CardView() {
                 .doc(sub)
                 .get()
                 .then((doc) => {
-                    setCardstackname(doc.data().name);
+                    setCardStackName(doc.data().name);
                     if (!doc.data().cards) return;
 
                     doc.data().cards.forEach((cardId) => {
@@ -47,6 +49,20 @@ export default function CardView() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setQuestionError(false);
+        setAnswerError(false);
+
+        if (question.length === 0) {
+            setQuestionError(true);
+            toast.fail('question is empty');
+            if (answer.length !== 0) return;
+        }
+        if (answer.length === 0) {
+            setAnswerError(true);
+            toast.fail('answer is empty');
+            return;
+        }
+
         firebase.firestore().collection(collectionCards)
             .add({
                 question: question,
@@ -67,12 +83,14 @@ export default function CardView() {
     const clearInput = () => {
         setQuestion('');
         setAnswer('');
+        setQuestionError(false);
+        setAnswerError(false);
     };
 
     return <div id="cardview">
         <div className="row">
             <div className="col">
-                <h3>{cardStackname}</h3>
+                <h3>{cardStackName}</h3>
             </div>
         </div>
 
@@ -96,7 +114,8 @@ export default function CardView() {
                                 <div className="card cardFront addCard">
                                     <div>
                                         <div className="row">
-                                            <textarea placeholder="Your question"
+                                            <textarea className={(questionError ? 'inputError' : '')}
+                                                      placeholder="Your question"
                                                       value={question} onChange={e => setQuestion(e.target.value)}>
                                                 {question}
                                             </textarea>
@@ -125,7 +144,8 @@ export default function CardView() {
                                 <div className="card cardFront addCard">
                                     <div>
                                         <div className="row">
-                                            <textarea placeholder="Your answer"
+                                            <textarea  className={(answerError ? 'inputError' : '')}
+                                                       placeholder="Your answer"
                                                       value={answer} onChange={e => setAnswer(e.target.value)}>
                                                 {answer}
                                             </textarea>

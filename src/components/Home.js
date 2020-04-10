@@ -3,6 +3,7 @@ import Subject from "./Subject";
 import uuid from '../util/uuid';
 import firebase from "../db/firebase";
 import "../style/home.scss";
+import {toast} from "./toast/toast";
 
 const initialColor = '#ff0000';
 const collectionSubject = 'subject';
@@ -12,6 +13,7 @@ export default function Home(props) {
     const [subjectName, setSubjectName] = useState('');
     const [subjectColor, setSubjectColor] = useState(initialColor);
     const [showInput, setShowInput] = useState(false);
+    const [subjectNameError, setSubjectNameError] = useState(false);
 
     useEffect(() => {
         firebase.firestore().collection(collectionSubject)
@@ -26,6 +28,13 @@ export default function Home(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+        setSubjectNameError(false);
+
+        if (subjectName.length === 0) {
+            toast.fail("Subjectname ist empty");
+            setSubjectNameError(true);
+            return;
+        }
 
         firebase.firestore().collection(collectionSubject)
             .doc()
@@ -41,6 +50,7 @@ export default function Home(props) {
 
     const handleReset = () => {
         setShowInput(false);
+        setSubjectNameError(false);
         setSubjectColor(initialColor);
         setSubjectName('');
     };
@@ -64,7 +74,8 @@ export default function Home(props) {
                 <div className="col">
                     <label>
                         Name
-                        <input type="text" value={subjectName} placeholder="Math"
+                        <input className={(subjectNameError ? 'inputError' : '')}
+                               type="text" value={subjectName} placeholder="Math"
                                onChange={e => setSubjectName(e.target.value)}/>
                     </label>
                 </div>
