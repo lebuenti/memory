@@ -48,34 +48,44 @@ export default function Login(props) {
         setPasswordError(false);
     };
 
-    return <div className="row formAdd">
-        <form onSubmit={handleSubmit}>
+    return <div>
+        <div className="row">
             <div className="col" id="headerLogin">
                 <h1>memory</h1>
             </div>
-            <div className="col">
-                <h5>Login</h5>
-            </div>
-            <div className="col">
-                <p onClick={() => props.showRegister(true)}>or register</p>
-            </div>
-            <div className="col">
-                <input className={(emailError ? 'inputError' : '')} type="text" value={email} placeholder="email"
-                       onChange={e => setEmail(e.target.value)}/>
-            </div>
-            <div className="col">
-                <input className={(passwordError ? 'inputError' : '')} type="password"
-                       value={password} placeholder="password"
-                       onChange={e => setPassword(e.target.value)}/>
-            </div>
-            <div className="col">
-                <button type="reset" className="buttonReset button" onClick={handleReset}>
-                    <i className="fas fa-times icon"/>
-                </button>
-                <button type="submit" className="buttonSuccess button">
-                    <i className="fas fa-check icon"/>
-                </button>
-            </div>
-        </form>
+        </div>
+        <div className="row formAdd">
+            <form onSubmit={handleSubmit}>
+                <div className="col">
+                    <h2>Login</h2>
+                </div>
+                <div className="col">
+                    <p onClick={() => props.showRegister(true)}>or register</p>
+                </div>
+                <div className="col">
+                    <label>
+                        Email
+                        <input className={(emailError ? 'inputError' : '')} type="text" value={email}
+                               onChange={e => setEmail(e.target.value)}/>
+                    </label>
+                </div>
+                <div className="col">
+                    <label>
+                        Password
+                        <input className={(passwordError ? 'inputError' : '')} type="password"
+                               value={password}
+                               onChange={e => setPassword(e.target.value)}/>
+                    </label>
+                </div>
+                <div className="col">
+                    <button type="reset" className="buttonReset button" onClick={handleReset}>
+                        <i className="fas fa-times icon"/>
+                    </button>
+                    <button type="submit" className="buttonSuccess button">
+                        <i className="fas fa-check icon"/>
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 }
