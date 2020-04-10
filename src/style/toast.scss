@@ -1,0 +1,85 @@
+@import "colors";
+
+#toastContainer {
+  position: absolute;
+  left: 50%;
+  width: 90%;
+}
+
+.toast {
+  margin: 5px;
+}
+
+.toast div:first-child, .toast div:last-child {
+  position: relative;
+  left: -50%;
+}
+
+.toast div:first-child {
+  padding: 10px;
+  text-align: center;
+  animation-name: showAndHide;
+  animation-duration: 3.5s;
+  opacity: 0;
+  background-color: white;
+}
+
+.toast div:last-child {
+  height: 4px;
+  animation: border 3.5s, showAndHide 3.5s;
+  opacity: 0;
+  background: linear-gradient(to right, $gray 50%, $white 50%);
+  background-size: 210% 210%;
+
+}
+
+.toast div:first-child.info {
+  background-color: $purple_contrast;
+}
+
+.toast div:last-child.info {
+  background: linear-gradient(to right, $darkyellow 50%, $purple_contrast 50%);
+  background-size: 210% 210%;
+}
+
+.toast div:first-child.success {
+  background-color: $green;
+}
+
+.toast div:last-child.success {
+  background: linear-gradient(to right, $darkgreen 50%, $green 50%);
+  background-size: 210% 210%;
+}
+
+.toast div:first-child.fail {
+  background-color: $red;
+}
+
+.toast div:last-child.fail {
+  background: linear-gradient(to right, $darkred 50%, $red 50%);
+  background-size: 210% 210%;
+}
+
+@keyframes border {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 100% 100%;
+  }
+}
+
+@keyframes showAndHide {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

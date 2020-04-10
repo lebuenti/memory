@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import App from "../App.js";
 import firebase from "firebase";
+import {toast} from "../toast/toast";
 
 export default function Login(props) {
     const [email, setEmail] = useState('');
@@ -16,15 +17,13 @@ export default function Login(props) {
 
         if (email.length === 0) {
             setEmailError(true);
-            //TODO Toast
-            console.error('Email is empty');
+            toast.fail('Email is empty');
             if (password.length !== 0) return;
         }
 
         if (password.length === 0) {
             setPasswordError(true);
-            //TODO Toast
-            console.error('Password is empty');
+            toast.fail('Password is empty');
             return;
         }
 
@@ -36,8 +35,7 @@ export default function Login(props) {
                 );
             })
             .catch((error) => {
-                //TODO Toast
-                console.error(error.message);
+                toast.fail(error.message);
                 if (error.code.includes('email') || error.code.includes('user')) setEmailError(true);
                 if (error.code.includes('password')) setPasswordError(true);
             })

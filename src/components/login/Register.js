@@ -2,41 +2,39 @@ import React, {useState} from "react";
 import firebase from "firebase";
 import ReactDOM from "react-dom";
 import App from "../App";
+import {toast} from "../toast/toast";
 
 export default function Register() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
         setEmailError(false);
         setPasswordError(false);
+
         if (email.length === 0) {
             setEmailError(true);
-            //TODO Toast
-            console.error('Email is empty');
+            toast.fail('Email is empty');
             if (password.length !== 0) return;
         }
 
         if (password.length === 0) {
             setPasswordError(true);
-            //TODO Toast
-            console.error('Password is empty');
+            toast.fail('Password is empty');
             return;
         }
 
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then(() => {
-                //TODO Toast
-                //success creation.
+                toast.success('Account was created');
                 firebase.auth().signInWithEmailAndPassword(email, password)
                     .catch((error) => {
                         console.error(error.message);
-                        //TODO toast
-                        //(konntest nicht eingeloggt werden? -> jump to login site?
+                        toast.fail('Could not logged in. Pls try to login with your new account again.');
+                        history.pushState({}, '', '/');
                     })
                     .then(() => {
                         ReactDOM.render(
@@ -46,8 +44,7 @@ export default function Register() {
                     });
             })
             .catch((error) => {
-                console.error(error.message);
-                //TODO toast
+                toast.fail(error.message);
                 if (error.message.includes('email') || error.message.includes('user')) setEmailError(true);
                 if (error.message.includes('assword')) setPasswordError(true);
             });

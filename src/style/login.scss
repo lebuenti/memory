@@ -34,7 +34,8 @@ p {
 }
 
 input.inputError {
-  background-color: $lightred;
+  border: 2px solid red;
+  color: red;
 }
 
 .inputError::placeholder {
