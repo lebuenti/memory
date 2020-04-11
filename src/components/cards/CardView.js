@@ -2,21 +2,19 @@ import React, {useEffect, useState} from "react";
 import "../../style/cardview.scss";
 import Card from "./Card";
 import firebase from "../../db/firebase";
-import {toast} from "../toast/toast";
+import toast from "../../toast/toast";
 
 const collectionsCardstacks = 'cardstacks';
 const collectionCards = 'cards';
 
 export default function CardView() {
-    const [showInput, setShowInput] = useState(false);
-    const [question, setQuestion] = useState('');
-    const [answer, setAnswer] = useState('');
-    const [flip, setFlip] = useState(false);
-    const [cardStackName, setCardStackName] = useState('');
-    const [cardStackId, setCardStackId] = useState('');
     const [cards, setCards] = useState([]);
-    const [questionError, setQuestionError] = useState(false);
-    const [answerError, setAnswerError] = useState(false);
+    const [card, setCard] = useState({question: '', answer: ''});
+    const [cardStack, setCardStack] = useState({name: '', id: ''});
+
+    const [flip, setFlip] = useState(false);
+    const [showInput, setShowInput] = useState(false);
+    const [inputError, setInputError] = useState({question: false, answer: false});
 
     useEffect(() => {
         let i = location.pathname.lastIndexOf('/');
@@ -26,12 +24,14 @@ export default function CardView() {
             return;
         }
 
-        setCardStackId(() => {
+        setCardStack(() => {
+            let result = {name: '', id: sub};
             firebase.firestore().collection(collectionsCardstacks)
                 .doc(sub)
                 .get()
                 .then((doc) => {
-                    setCardStackName(doc.data().name);
+                    result.name = doc.data().name;
+
                     if (!doc.data().cards) return;
 
                     doc.data().cards.forEach((cardId) => {
@@ -43,37 +43,35 @@ export default function CardView() {
                             })
                     })
                 });
-            return sub;
-        })
+            return result;
+        });
     }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setQuestionError(false);
-        setAnswerError(false);
 
-        if (question.length === 0) {
-            setQuestionError(true);
-            toast.fail('question is empty');
-            if (answer.length !== 0) return;
-        }
-        if (answer.length === 0) {
-            setAnswerError(true);
-            toast.fail('answer is empty');
+        setInputError({
+            answer: card.answer.length === 0,
+            question: card.question.length === 0
+        });
+
+        if (card.question.length === 0 || card.answer.length === 0) {
+            if (card.question.length === 0) toast.fail('Question is empty');
+            if (card.answer.length === 0) toast.fail('Answer ist empty');
             return;
         }
 
         firebase.firestore().collection(collectionCards)
             .add({
-                question: question,
-                answer: answer
+                question: card.question,
+                answer: card.answer
             })
             .then((cardId) => {
                 firebase.firestore().collection(collectionsCardstacks)
-                    .doc(cardStackId)
+                    .doc(cardStack.id)
                     .update({cards: firebase.firestore.FieldValue.arrayUnion(cardId.id)})
                     .then(() => {
-                        setCards(curr => [{id: cardId.id, question: question, answer: answer}, ...curr]);
+                        setCards(curr => [{id: cardId.id, question: card.question, answer: card.answer}, ...curr]);
                         clearInput();
                         setShowInput(false);
                     })
@@ -81,16 +79,14 @@ export default function CardView() {
     };
 
     const clearInput = () => {
-        setQuestion('');
-        setAnswer('');
-        setQuestionError(false);
-        setAnswerError(false);
+        setCard({question: '', answer: ''});
+        setInputError({answer: false, question: false});
     };
 
     return <div className="cardview">
         <div className="row">
             <div className="col">
-                <h3>{cardStackName}</h3>
+                <h3>{cardStack.name}</h3>
             </div>
         </div>
 
@@ -116,11 +112,10 @@ export default function CardView() {
                                         <div className="row">
                                             <label>
                                                 Question
-                                                <textarea className={(questionError ? 'inputError' : '')}
+                                                <textarea className={(inputError.question ? 'inputError' : '')}
                                                           placeholder="Pythagoras' theorem"
-                                                          value={question} onChange={e => setQuestion(e.target.value)}>
-                                                {question}
-                                            </textarea>
+                                                          value={card.question} onChange={e => setCard({...card, question: e.target.value})}>
+                                                </textarea>
                                             </label>
                                         </div>
                                         <div className="row">
@@ -145,11 +140,10 @@ export default function CardView() {
                                         <div className="row">
                                             <label>
                                                 Answer
-                                                <textarea className={(answerError ? 'inputError' : '')}
+                                                <textarea className={(inputError.answer ? 'inputError' : '')}
                                                           placeholder="a^2 + b^2 = c^2"
-                                                          value={answer} onChange={e => setAnswer(e.target.value)}>
-                                                {answer}
-                                            </textarea>
+                                                          value={card.answer} onChange={e => setCard({...card, answer: e.target.value})}>
+                                                </textarea>
                                             </label>
                                         </div>
                                         <div className="row">
@@ -183,8 +177,8 @@ export default function CardView() {
 
         <div className="row oldCards">
             <div className="cards">
-                {cards.map(card => (
-                    <Card key={card.id} id={card.id} answer={card.answer} question={card.question}/>
+                {cards.map(c => (
+                    <Card key={c.id} id={c.id} answer={c.answer} question={c.question}/>
                 ))}
             </div>
         </div>

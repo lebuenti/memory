@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from "react";
 import CardStack from "./CardStack";
 import firebase from "../db/firebase";
-import {toast} from "./toast/toast";
+import toast from "../toast/toast";
 
 const collectionSubject = 'subject';
 const collectionsCardstacks = 'cardstacks';
 
 export default function Subject(props) {
-    const [cardStack, setCardStack] = useState([]);
-    const [cardStackName, setCardStackName] = useState('');
-    const [cardStackNameError, setCardStackNameError] = useState(false);
+    const [cardStacks, setCardStacks] = useState([]);
+    const [cardStack, setCardStack] = useState({name: ''});
     const [showInput, setShowInput] = useState(false);
+    const [inputError, setInputError] = useState({cardStackName: false});
 
     useEffect(() => {
         firebase.firestore().collection(collectionSubject)
@@ -24,7 +24,7 @@ export default function Subject(props) {
                         .doc(cardstackId)
                         .get()
                         .then((docCardstack) => {
-                            setCardStack(curr => [{id: docCardstack.id, name: docCardstack.data().name}, ...curr]);
+                            setCardStacks(curr => [{id: docCardstack.id, name: docCardstack.data().name}, ...curr]);
                         })
                 });
             })
@@ -33,17 +33,18 @@ export default function Subject(props) {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        setCardStackNameError(false);
+        setInputError({
+            cardStackName: cardStack.name.length === 0
+        });
 
-        if (cardStackName.length === 0) {
-            setCardStackNameError(true);
+        if (cardStack.name.length === 0) {
             toast.fail('Name of card stack is empty');
             return;
         }
 
         firebase.firestore().collection(collectionsCardstacks)
             .add({
-                name: cardStackName
+                name: cardStack.name
             })
             .then((docRef) => {
                 firebase.firestore().collection(collectionSubject)
@@ -52,7 +53,7 @@ export default function Subject(props) {
                         cardstacks: firebase.firestore.FieldValue.arrayUnion(docRef.id)
                     })
                     .then(() => {
-                        setCardStack(curr => [{id: docRef.id, name: cardStackName}, ...curr]);
+                        setCardStacks(curr => [{id: docRef.id, name: cardStack.name}, ...curr]);
                         handleReset();
                     })
             })
@@ -60,8 +61,8 @@ export default function Subject(props) {
 
     const handleReset = () => {
         setShowInput(false);
-        setCardStackNameError(false);
-        setCardStackName('');
+        setCardStack({name: ''});
+        setInputError({cardStackName: false});
     };
 
     return <div className="subject" style={{backgroundColor: props.color}}>
@@ -99,9 +100,9 @@ export default function Subject(props) {
                                 <div className="col">
                                     <label>
                                         Name
-                                        <input className={(cardStackNameError ? 'inputError' : '')}
-                                               type="text" value={cardStackName} placeholder="Geometry"
-                                               onChange={e => setCardStackName(e.target.value)}/>
+                                        <input className={(inputError.cardStackName ? 'inputError' : '')}
+                                               type="text" value={cardStack.name} placeholder="Geometry"
+                                               onChange={e => setCardStack({name: e.target.value})}/>
                                     </label>
                                 </div>
                                 <div className="col">
@@ -120,7 +121,7 @@ export default function Subject(props) {
         </div>
 
         <div id="oldCards">
-            {cardStack.map(stack => (
+            {cardStacks.map(stack => (
                 <CardStack key={stack.id} id={stack.id} name={stack.name} goTo={(value) => props.goTo(value)}/>
             ))}
         </div>

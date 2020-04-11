@@ -5,66 +5,57 @@ import App from "../App";
 import toast from "../../toast/toast";
 
 export default function Register() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [emailError, setEmailError] = useState(false);
-    const [passwordError, setPasswordError] = useState(false);
+    const [user, setUser] = useState({email: '', password: ''});
+    const [inputError, setInputError] = useState({email: false, password: false});
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setEmailError(false);
-        setPasswordError(false);
 
-        if (email.length === 0) {
-            setEmailError(true);
-            toast.fail('Email is empty');
-            if (password.length !== 0) return;
-        }
+        setInputError({
+            email: user.email.length === 0,
+            password: user.password.length === 0
+        });
 
-        if (password.length === 0) {
-            setPasswordError(true);
-            toast.fail('Password is empty');
+        if (user.email.length === 0 || user.password.length === 0) {
+            if (user.email.length === 0) toast.fail('Email is empty');
+            if (user.password.length === 0) toast.fail('Password ist empty');
             return;
         }
 
-        firebase.auth().createUserWithEmailAndPassword(email, password)
+        firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
             .then(() => {
                 toast.success('Account was created');
-                firebase.auth().signInWithEmailAndPassword(email, password)
-                    .catch((error) => {
-                        console.error(error.message);
-                        toast.fail('Could not logged in. Pls try to login with your new account again.');
-                        history.pushState({}, '', '/');
-                    })
+                firebase.auth().signInWithEmailAndPassword(user.email, user.password)
                     .then(() => {
                         ReactDOM.render(
                             <App/>,
                             document.getElementById('root')
                         );
+                    })
+                    .catch((error) => {
+                        console.error(error.message);
+                        toast.fail('Could not logged in. Pls try to login with your new account again.');
+                        history.pushState({}, '', '/');
                     });
             })
             .catch((error) => {
                 toast.fail(error.message);
-                if (error.message.includes('email') || error.message.includes('user')) setEmailError(true);
-                if (error.message.includes('assword')) setPasswordError(true);
+                if (error.message.includes('email') || error.message.includes('user')) setInputError({...inputError, email: true});
+                if (error.message.includes('assword')) setInputError({...inputError, password: true});
             });
     };
 
     const handleReset = () => {
-        setEmail('');
-        setPassword('');
-        setEmailError(false);
-        setPasswordError(false);
+        setUser({email: '', password: ''});
+        setInputError({email: false, password: false});
     };
 
     return <div>
-
         <div className="row">
             <div className="col" id="headerLogin">
                 <h1>memory</h1>
             </div>
         </div>
-
         <div className="row formAdd">
             <form onSubmit={handleSubmit}>
 
@@ -74,15 +65,15 @@ export default function Register() {
                 <div className="col">
                     <label>
                         Email
-                    <input className={(emailError ? 'inputError' : '')} type="text" value={email}
-                           onChange={e => setEmail(e.target.value)}/>
+                        <input className={(inputError.email ? 'inputError' : '')} type="text" value={user.email}
+                               onChange={e => setUser({...user, email: e.target.value})}/>
                     </label>
                 </div>
                 <div className="col">
                     <label>
                         Password
-                    <input className={(passwordError ? 'inputError' : '')} type="password" value={password}
-                           onChange={e => setPassword(e.target.value)}/>
+                        <input className={(inputError.password ? 'inputError' : '')} type="password" value={user.password}
+                               onChange={e => setUser({...user, password: e.target.value})}/>
                     </label>
                 </div>
                 <div className="col">

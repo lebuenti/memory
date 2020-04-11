@@ -3,17 +3,16 @@ import Subject from "./Subject";
 import uuid from '../util/uuid';
 import firebase from "../db/firebase";
 import "../style/home.scss";
-import {toast} from "./toast/toast";
+import toast from "../toast/toast";
 
 const initialColor = '#ff0000';
 const collectionSubject = 'subject';
 
 export default function Home(props) {
     const [subjects, setSubjects] = useState([]);
-    const [subjectName, setSubjectName] = useState('');
-    const [subjectColor, setSubjectColor] = useState(initialColor);
+    const [subject, setSubject] = useState({name: '', color: initialColor});
     const [showInput, setShowInput] = useState(false);
-    const [subjectNameError, setSubjectNameError] = useState(false);
+    const [inputError, setInputError] = useState({subjectName: false});
 
     useEffect(() => {
         firebase.firestore().collection(collectionSubject)
@@ -28,31 +27,32 @@ export default function Home(props) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setSubjectNameError(false);
 
-        if (subjectName.length === 0) {
+        setInputError({
+            subjectName: subject.name.length === 0
+        });
+
+        if (subject.name.length === 0) {
             toast.fail("Subjectname ist empty");
-            setSubjectNameError(true);
             return;
         }
 
         firebase.firestore().collection(collectionSubject)
             .doc()
             .set({
-                color: subjectColor,
-                name: subjectName,
+                color: subject.color,
+                name: subject.name,
                 user: firebase.auth().currentUser.uid
             }).then(() => {
-            setSubjects(curr => [{id: uuid(), name: subjectName, color: subjectColor}, ...curr]);
+            setSubjects(curr => [{id: uuid(), name: subject.name, color: subject.color}, ...curr]);
         });
         handleReset();
     };
 
     const handleReset = () => {
         setShowInput(false);
-        setSubjectNameError(false);
-        setSubjectColor(initialColor);
-        setSubjectName('');
+        setInputError({subjectName: false});
+        setSubject({name: '', color: initialColor});
     };
 
     return <>
@@ -74,16 +74,16 @@ export default function Home(props) {
                 <div className="col">
                     <label>
                         Name
-                        <input className={(subjectNameError ? 'inputError' : '')}
-                               type="text" value={subjectName} placeholder="Math"
-                               onChange={e => setSubjectName(e.target.value)}/>
+                        <input className={(inputError.subjectName ? 'inputError' : '')}
+                               type="text" value={subject.name} placeholder="Math"
+                               onChange={e => setSubject({...subject, name: e.target.value})}/>
                     </label>
                 </div>
                 <div className="col">
                     <label>
                         Color
-                        <input type="color" value={subjectColor}
-                               onChange={e => setSubjectColor(e.target.value)}/>
+                        <input type="color" value={subject.color}
+                               onChange={e => setSubject({...subject, color: e.target.value})}/>
                     </label>
                 </div>
                 <div className="col">
@@ -98,8 +98,8 @@ export default function Home(props) {
         </div>
 
         <div id="subjects">
-            {subjects.map(subject => (
-                <Subject key={subject.id} id={subject.id}  name={subject.name} color={subject.color} goTo={(value) => props.goTo(value)}/>
+            {subjects.map(s => (
+                <Subject key={s.id} id={s.id}  name={s.name} color={s.color} goTo={(value) => props.goTo(value)}/>
             ))}
         </div>
     </>
