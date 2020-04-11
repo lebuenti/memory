@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import App from "../App.js";
 import firebase from "firebase";
-import {toast} from "../toast/toast";
+import toast from "../../toast/toast";
 
 export default function Login(props) {
     const [email, setEmail] = useState('');

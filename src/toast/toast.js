@@ -1,4 +1,4 @@
-import "../../style/toast.scss";
+import "../style/toast.scss";
 
 const EMOJI_SHIT = String.fromCodePoint(0x1F4A9);
 const EMOJI_STAR_EYES = String.fromCodePoint(0x1F929);
@@ -15,7 +15,7 @@ let root = document.createElement('div');
 root.id = 'toastContainer';
 document.body.insertAdjacentElement('afterbegin', root);
 
-export const toast = (message) => {
+const toast = (message) => {
     dispatchToast(EMOJI_EXCLAMATION_MARK + message, options.default);
 };
 
@@ -32,13 +32,13 @@ toast.info = (message) => {
 };
 
 function dispatchToast(message, option) {
-    let outerDiv = document.createElement('div');
+    const outerDiv = document.createElement('div');
     outerDiv.classList.add('toast');
 
-    let innerDiv = document.createElement('div');
+    const innerDiv = document.createElement('div');
     innerDiv.appendChild(document.createTextNode(message));
 
-    let borderForInnerDiv = document.createElement('div');
+    const borderForInnerDiv = document.createElement('div');
 
     switch (option) {
         case options.fail:
@@ -65,3 +65,5 @@ function dispatchToast(message, option) {
         root.removeChild(outerDiv);
     }, 3500);
 }
+
+export default toast;
