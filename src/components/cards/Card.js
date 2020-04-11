@@ -7,10 +7,10 @@ export default function Card(props) {
             <div id="test" className={(flip ? 'flip ' : '') + "flip-container"}>
                 <div className="flipper">
                     <div className="front">
-                        <div className="card cardFront">{props.question}</div>
+                        <div className="smallerCards card cardFront">{props.question}</div>
                     </div>
                     <div className="back">
-                        <div className="card cardFront">{props.answer}</div>
+                        <div className="smallerCards card cardFront">{props.answer}</div>
                     </div>
                 </div>
             </div>

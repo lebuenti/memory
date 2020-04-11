@@ -69,7 +69,7 @@ export default function Home(props) {
         <div className="row formAdd" style={{display: showInput ? 'flex' : 'none'}}>
             <form onSubmit={handleSubmit}>
                 <div className="col">
-                    <h4>Create a new subject</h4>
+                    <h3>New subject</h3>
                 </div>
                 <div className="col">
                     <label>

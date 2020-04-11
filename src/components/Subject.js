@@ -94,10 +94,11 @@ export default function Subject(props) {
                         <div className="row formAdd">
                             <form onSubmit={handleSubmit}>
                                 <div className="col">
-                                    <h5>New card stack</h5>
+                                    <h3>New card stack</h3>
                                 </div>
                                 <div className="col">
                                     <label>
+                                        Name
                                         <input className={(cardStackNameError ? 'inputError' : '')}
                                                type="text" value={cardStackName} placeholder="Geometry"
                                                onChange={e => setCardStackName(e.target.value)}/>

@@ -48,6 +48,16 @@ button.switch {
 }
 
 .card textarea {
-  width: 270px;
-  height: 100px;
+  width: 100%;
+  height: 90px;
+  margin-top:10px;
+}
+
+.flip-container label {
+  margin-top: 10px;
+}
+
+.smallerCards {
+  height: 150px;
+  max-width:300px;
 }

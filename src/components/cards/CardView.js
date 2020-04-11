@@ -87,7 +87,7 @@ export default function CardView() {
         setAnswerError(false);
     };
 
-    return <div id="cardview">
+    return <div className="cardview">
         <div className="row">
             <div className="col">
                 <h3>{cardStackName}</h3>
@@ -114,21 +114,20 @@ export default function CardView() {
                                 <div className="card cardFront addCard">
                                     <div>
                                         <div className="row">
-                                            <textarea className={(questionError ? 'inputError' : '')}
-                                                      placeholder="Your question"
-                                                      value={question} onChange={e => setQuestion(e.target.value)}>
+                                            <label>
+                                                Question
+                                                <textarea className={(questionError ? 'inputError' : '')}
+                                                          placeholder="Pythagoras' theorem"
+                                                          value={question} onChange={e => setQuestion(e.target.value)}>
                                                 {question}
                                             </textarea>
+                                            </label>
                                         </div>
                                         <div className="row">
                                             <div className="col">
                                                 <button type="reset" className="buttonReset button" onClick={() => {
-                                                    if (question === '') {
-                                                        setShowInput(false);
-                                                        clearInput();
-                                                    } else {
-                                                        setQuestion('');
-                                                    }
+                                                    setShowInput(false);
+                                                    clearInput();
                                                 }}>
                                                     <i className="fas fa-times icon"/>
                                                 </button>
@@ -144,21 +143,20 @@ export default function CardView() {
                                 <div className="card cardFront addCard">
                                     <div>
                                         <div className="row">
-                                            <textarea  className={(answerError ? 'inputError' : '')}
-                                                       placeholder="Your answer"
-                                                      value={answer} onChange={e => setAnswer(e.target.value)}>
+                                            <label>
+                                                Answer
+                                                <textarea className={(answerError ? 'inputError' : '')}
+                                                          placeholder="a^2 + b^2 = c^2"
+                                                          value={answer} onChange={e => setAnswer(e.target.value)}>
                                                 {answer}
                                             </textarea>
+                                            </label>
                                         </div>
                                         <div className="row">
                                             <div className="col">
                                                 <button type="reset" className="buttonReset button" onClick={() => {
-                                                    if (answer === '') {
-                                                        setShowInput(false);
-                                                        clearInput();
-                                                    } else {
-                                                        setAnswer('');
-                                                    }
+                                                    setShowInput(false);
+                                                    clearInput();
                                                 }}>
                                                     <i className="fas fa-times icon"/>
                                                 </button>
