@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
 import Subject from "./Subject";
-import uuid from '../util/uuid';
-import firebase from "../db/firebase";
+import uuid from '../../util/uuid';
+import firebase from "../../db/firebase";
 import "../style/home.scss";
-import toast from "../toast/toast";
+import toast from "../../toast/toast";
 
 const initialColor = '#ff0000';
 const collectionSubject = 'subject';

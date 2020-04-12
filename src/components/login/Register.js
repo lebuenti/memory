@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 import firebase from "firebase";
-import ReactDOM from "react-dom";
-import App from "../App";
 import toast from "../../toast/toast";
 
 export default function Register() {
@@ -26,12 +24,6 @@ export default function Register() {
             .then(() => {
                 toast.success('Account was created');
                 firebase.auth().signInWithEmailAndPassword(user.email, user.password)
-                    .then(() => {
-                        ReactDOM.render(
-                            <App/>,
-                            document.getElementById('root')
-                        );
-                    })
                     .catch((error) => {
                         console.error(error.message);
                         toast.fail('Could not logged in. Pls try to login with your new account again.');

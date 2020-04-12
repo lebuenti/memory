@@ -1,6 +1,4 @@
 import React, {useState} from 'react';
-import ReactDOM from "react-dom";
-import App from "../App.js";
 import firebase from "firebase";
 import toast from "../../toast/toast";
 
@@ -23,12 +21,6 @@ export default function Login(props) {
         }
 
         firebase.auth().signInWithEmailAndPassword(user.email, user.password)
-            .then(() => {
-                ReactDOM.render(
-                    <App/>,
-                    document.getElementById('root')
-                );
-            })
             .catch((error) => {
                 toast.fail(error.message);
                 if (error.code.includes('email') || error.code.includes('user')) setInputError({...inputError, email: true});

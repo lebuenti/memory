@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import CardStack from "./CardStack";
-import firebase from "../db/firebase";
-import toast from "../toast/toast";
+import firebase from "../../db/firebase";
+import toast from "../../toast/toast";
 
 const collectionSubject = 'subject';
 const collectionsCardstacks = 'cardstacks';
