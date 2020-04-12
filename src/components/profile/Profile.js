@@ -5,12 +5,9 @@ export default function Profile() {
     const [email, setEmail] = useState('');
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged(function(user) {
-            if (user) {
-                setEmail(user.email);
-            }
-        });
-    });
+        let user = firebase.auth().currentUser;
+        if (user) setEmail(user.email);
+    },[] );
 
     const handleSubmit = () => {
         history.pushState({}, '', '/');
