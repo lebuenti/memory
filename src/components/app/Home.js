@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from "react";
 import Subject from "./Subject";
-import uuid from '../../util/uuid';
-import firebase from "../../db/firebase";
-import "../style/home.scss";
+import "../../style/home.scss";
 import toast from "../../toast/toast";
+import db from "../../db/db";
 
 const initialColor = '#ff0000';
-const collectionSubject = 'subject';
 
 export default function Home(props) {
     const [subjects, setSubjects] = useState([]);
@@ -15,9 +13,7 @@ export default function Home(props) {
     const [inputError, setInputError] = useState({subjectName: false});
 
     useEffect(() => {
-        firebase.firestore().collection(collectionSubject)
-            .where('user', '==', firebase.auth().currentUser.uid)
-            .get()
+        db.getSubjects()
             .then((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     setSubjects(curr => [{id: doc.id, name: doc.data().name, color: doc.data().color}, ...curr]);
@@ -37,15 +33,10 @@ export default function Home(props) {
             return;
         }
 
-        firebase.firestore().collection(collectionSubject)
-            .doc()
-            .set({
-                color: subject.color,
-                name: subject.name,
-                user: firebase.auth().currentUser.uid
-            }).then(() => {
-            setSubjects(curr => [{id: uuid(), name: subject.name, color: subject.color}, ...curr]);
-        });
+        db.addSubject(subject.color, subject.name)
+            .then((docSubject) => {
+                setSubjects(curr => [{id: docSubject.id, name: subject.name, color: subject.color}, ...curr]);
+            });
         handleReset();
     };
 
@@ -99,7 +90,7 @@ export default function Home(props) {
 
         <div id="subjects">
             {subjects.map(s => (
-                <Subject key={s.id} id={s.id}  name={s.name} color={s.color} goTo={(value) => props.goTo(value)}/>
+                <Subject key={s.id} id={s.id} name={s.name} color={s.color} goTo={(value) => props.goTo(value)}/>
             ))}
         </div>
     </>

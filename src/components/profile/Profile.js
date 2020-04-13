@@ -1,17 +1,20 @@
 import React, {useEffect, useState} from "react";
-import firebase from "../../db/firebase";
+import db from "../../db/db"
 
-export default function Profile() {
+export default function Profile(props) {
     const [email, setEmail] = useState('');
 
     useEffect(() => {
-        let user = firebase.auth().currentUser;
-        if (user) setEmail(user.email);
-    },[] );
+        db.getCurrentUser().then((user) => {
+            if (user) setEmail(user.email);
+        })
+    }, []);
 
     const handleSubmit = () => {
-        history.pushState({}, '', '/');
-        firebase.auth().signOut().then().catch((error)=> console.error(error));
+        db.logout().then(() => {
+            history.pushState({}, '', '/');
+            props.logout();
+        }).catch((error) => console.error(error));
     };
 
     return <div>

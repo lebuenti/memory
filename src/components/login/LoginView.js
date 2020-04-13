@@ -4,7 +4,7 @@ import "../../style/main.scss"
 import Login from "./Login";
 import Register from "./Register";
 
-export default function LoginView() {
+export default function LoginView(props) {
     const [showRegister, setShowRegister] = useState(false);
 
     useEffect(() => {
@@ -27,10 +27,11 @@ export default function LoginView() {
     return <div id="loginBody">
         <div id="login">
             <div>
-                {showRegister ? <Register/> : <Login showRegister={(value) => {
-                    setShowRegister(value);
-                    history.pushState({}, '', 'register');
-                }}/>}
+                {showRegister ? <Register login={props.login}/>
+                    : <Login login={props.login} showRegister={(value) => {
+                        setShowRegister(value);
+                        history.pushState({}, '', 'register');
+                    }}/>}
             </div>
         </div>
     </div>

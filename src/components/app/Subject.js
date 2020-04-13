@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from "react";
 import CardStack from "./CardStack";
-import firebase from "../../db/firebase";
 import toast from "../../toast/toast";
-
-const collectionSubject = 'subject';
-const collectionsCardstacks = 'cardstacks';
+import db from "../../db/db";
 
 export default function Subject(props) {
     const [cardStacks, setCardStacks] = useState([]);
@@ -13,20 +10,23 @@ export default function Subject(props) {
     const [inputError, setInputError] = useState({cardStackName: false});
 
     useEffect(() => {
-        firebase.firestore().collection(collectionSubject)
-            .doc(props.id)
-            .get()
+        //TODO getAllCardStackFromSubject
+        db.getSubject(props.id)
             .then((docSubject) => {
-                if (!docSubject.data().cardstacks) return;
-                docSubject.data().cardstacks.forEach((cardstackId) => {
+                if (!docSubject.data() || !docSubject.data().cardstacks) return;
 
-                    firebase.firestore().collection(collectionsCardstacks)
-                        .doc(cardstackId)
-                        .get()
-                        .then((docCardstack) => {
-                            setCardStacks(curr => [{id: docCardstack.id, name: docCardstack.data().name}, ...curr]);
+                docSubject.data().cardstacks.forEach((cardStackId) => {
+                    db.getCardStack(cardStackId)
+                        .then((docCardStack) => {
+                            setCardStacks(curr => [{id: docCardStack.id, name: docCardStack.data().name}, ...curr]);
+                        })
+                        .catch((error) => {
+                            console.error(error);
                         })
                 });
+            })
+            .catch((error) => {
+                console.error(error);
             })
     }, []);
 
@@ -41,21 +41,20 @@ export default function Subject(props) {
             toast.fail('Name of card stack is empty');
             return;
         }
-
-        firebase.firestore().collection(collectionsCardstacks)
-            .add({
-                name: cardStack.name
-            })
-            .then((docRef) => {
-                firebase.firestore().collection(collectionSubject)
-                    .doc(props.id)
-                    .update({
-                        cardstacks: firebase.firestore.FieldValue.arrayUnion(docRef.id)
-                    })
+        //TODO Beim addCardStack direkt das Update machenn
+        db.addCardStack(cardStack.name)
+            .then((docCardStack) => {
+                console.log("cardStackId: " + docCardStack.id);
+                console.log("subjectId " + props.id);
+                db.addCardStackToSubject(props.id, docCardStack.id)
                     .then(() => {
-                        setCardStacks(curr => [{id: docRef.id, name: cardStack.name}, ...curr]);
+                        setCardStacks(curr => [{id: docCardStack.id, name: cardStack.name}, ...curr]);
                         handleReset();
                     })
+                    .catch((error) => console.error(error));
+            })
+            .catch((error) => {
+                console.error(error);
             })
     };
 

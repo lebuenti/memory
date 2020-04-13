@@ -5,7 +5,7 @@ import Profile from "../profile/Profile";
 import Learning from "../learning/Learning";
 import CardView from "../cards/CardView";
 
-export default function App() {
+export default function App(props) {
     const [content, setContent] = useState(null);
 
     useEffect(() => {
@@ -54,7 +54,7 @@ export default function App() {
                         setContentFromPath();
                     }}/>;
                 } else if (content === "profile") {
-                    return <Profile/>;
+                    return <Profile logout={props.logout}/>;
                 } else if (content === "learning") {
                     return <Learning/>;
                 } else if (content === "cards") {

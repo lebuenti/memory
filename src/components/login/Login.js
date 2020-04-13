@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import firebase from "firebase";
 import toast from "../../toast/toast";
+import db from "../../db/db";
 
 export default function Login(props) {
     const [user, setUser] = useState({email: '', password: ''});
@@ -20,7 +20,10 @@ export default function Login(props) {
             return;
         }
 
-        firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+        db.login(user.email, user.password)
+            .then(() => {
+                props.login();
+            })
             .catch((error) => {
                 toast.fail(error.message);
                 if (error.code.includes('email') || error.code.includes('user')) setInputError({...inputError, email: true});

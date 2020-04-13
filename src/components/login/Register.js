@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import firebase from "firebase";
 import toast from "../../toast/toast";
+import db from "../../db/db";
 
-export default function Register() {
+export default function Register(props) {
     const [user, setUser] = useState({email: '', password: ''});
     const [inputError, setInputError] = useState({email: false, password: false});
 
@@ -20,10 +20,13 @@ export default function Register() {
             return;
         }
 
-        firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+        db.createUser(user.email, user.password)
             .then(() => {
                 toast.success('Account was created');
-                firebase.auth().signInWithEmailAndPassword(user.email, user.password)
+                db.login(user.email, user.password)
+                    .then(() => {
+                        props.login();
+                    })
                     .catch((error) => {
                         console.error(error.message);
                         toast.fail('Could not logged in. Pls try to login with your new account again.');

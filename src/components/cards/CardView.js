@@ -1,11 +1,8 @@
 import React, {useEffect, useState} from "react";
 import "../../style/cardview.scss";
 import Card from "./Card";
-import firebase from "../../db/firebase";
 import toast from "../../toast/toast";
-
-const collectionsCardstacks = 'cardstacks';
-const collectionCards = 'cards';
+import db from "../../db/db";
 
 export default function CardView() {
     const [cards, setCards] = useState([]);
@@ -26,18 +23,16 @@ export default function CardView() {
 
         setCardStack(() => {
             let result = {name: '', id: sub};
-            firebase.firestore().collection(collectionsCardstacks)
-                .doc(sub)
-                .get()
+
+            //TODO getCardsFromCardStack
+            db.getCardStack(sub)
                 .then((doc) => {
                     result.name = doc.data().name;
 
                     if (!doc.data().cards) return;
 
                     doc.data().cards.forEach((cardId) => {
-                        firebase.firestore().collection(collectionCards)
-                            .doc(cardId)
-                            .get()
+                        db.getCard(cardId)
                             .then((docCard) => {
                                 setCards(curr => [{id: cardId, question: docCard.data().question, answer: docCard.data().answer}, ...curr]);
                             })
@@ -61,17 +56,12 @@ export default function CardView() {
             return;
         }
 
-        firebase.firestore().collection(collectionCards)
-            .add({
-                question: card.question,
-                answer: card.answer
-            })
-            .then((cardId) => {
-                firebase.firestore().collection(collectionsCardstacks)
-                    .doc(cardStack.id)
-                    .update({cards: firebase.firestore.FieldValue.arrayUnion(cardId.id)})
+        //TODO add Card and update in one step
+        db.addCard(card.question, card.answer)
+            .then((dbCard) => {
+                db.addCardToCardStack(cardStack.id, dbCard.id)
                     .then(() => {
-                        setCards(curr => [{id: cardId.id, question: card.question, answer: card.answer}, ...curr]);
+                        setCards(curr => [{id: dbCard.id, question: card.question, answer: card.answer}, ...curr]);
                         clearInput();
                         setShowInput(false);
                     })

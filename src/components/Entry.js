@@ -1,27 +1,31 @@
 import React, {useEffect, useState} from "react";
-import firebase from "../db/firebase";
 import App from "./app/App";
 import LoginView from "./login/LoginView";
+import db from "../db/db";
 
 export default function Entry() {
     const [content, setContent] = useState('');
 
     useEffect(() => {
-        firebase.auth().onAuthStateChanged( (user) => {
+        db.getCurrentUser().then((user) => {
             if (user) {
                 setContent('app');
             } else {
                 setContent('login');
             }
-        });
+        }).catch((error) => console.error("Cannot load user " + error));
+
     }, []);
 
     return <>
         {function () {
             if (content === "app") {
-                return <App/>
+                return <App logout={() => setContent('login')}/>
             } else if (content === "login") {
-                return <LoginView/>;
+                return <LoginView login={() => {
+                    history.pushState({}, '', '/');
+                    setContent('app')
+                }}/>;
             } else {
                 return "loading";
             }
