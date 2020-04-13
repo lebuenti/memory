@@ -4,7 +4,13 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-    entry: './src/index.js',
+    entry: {
+        app: [
+            'react-app-polyfill/ie9', //for ie9 Support
+            'react-app-polyfill/stable',
+            './src/index.js',
+        ],
+    },
     output: {
         filename: 'bundle.js',
         path: path.resolve(__dirname, 'dist'),
@@ -42,6 +48,8 @@ module.exports = {
         new CleanWebpackPlugin()
     ],
     devServer: {
+        host:'0.0.0.0',
+        disableHostCheck: true,
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
         port: 9000
