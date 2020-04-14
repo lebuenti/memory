@@ -10,22 +10,14 @@ export default function Subject(props) {
     const [inputError, setInputError] = useState({cardStackName: false});
 
     useEffect(() => {
-        //TODO getAllCardStackFromSubject
-        db.getSubject(props.id)
-            .then((docSubject) => {
-                if (!docSubject.data() || !docSubject.data().cardstacks) return;
-
-                docSubject.data().cardstacks.forEach((cardStackId) => {
-                    db.getCardStack(cardStackId)
-                        .then((docCardStack) => {
-                            setCardStacks(curr => [{id: docCardStack.id, name: docCardStack.data().name}, ...curr]);
-                        })
-                        .catch((error) => {
-                            console.error(error);
-                        })
-                });
+        db.getAllCardStacksFromSubject(props.id)
+            .then((docsCardStacks) => {
+                docsCardStacks.docs.forEach(docCardStack => {
+                    setCardStacks(curr => [{id: docCardStack.id, name: docCardStack.data().name}, ...curr]);
+                })
             })
             .catch((error) => {
+                //TODO
                 console.error(error);
             })
     }, []);
@@ -41,21 +33,13 @@ export default function Subject(props) {
             toast.fail('Name of card stack is empty');
             return;
         }
-        //TODO Beim addCardStack direkt das Update machenn
-        db.addCardStack(cardStack.name)
-            .then((docCardStack) => {
-                console.log("cardStackId: " + docCardStack.id);
-                console.log("subjectId " + props.id);
-                db.addCardStackToSubject(props.id, docCardStack.id)
-                    .then(() => {
-                        setCardStacks(curr => [{id: docCardStack.id, name: cardStack.name}, ...curr]);
-                        handleReset();
-                    })
-                    .catch((error) => console.error(error));
+
+        db.addCardStack(props.id, cardStack.name)
+            .then((dbCardStack) => {
+                setCardStacks(curr => [dbCardStack, ...curr]);
+                handleReset();
             })
-            .catch((error) => {
-                console.error(error);
-            })
+            .catch((error) => console.error(error));
     };
 
     const handleReset = () => {

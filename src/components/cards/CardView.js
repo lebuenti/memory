@@ -21,25 +21,23 @@ export default function CardView() {
             return;
         }
 
-        setCardStack(() => {
-            let result = {name: '', id: sub};
+        db.getCardStack(sub)
+            .then(dbCardStack => {
+                setCardStack({name: dbCardStack.data().name, id: dbCardStack.id});
+            })
+            .catch((error) => {
+                //TODO
+            });
 
-            //TODO getCardsFromCardStack
-            db.getCardStack(sub)
-                .then((doc) => {
-                    result.name = doc.data().name;
-
-                    if (!doc.data().cards) return;
-
-                    doc.data().cards.forEach((cardId) => {
-                        db.getCard(cardId)
-                            .then((docCard) => {
-                                setCards(curr => [{id: cardId, question: docCard.data().question, answer: docCard.data().answer}, ...curr]);
-                            })
-                    })
+        db.getAllCardsFromCardStack(sub)
+            .then((dbCards) => {
+                dbCards.docs.forEach(dbCard => {
+                    setCards(curr => [{id: dbCard.id, question: dbCard.data().question, answer: dbCard.data().answer}, ...curr]);
                 });
-            return result;
-        });
+            })
+            .catch((error) => {
+                //TODO
+            })
     }, []);
 
     const handleSubmit = (event) => {
@@ -56,16 +54,16 @@ export default function CardView() {
             return;
         }
 
-        //TODO add Card and update in one step
-        db.addCard(card.question, card.answer)
+        db.addCard(cardStack.id, card.question, card.answer)
             .then((dbCard) => {
-                db.addCardToCardStack(cardStack.id, dbCard.id)
-                    .then(() => {
-                        setCards(curr => [{id: dbCard.id, question: card.question, answer: card.answer}, ...curr]);
-                        clearInput();
-                        setShowInput(false);
-                    })
+                setCards(curr => [dbCard, ...curr]);
+                clearInput();
+                setShowInput(false);
             })
+            .catch((error) => {
+                //TODO
+            })
+
     };
 
     const clearInput = () => {
