@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import App from "./app/App";
 import LoginView from "./login/LoginView";
 import db from "../db/db";
+import toast from "../toast/toast";
 
 export default function Entry() {
     const [content, setContent] = useState('');
@@ -13,7 +14,10 @@ export default function Entry() {
             } else {
                 setContent('login');
             }
-        }).catch((error) => console.error("Cannot load user " + error));
+        }).catch((error) => {
+            toast.fail('"Cannot load user "');
+            console.error(error);
+        });
 
     }, []);
 

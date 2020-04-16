@@ -67,8 +67,11 @@ db.getAllCardsFromCardStack = async (cardStackId) => {
     return new Promise(resolve => {
         db.getCardStack(cardStackId)
             .then((doc) => {
-                if (!doc.data().cards) return;
+                if (!doc.data() || !doc.data().cards) return;
                 resolve(db.getCards(doc.data().cards));
+            })
+            .catch((error) => {
+                console.error(error);
             })
     })
 };
@@ -105,12 +108,11 @@ db.addCardStack = async (subjectId, name) => {
                 db.addCardStackToSubject(subjectId, docCardStack.id)
                     .then(() => {
                         resolve({id: docCardStack.id, name: name})
-                    })
-                    .catch((error) => {
-                        //TODO
-                    }))
+                    }).catch((error) => {
+                    console.error(error);
+                }))
             .catch((error) => {
-                //TODO
+                console.error(error);
             })
     });
 };
@@ -144,15 +146,15 @@ db.addCard = async (cardStackId, question, answer) => {
                 db.addCardToCardStack(cardStackId, dbCard.id)
                     .then(() => {
                         resolve({id: dbCard.id, question: question, answer: answer})
-                    })
-                    .catch((error) => {
-                        //TODO
-                    })
-            })
-            .catch((error) => {
-                //TODO
-            })
-    })
+                    }).catch((error) => {
+                        console.error(error);
+                    }
+                );
+            }).catch((error) => {
+                console.error(error);
+            }
+        );
+    });
 };
 
 export default db;

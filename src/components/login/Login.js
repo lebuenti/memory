@@ -23,12 +23,12 @@ export default function Login(props) {
         db.login(user.email, user.password)
             .then(() => {
                 props.login();
-            })
-            .catch((error) => {
+            }).catch((error) => {
                 toast.fail(error.message);
                 if (error.code.includes('email') || error.code.includes('user')) setInputError({...inputError, email: true});
                 if (error.code.includes('password')) setInputError({...inputError, password: true});
-            })
+            }
+        );
     };
 
     const handleReset = () => {

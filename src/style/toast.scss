@@ -20,14 +20,14 @@
   padding: 10px;
   text-align: center;
   animation-name: showAndHide;
-  animation-duration: 3.5s;
+  animation-duration: 4s;
   opacity: 0;
   background-color: white;
 }
 
 .toast div:last-child {
   height: 4px;
-  animation: border 3.5s, showAndHide 3.5s;
+  animation: border 4s, showAndHide 4s;
   opacity: 0;
   background: linear-gradient(to right, $gray 50%, $white 50%);
   background-size: 210% 210%;

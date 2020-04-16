@@ -63,7 +63,7 @@ function dispatchToast(message, option) {
 
     window.setTimeout(() => {
         root.removeChild(outerDiv);
-    }, 3500);
+    }, 4000);
 }
 
 export default toast;

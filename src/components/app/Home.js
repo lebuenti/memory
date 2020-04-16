@@ -18,7 +18,11 @@ export default function Home(props) {
                 querySnapshot.forEach((doc) => {
                     setSubjects(curr => [{id: doc.id, name: doc.data().name, color: doc.data().color}, ...curr]);
                 });
-            });
+            }).catch((error) => {
+                toast.fail('Could not load subjects from database');
+                console.error(error);
+            }
+        );
     }, []);
 
     const handleSubmit = (event) => {
@@ -36,7 +40,11 @@ export default function Home(props) {
         db.addSubject(subject.color, subject.name)
             .then((docSubject) => {
                 setSubjects(curr => [{id: docSubject.id, name: subject.name, color: subject.color}, ...curr]);
-            });
+            }).catch((error) => {
+                toast.fail('Could not save subject into database');
+                console.error(error);
+            }
+        );
         handleReset();
     };
 

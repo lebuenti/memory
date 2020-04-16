@@ -14,7 +14,11 @@ export default function Profile(props) {
         db.logout().then(() => {
             history.pushState({}, '', '/');
             props.logout();
-        }).catch((error) => console.error(error));
+        }).catch((error) => {
+                toast.fail('Could not log out');
+                console.error(error)
+            }
+        );
     };
 
     return <div>

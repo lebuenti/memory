@@ -15,11 +15,11 @@ export default function Subject(props) {
                 docsCardStacks.docs.forEach(docCardStack => {
                     setCardStacks(curr => [{id: docCardStack.id, name: docCardStack.data().name}, ...curr]);
                 })
-            })
-            .catch((error) => {
-                //TODO
+            }).catch((error) => {
+                toast.fail('Could not load cards stacks from database');
                 console.error(error);
-            })
+            }
+        );
     }, []);
 
     const handleSubmit = (event) => {
@@ -38,8 +38,11 @@ export default function Subject(props) {
             .then((dbCardStack) => {
                 setCardStacks(curr => [dbCardStack, ...curr]);
                 handleReset();
-            })
-            .catch((error) => console.error(error));
+            }).catch((error) => {
+                toast.fail('Could not save card stack into database');
+                console.error(error);
+            }
+        );
     };
 
     const handleReset = () => {

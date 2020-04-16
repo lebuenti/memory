@@ -24,20 +24,20 @@ export default function CardView() {
         db.getCardStack(sub)
             .then(dbCardStack => {
                 setCardStack({name: dbCardStack.data().name, id: dbCardStack.id});
-            })
-            .catch((error) => {
-                //TODO
-            });
+            }).catch((error) => {
+            toast.fail('Can\'t find a card stack with the id ' +  sub);
+            console.error('Can\'t find a card stack with the id ' +  sub + '\n' + error);
+        });
 
         db.getAllCardsFromCardStack(sub)
             .then((dbCards) => {
                 dbCards.docs.forEach(dbCard => {
                     setCards(curr => [{id: dbCard.id, question: dbCard.data().question, answer: dbCard.data().answer}, ...curr]);
                 });
-            })
-            .catch((error) => {
-                //TODO
-            })
+            }).catch((error) => {
+            toast.fail('Can\'t find cards from the card stack with the id: ' + sub);
+            console.error('Can\'t find cards from the card stack with the id: ' + sub + '\n' + error);
+        })
     }, []);
 
     const handleSubmit = (event) => {
@@ -59,11 +59,10 @@ export default function CardView() {
                 setCards(curr => [dbCard, ...curr]);
                 clearInput();
                 setShowInput(false);
-            })
-            .catch((error) => {
-                //TODO
-            })
-
+            }).catch((error) => {
+            toast.fail('Could not save card into database');
+            console.error(error);
+        });
     };
 
     const clearInput = () => {

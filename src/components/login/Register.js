@@ -26,18 +26,18 @@ export default function Register(props) {
                 db.login(user.email, user.password)
                     .then(() => {
                         props.login();
-                    })
-                    .catch((error) => {
+                    }).catch((error) => {
                         console.error(error.message);
                         toast.fail('Could not logged in. Pls try to login with your new account again.');
                         history.pushState({}, '', '/');
-                    });
-            })
-            .catch((error) => {
+                    }
+                );
+            }).catch((error) => {
                 toast.fail(error.message);
                 if (error.message.includes('email') || error.message.includes('user')) setInputError({...inputError, email: true});
                 if (error.message.includes('assword')) setInputError({...inputError, password: true});
-            });
+            }
+        );
     };
 
     const handleReset = () => {
