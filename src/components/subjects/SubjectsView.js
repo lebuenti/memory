@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import Subject from "./Subject";
-import "../../style/home.scss";
+import "../../style/subjectView.scss";
 import toast from "../../toast/toast";
 import db from "../../db/db";
 import SubjectInput from "./SubjectInput";
