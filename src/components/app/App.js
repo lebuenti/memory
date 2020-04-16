@@ -1,6 +1,6 @@
 import '../../style/main.scss';
 import React, {useEffect, useState} from "react";
-import Home from "./Home";
+import SubjectsView from "./SubjectsView";
 import Profile from "../profile/Profile";
 import Learning from "../learning/Learning";
 import CardView from "../cards/CardView";
@@ -19,7 +19,7 @@ export default function App(props) {
 
     const nextPage = (value) => {
         setContent(() => {
-            if (value === "home") window.history.pushState({}, '', "/");
+            if (value === "subjectsView") window.history.pushState({}, '', "/");
             else window.history.pushState({}, '', value);
             return value;
         });
@@ -33,7 +33,7 @@ export default function App(props) {
         } else if (location.pathname.match('cards')) {
             setContent('cards');
         } else {
-            setContent('home');
+            setContent('subjectsView');
         }
     };
 
@@ -48,8 +48,8 @@ export default function App(props) {
 
         <div id="content">
             {function () {
-                if (content === "home") {
-                    return <Home goTo={(value) => {
+                if (content === "subjectsView") {
+                    return <SubjectsView goTo={(value) => {
                         nextPage(value);
                         setContentFromPath();
                     }}/>;
@@ -68,7 +68,7 @@ export default function App(props) {
         <footer className="footer">
             <div className="row">
                 <div className="col">
-                    <button onClick={() => nextPage("home")}>
+                    <button onClick={() => nextPage("subjectsView")}>
                         <i className="fas fa-home icon"/>
                     </button>
                 </div>
