@@ -4,6 +4,8 @@ import SubjectsView from "../subjects/SubjectsView";
 import Profile from "../profile/Profile";
 import Learning from "../learning/Learning";
 import CardView from "../cards/CardView";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default function App(props) {
     const [content, setContent] = useState(null);
@@ -32,19 +34,15 @@ export default function App(props) {
             setContent('learning');
         } else if (location.pathname.match('cards')) {
             setContent('cards');
-        } else {
+        } else if (location.pathname === '/') {
             setContent('subjectsView');
+        } else {
+            setContent('404');
         }
     };
 
     return <>
-        <div className="header">
-            <div className="row">
-                <div className="col">
-                    <h1>memory</h1>
-                </div>
-            </div>
-        </div>
+        <Header/>
 
         <div id="content">
             {function () {
@@ -61,28 +59,12 @@ export default function App(props) {
                     return <CardView/>
                 } else if (content === null) {
                     return 'loading';
+                } else if (content === '404') {
+                    return '404 page not found';
                 }
             }()}
         </div>
 
-        <footer className="footer">
-            <div className="row">
-                <div className="col">
-                    <button onClick={() => nextPage("subjectsView")}>
-                        <i className="fas fa-home icon"/>
-                    </button>
-                </div>
-                <div className="col">
-                    <button onClick={() => nextPage("learning")}>
-                        <i className="fas fa-graduation-cap icon"/>
-                    </button>
-                </div>
-                <div className="col">
-                    <button onClick={() => nextPage("profile")}>
-                        <i className="fas fa-user icon"/>
-                    </button>
-                </div>
-            </div>
-        </footer>
+        <Footer nextPage={(value) => nextPage(value)}/>
     </>;
 }
