@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import CardStack from "./CardStack";
+import CardStack from "../cardStacks/CardStack";
 import toast from "../../toast/toast";
 import db from "../../db/db";
-import CardStackInput from "./CardStackInput";
+import CardStackInput from "../cardStacks/CardStackInput";
 
 export default function Subject(props) {
     const [cardStacks, setCardStacks] = useState([]);

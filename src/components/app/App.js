@@ -1,6 +1,6 @@
 import '../../style/main.scss';
 import React, {useEffect, useState} from "react";
-import SubjectsView from "./SubjectsView";
+import SubjectsView from "../subjects/SubjectsView";
 import Profile from "../profile/Profile";
 import Learning from "../learning/Learning";
 import CardView from "../cards/CardView";
