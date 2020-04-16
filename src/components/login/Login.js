@@ -1,39 +1,10 @@
-import React, {useState} from 'react';
-import toast from "../../toast/toast";
+import React from 'react';
 import db from "../../db/db";
+import LoginRegisterInput from "./LoginRegisterInput";
 
 export default function Login(props) {
-    const [user, setUser] = useState({email: '', password: ''});
-    const [inputError, setInputError] = useState({email: false, password: false});
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        setInputError({
-            email: user.email.length === 0,
-            password: user.password.length === 0
-        });
-
-        if (user.email.length === 0 || user.password.length === 0) {
-            if (user.email.length === 0) toast.fail('Email is empty');
-            if (user.password.length === 0) toast.fail('Password ist empty');
-            return;
-        }
-
-        db.login(user.email, user.password)
-            .then(() => {
-                props.login();
-            }).catch((error) => {
-                toast.fail(error.message);
-                if (error.code.includes('email') || error.code.includes('user')) setInputError({...inputError, email: true});
-                if (error.code.includes('password')) setInputError({...inputError, password: true});
-            }
-        );
-    };
-
-    const handleReset = () => {
-        setUser({email: '', password: ''});
-        setInputError({email: false, password: false});
+    const submit = (user) => {
+        return db.login(user.email, user.password).then(() => props.login());
     };
 
     return <div>
@@ -42,38 +13,18 @@ export default function Login(props) {
                 <h1>memory</h1>
             </div>
         </div>
-        <div className="row formAdd">
-            <form onSubmit={handleSubmit}>
+        <div className="formAdd">
+            <div className="row">
                 <div className="col">
                     <h2>Login</h2>
                 </div>
+            </div>
+            <div className="row">
                 <div className="col">
                     <p onClick={() => props.showRegister(true)}>or register</p>
                 </div>
-                <div className="col">
-                    <label>
-                        Email
-                        <input className={(inputError.email ? 'inputError' : '')} type="text" value={user.email}
-                               onChange={e => setUser({...user, email: e.target.value})}/>
-                    </label>
-                </div>
-                <div className="col">
-                    <label>
-                        Password
-                        <input className={(inputError.password ? 'inputError' : '')} type="password"
-                               value={user.password}
-                               onChange={e => setUser({...user, password: e.target.value})}/>
-                    </label>
-                </div>
-                <div className="col">
-                    <button type="reset" className="buttonReset button" onClick={handleReset}>
-                        <i className="fas fa-times icon"/>
-                    </button>
-                    <button type="submit" className="buttonSuccess button">
-                        <i className="fas fa-check icon"/>
-                    </button>
-                </div>
-            </form>
+            </div>
+            <LoginRegisterInput submit={(value) => submit(value)}/>
         </div>
     </div>
 }
