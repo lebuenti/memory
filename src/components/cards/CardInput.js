@@ -18,17 +18,18 @@ export default function (props) {
             if (card.answer.length === 0) toast.fail('Answer ist empty');
             return;
         }
-        clearInput();
 
-        props.submit(card).catch((error) => {
-            toast.fail('Could not save card into database');
-            console.error(error);
-        });
+        props.submit(card).then(() => clearInput())
+            .catch((error) => {
+                toast.fail('Could not save card into database');
+                console.error(error);
+            });
     };
 
     const clearInput = () => {
         setCard({question: '', answer: ''});
         setInputError({answer: false, question: false});
+        setFlip(false);
     };
 
     return <form onSubmit={handleSubmit}>
