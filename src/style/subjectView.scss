@@ -1,19 +1,6 @@
 @import "colors";
 
-button.add {
-  background-color: $green;
-  width: 70px;
-  height: 70px;
-  border-radius: 20px;
-  margin: 10px 0;
-  border: none;
-  color: $white;
-}
 
-button.add:active, button.add:hover {
-  background-color: $purple;
-  color: $green
-}
 
 .subject {
   margin: 10px 10px;
@@ -43,7 +30,6 @@ button.card.add:active, button.card.add:hover {
   width: 100%;
   background: $cardBackground;
   background-size: 100% 10px;
-  border: 1px solid black;
   border-radius: 7.5px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -66,8 +52,20 @@ button.card.add:active, button.card.add:hover {
 
 .cardFront {
   margin-top: -10px;
-  height: 180px;
+  height: 130px;
   justify-content: center;
   align-items: center;
   display: flex;
+}
+
+.cardFront, .cardMiddle {
+  box-shadow: 0 -2px 3px $darkbeige;
+}
+
+.flipper .cardFront {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.cardFront.cardBigger {
+  height: 180px;
 }

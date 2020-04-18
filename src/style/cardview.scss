@@ -3,7 +3,6 @@
 button.switch {
   background-color: $purple_contrast;
   margin-bottom: 25px;
-  margin-top: 5px;
   border: 1px solid black;
 }
 
@@ -57,7 +56,16 @@ button.switch {
   margin-top: 10px;
 }
 
-.smallerCards {
+.middelBigCards {
   height: 150px;
-  max-width:300px;
+  max-width: 300px;
+}
+
+.cardLabel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: -5px !important;
+  margin-right: 10px;
+  color: $gray;
 }

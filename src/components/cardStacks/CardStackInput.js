@@ -37,7 +37,7 @@ export default function CardStackInput(props) {
             <div className="card cardMiddle"/>
         </div>
         <div className="row">
-            <div className="card cardFront">
+            <div className="card cardFront cardBigger">
                 <div className="row formAdd">
                     <form onSubmit={handleSubmit}>
                         <div className="col">

@@ -8,10 +8,16 @@ export default function Card(props) {
             <div id="test" className={(flip ? 'flip ' : '') + "flip-container"}>
                 <div className="flipper">
                     <div className="front">
-                        <div className="smallerCards card cardFront">{props.question}</div>
+                        <div className="middelBigCards card cardFront">
+                            <label className="cardLabel">Question</label>
+                            {props.question}
+                        </div>
                     </div>
                     <div className="back">
-                        <div className="smallerCards card cardFront">{props.answer}</div>
+                        <div className="middelBigCards card cardFront">
+                            <label className="cardLabel">Answer</label>
+                            {props.answer}
+                        </div>
                     </div>
                 </div>
             </div>

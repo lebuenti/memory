@@ -51,9 +51,10 @@ export default function CardView() {
     };
 
     return <div className="cardview">
+
         <div className="row">
             <div className="col">
-                <h3>{cardStack.name}</h3>
+                <h2>{cardStack.name}</h2>
             </div>
         </div>
 

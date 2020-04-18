@@ -74,6 +74,21 @@ button:focus {
   outline: 0;
 }
 
+button.add {
+  background-color: $green;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  margin: 10px 0;
+  border: none;
+  color: $white;
+}
+
+button.add:active, button.add:hover {
+  background-color: $purple;
+  color: $green
+}
+
 .row {
   display: flex;
   justify-content: center;
@@ -92,7 +107,7 @@ button:focus {
 }
 
 .button {
-  border-radius: 20px;
+  border-radius: 10px;
   width: 50px;
   height: 50px;
 }
