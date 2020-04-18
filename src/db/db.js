@@ -49,7 +49,8 @@ db.addSubject = async (color, name) => {
                 .add({
                     color: color,
                     name: name,
-                    user: user.uid
+                    user: user.uid,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
                 }))
         })
     })
@@ -102,7 +103,8 @@ db.addCardStack = async (subjectId, name) => {
     return new Promise((resolve) => {
         firebase.firestore().collection(collectionsCardStacks)
             .add({
-                name: name
+                name: name,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then((docCardStack) =>
                 db.addCardStackToSubject(subjectId, docCardStack.id)
@@ -140,7 +142,8 @@ db.addCard = async (cardStackId, question, answer) => {
         firebase.firestore().collection(collectionCards)
             .add({
                 question: question,
-                answer: answer
+                answer: answer,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
             })
             .then((dbCard) => {
                 db.addCardToCardStack(cardStackId, dbCard.id)

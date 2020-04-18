@@ -12,20 +12,24 @@ export default function SubjectsView(props) {
     useEffect(() => {
         db.getSubjects()
             .then((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
+                let sorted = querySnapshot.docs.sort((a, b) => {
+                    if (a.data().timestamp > b.data().timestamp) return 1;
+                    else if (a.data().timestamp < b.data().timestamp) return -1;
+                    return 0;
+                });
+                sorted.forEach((doc) => {
                     setSubjects(curr => [{id: doc.id, name: doc.data().name, color: doc.data().color}, ...curr]);
                 });
             }).catch((error) => {
-                toast.fail('Could not load subjects from database');
-                console.error(error);
-            }
-        );
+            toast.fail(error);
+            console.error(error);
+        });
     }, []);
 
     const submit = (newSubject) => {
         return db.addSubject(newSubject.color, newSubject.name)
-            .then((docSubject) => {
-                setSubjects(curr => [{id: docSubject.id, name: newSubject.name, color: newSubject.color}, ...curr]);
+            .then((doc) => {
+                setSubjects(curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr]);
             });
     };
 

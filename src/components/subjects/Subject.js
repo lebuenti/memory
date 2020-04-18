@@ -10,9 +10,14 @@ export default function Subject(props) {
 
     useEffect(() => {
         db.getAllCardStacksFromSubject(props.id)
-            .then((docsCardStacks) => {
-                docsCardStacks.docs.forEach(docCardStack => {
-                    setCardStacks(curr => [{id: docCardStack.id, name: docCardStack.data().name}, ...curr]);
+            .then((docs) => {
+                let sorted = docs.docs.sort((a, b) => {
+                    if (a.data().timestamp > b.data().timestamp) return 1;
+                    else if (a.data().timestamp < b.data().timestamp) return -1;
+                    return 0;
+                });
+                sorted.forEach(doc => {
+                    setCardStacks(curr => [{id: doc.id, name: doc.data().name}, ...curr]);
                 })
             }).catch((error) => {
                 toast.fail('Could not load cards stacks from database');

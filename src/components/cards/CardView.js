@@ -27,9 +27,14 @@ export default function CardView() {
         });
 
         db.getAllCardsFromCardStack(sub)
-            .then((dbCards) => {
-                dbCards.docs.forEach(dbCard => {
-                    setCards(curr => [{id: dbCard.id, question: dbCard.data().question, answer: dbCard.data().answer}, ...curr]);
+            .then((docs) => {
+                let sorted = docs.docs.sort((a, b) => {
+                    if (a.data().timestamp > b.data().timestamp) return 1;
+                    else if (a.data().timestamp < b.data().timestamp) return -1;
+                    return 0;
+                });
+                sorted.forEach(doc => {
+                    setCards(curr => [{id: doc.id, question: doc.data().question, answer: doc.data().answer}, ...curr]);
                 });
             }).catch((error) => {
             toast.fail('Can\'t find cards from the card stack with the id: ' + sub);
