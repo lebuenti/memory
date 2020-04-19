@@ -9,6 +9,7 @@ export default function CardView() {
     const [cards, setCards] = useState([]);
     const [cardStack, setCardStack] = useState({name: '', id: ''});
     const [showInput, setShowInput] = useState(false);
+    const [subject, setSubject] = useState({});
 
     useEffect(() => {
         let i = location.pathname.lastIndexOf('/');
@@ -39,7 +40,16 @@ export default function CardView() {
             }).catch((error) => {
             toast.fail('Can\'t find cards from the card stack with the id: ' + sub);
             console.error('Can\'t find cards from the card stack with the id: ' + sub + '\n' + error);
-        })
+        });
+
+        db.getSubjectByCardStackId(sub)
+            .then((doc) => {
+                setSubject({name: doc.data().name, color: doc.data().color});
+            })
+            .catch((error) => {
+                console.error(error);
+                toast.fail('Cannot load subject from the current card stack');
+            });
     }, []);
 
     const submit = (newCard) => {
@@ -51,25 +61,27 @@ export default function CardView() {
     };
 
     return <div className="cardview">
+        <div id="cardHeaderAndButton" style={{'backgroundColor': subject.color}}>
 
-        <div className="row">
-            <div className="col">
-                <h2>{cardStack.name}</h2>
+            <div className="row">
+                <div className="col">
+                    <h2>{cardStack.name}</h2>
+                </div>
             </div>
-        </div>
 
-        <div className="row">
-            <div className="col">
-                <button className='add button' onClick={() => {
-                    setShowInput(true);
-                }}>
-                    <i className="fas fa-plus icon"/>
-                </button>
+            <div className="row">
+                <div className="col">
+                    <button className='add card button' onClick={() => {
+                        setShowInput(true);
+                    }}>
+                        <i className="fas fa-plus icon"/>
+                    </button>
+                </div>
             </div>
-        </div>
 
-        <div className="row" style={{display: showInput ? 'flex' : 'none'}}>
-            <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+            <div className="row" style={{display: showInput ? 'flex' : 'none'}}>
+                <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+            </div>
         </div>
 
         <div className="row oldCards">

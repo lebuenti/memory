@@ -42,6 +42,18 @@ db.getSubject = async (subjectId) => {
         .get()
 };
 
+db.getSubjectByCardStackId = async (cardStackId) => {
+    return new Promise((resolve) => {
+        db.getSubjects().then((querySnapshot) => {
+            querySnapshot.docs.forEach((doc) => {
+                if (doc.data().cardStacks.includes(cardStackId)) {
+                    resolve(doc);
+                }
+            })
+        })
+    });
+};
+
 db.addSubject = async (color, name) => {
     return new Promise(resolve => {
         db.getCurrentUser().then((user) => {
@@ -60,7 +72,7 @@ db.addCardStackToSubject = async (subjectId, cardStackId) => {
     return firebase.firestore().collection(collectionSubjects)
         .doc(subjectId)
         .update({
-            cardstacks: firebase.firestore.FieldValue.arrayUnion(cardStackId)
+            cardStacks: firebase.firestore.FieldValue.arrayUnion(cardStackId)
         })
 };
 
@@ -93,8 +105,8 @@ db.getAllCardStacksFromSubject = async (subjectId) => {
     return new Promise(resolve => {
         db.getSubject(subjectId)
             .then((doc) => {
-                if (!doc.data() || !doc.data().cardstacks) return;
-                resolve(db.getCardStacks(doc.data().cardstacks))
+                if (!doc.data() || !doc.data().cardStacks) return;
+                resolve(db.getCardStacks(doc.data().cardStacks))
             })
     })
 };
