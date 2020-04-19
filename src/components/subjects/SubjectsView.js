@@ -42,7 +42,7 @@ export default function SubjectsView(props) {
             </div>
         </div>
 
-        <div className="row formAdd" style={{display: showInput ? 'flex' : 'none'}}>
+        <div id="newSubject" className="row formAdd" style={{display: showInput ? 'flex' : 'none'}}>
             <SubjectInput submit={(newSubject) => submit(newSubject)} setShowInput={(value) => setShowInput(value)}/>
         </div>
 

@@ -1,6 +1,7 @@
 @import "colors";
 
 button.switch {
+  margin-top:7px;
   background-color: $purple_contrast;
   margin-bottom: 25px;
   border: 1px solid black;
@@ -14,9 +15,19 @@ button.switch {
   transform: rotateY(180deg);
 }
 
+.flipper .cardFront {
+  margin-top: 0;
+}
+
+@media only screen and (min-width: 350px) {
+  .cardFront.addCard, .flip-container.addCard, .front.addCard, .back.addCard {
+    width: 350px !important;
+  }
+}
+
 .cardFront.addCard, .flip-container.addCard, .front.addCard, .back.addCard {
-  height:200px;
-  width:350px;
+  height: 200px;
+  width: 300px;
 }
 
 .flip-container, .front, .back {
@@ -32,6 +43,7 @@ button.switch {
 
 .front, .back {
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
@@ -49,7 +61,7 @@ button.switch {
 .card textarea {
   width: 100%;
   height: 90px;
-  margin-top:10px;
+  margin-top: 10px;
 }
 
 .flip-container label {
@@ -65,7 +77,11 @@ button.switch {
   position: absolute;
   top: 0;
   right: 0;
-  margin-top: -5px !important;
   margin-right: 10px;
   color: $gray;
+}
+
+#cardHeaderAndButton {
+  margin: 10px 5px;
+  border-radius:10px;
 }

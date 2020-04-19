@@ -36,7 +36,23 @@ h3 {
   overflow: scroll;
   height: 100%;
   color: black;
-  text-shadow: 0 0 2px white ;
+  text-shadow: 0 0 2px white;
+}
+
+@media only screen and (max-width: 320px) {
+  .footer .icon {
+    font-size: 20pt !important;
+  }
+}
+
+@media only screen and (min-width: 350px) {
+  .header {
+    padding: 20px !important;
+  }
+
+  .footer button {
+    margin: 5px 10px !important;
+  }
 }
 
 .header {
@@ -45,7 +61,7 @@ h3 {
   overflow: hidden;
   background-color: $purple;
   color: $white;
-  padding: 20px;
+  padding: 10px;
 }
 
 .footer {
@@ -59,7 +75,7 @@ h3 {
 .footer button {
   color: $white;
   padding: 10px 30px;
-  margin: 5px 10px;
+  margin: 0 10px;
   background-color: $purple;
   border: none;
   border-radius: 5px;
@@ -99,8 +115,12 @@ button.add:active, button.add:hover {
   text-align: center;
 }
 
+#newSubject {
+  border: 0.5px solid $gray;
+  background-color: $lightgray;
+}
+
 .formAdd {
-  background-color: $green;
   margin: 10px 10px;
   border-radius: 10px;
   padding: 10px;
@@ -116,14 +136,14 @@ button.add:active, button.add:hover {
   color: $green;
   background-color: $white;
   margin: 5px 20px;
-  border: none;
+  border: 1px solid $green;
 }
 
 .buttonReset {
   color: $red;
   background-color: $white;
   margin: 5px 20px;
-  border: none;
+  border: 1px solid $red;
 }
 
 input {
