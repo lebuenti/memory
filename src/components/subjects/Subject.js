@@ -1,14 +1,16 @@
 import React, {useEffect, useState} from "react";
 import CardStack from "../cardStacks/CardStack";
-import toast from "../../toast/toast";
+import toast from "../../util/toast";
 import db from "../../db/db";
 import CardStackInput from "../cardStacks/CardStackInput";
+import loading from "../../util/loading";
 
 export default function Subject(props) {
     const [cardStacks, setCardStacks] = useState([]);
     const [showInput, setShowInput] = useState(false);
 
     useEffect(() => {
+        loading();
         db.getAllCardStacksFromSubject(props.id)
             .then((docs) => {
                 let sorted = docs.docs.sort((a, b) => {
@@ -18,19 +20,20 @@ export default function Subject(props) {
                 });
                 sorted.forEach(doc => {
                     setCardStacks(curr => [{id: doc.id, name: doc.data().name}, ...curr]);
-                })
+                });
             }).catch((error) => {
-                toast.fail('Could not load cards stacks from database');
-                console.error(error);
-            }
-        );
+            toast.fail('Could not load cards stacks from database');
+            console.error(error);
+        }).finally(() => loading.stop());
     }, []);
 
     const submit = (cardStack) => {
+        loading();
         return db.addCardStack(props.id, cardStack.name)
             .then((dbCardStack) => {
                 setCardStacks(curr => [dbCardStack, ...curr]);
-            });
+            }).catch((error) => console.error(error))
+            .finally(() => loading.stop());
     };
 
     return <div className="subject" style={{backgroundColor: props.color}}>

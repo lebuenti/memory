@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import App from "./app/App";
 import LoginView from "./login/LoginView";
 import db from "../db/db";
-import toast from "../toast/toast";
+import toast from "../util/toast";
 
 export default function Entry() {
     const [content, setContent] = useState('');

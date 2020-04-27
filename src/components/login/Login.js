@@ -1,10 +1,14 @@
 import React from 'react';
 import db from "../../db/db";
 import LoginRegisterInput from "./LoginRegisterInput";
+import loading from "../../util/loading";
 
 export default function Login(props) {
     const submit = (user) => {
-        return db.login(user.email, user.password).then(() => props.login());
+        loading();
+        return db.login(user.email, user.password).then(() => {
+            props.login();
+        }).finally(() => loading.stop());
     };
 
     return <div>

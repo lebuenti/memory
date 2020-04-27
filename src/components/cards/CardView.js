@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from "react";
 import "../../style/cardview.scss";
 import Card from "./Card";
-import toast from "../../toast/toast";
+import toast from "../../util/toast";
 import db from "../../db/db";
 import CardInput from "./CardInput";
+import loading from "../../util/loading";
 
 export default function CardView() {
     const [cards, setCards] = useState([]);
@@ -19,13 +20,13 @@ export default function CardView() {
             return;
         }
 
+        loading();
         db.getCardStack(sub)
-            .then(dbCardStack => {
-                setCardStack({name: dbCardStack.data().name, id: dbCardStack.id});
-            }).catch((error) => {
-            toast.fail('Can\'t find a card stack with the id ' + sub);
-            console.error('Can\'t find a card stack with the id ' + sub + '\n' + error);
-        });
+            .then(dbCardStack => setCardStack({name: dbCardStack.data().name, id: dbCardStack.id}))
+            .catch((error) => {
+                toast.fail('Can\'t find a card stack with the id ' + sub);
+                console.error('Can\'t find a card stack with the id ' + sub + '\n' + error);
+            }).finally(() => loading.stop());
 
         db.getAllCardsFromCardStack(sub)
             .then((docs) => {
@@ -34,12 +35,13 @@ export default function CardView() {
                     else if (a.data().timestamp < b.data().timestamp) return -1;
                     return 0;
                 });
-                sorted.forEach(doc => {
-                    setCards(curr => [{id: doc.id, question: doc.data().question, answer: doc.data().answer}, ...curr]);
-                });
-            }).catch((error) => {
-            toast.fail('Can\'t find cards from the card stack with the id: ' + sub);
-            console.error('Can\'t find cards from the card stack with the id: ' + sub + '\n' + error);
+                sorted.forEach(doc => setCards(curr => [{id: doc.id, question: doc.data().question, answer: doc.data().answer}, ...curr]));
+            })
+            .catch((error) => {
+                toast.fail('Can\'t find cards from the card stack with the id: ' + sub);
+                console.error('Can\'t find cards from the card stack with the id: ' + sub + '\n' + error);
+            }).finally(() => {
+                loading.stop()
         });
 
         db.getSubjectByCardStackId(sub)
@@ -49,15 +51,18 @@ export default function CardView() {
             .catch((error) => {
                 console.error(error);
                 toast.fail('Cannot load subject from the current card stack');
-            });
+            }).finally(() => loading.stop());
     }, []);
 
     const submit = (newCard) => {
+        loading();
         return db.addCard(cardStack.id, newCard.question, newCard.answer)
             .then((dbCard) => {
                 setCards(curr => [dbCard, ...curr]);
                 setShowInput(false);
-            });
+            })
+            .catch((error) => console.error(error))
+            .finally(() => loading.stop());
     };
 
     return <div className="cardview">

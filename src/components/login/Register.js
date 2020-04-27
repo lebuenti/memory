@@ -1,10 +1,12 @@
 import React from "react";
-import toast from "../../toast/toast";
+import toast from "../../util/toast";
 import db from "../../db/db";
 import LoginRegisterInput from "./LoginRegisterInput";
+import loading from "../../util/loading";
 
 export default function Register(props) {
     const submit = (user) => {
+        loading();
         return db.createUser(user.email, user.password)
             .then(() => {
                 toast.success('Account was created');
@@ -12,12 +14,11 @@ export default function Register(props) {
                     .then(() => {
                         props.login();
                     }).catch((error) => {
-                        console.error(error.message);
-                        toast.fail('Could not logged in. Pls try to login with your new account again.');
-                        history.pushState({}, '', '/');
-                    }
-                );
-            });
+                    console.error(error.message);
+                    toast.fail('Could not logged in. Pls try to login with your new account again.');
+                    history.pushState({}, '', '/');
+                });
+            }).finally(() => loading.stop());
     };
 
     return <div>

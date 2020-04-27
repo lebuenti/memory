@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from "react";
 import Subject from "./Subject";
 import "../../style/subjectView.scss";
-import toast from "../../toast/toast";
+import toast from "../../util/toast";
 import db from "../../db/db";
 import SubjectInput from "./SubjectInput";
+import loading from "../../util/loading";
 
 export default function SubjectsView(props) {
     const [subjects, setSubjects] = useState([]);
     const [showInput, setShowInput] = useState(false);
 
     useEffect(() => {
+        loading();
         db.getSubjects()
             .then((querySnapshot) => {
                 let sorted = querySnapshot.docs.sort((a, b) => {
@@ -23,14 +25,16 @@ export default function SubjectsView(props) {
             }).catch((error) => {
             toast.fail(error);
             console.error(error);
-        });
+        }).finally(() => loading.stop());
     }, []);
 
     const submit = (newSubject) => {
+        loading();
         return db.addSubject(newSubject.color, newSubject.name)
             .then((doc) => {
                 setSubjects(curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr]);
-            });
+            }).catch((error) => console.error(error))
+            .finally(() => loading.stop());
     };
 
     return <>

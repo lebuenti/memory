@@ -1,5 +1,6 @@
-import toast from "../../toast/toast";
+import toast from "../../util/toast";
 import React, {useState} from "react";
+import loading from "../../util/loading";
 
 export default function (props) {
     const [inputError, setInputError] = useState({question: false, answer: false});
@@ -19,11 +20,13 @@ export default function (props) {
             return;
         }
 
-        props.submit(card).then(() => clearInput())
-            .catch((error) => {
-                toast.fail('Could not save card into database');
-                console.error(error);
-            });
+        loading();
+        props.submit(card).then(() => {
+            clearInput();
+        }).catch((error) => {
+            toast.fail('Could not save card into database');
+            console.error(error);
+        }).finally(() => loading.stop());
     };
 
     const clearInput = () => {

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import toast from "../../toast/toast";
+import toast from "../../util/toast";
 
 export default function LoginRegisterInput(props) {
     const [user, setUser] = useState({email: '', password: ''});
