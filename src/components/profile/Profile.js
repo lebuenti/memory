@@ -28,7 +28,7 @@ export default function Profile(props) {
         <div className="row">{email}</div>
         <div className="row">
             <button type="submit" onClick={handleSubmit} className="button buttonReset">
-                <i className="fas fa-sign-out-alt icon"/> Logout
+                <i className="fas fa-sign-out-alt icon"/>
             </button>
         </div>
     </div>;

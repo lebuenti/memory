@@ -41,7 +41,7 @@ export default function CardView() {
                 toast.fail('Can\'t find cards from the card stack with the id: ' + sub);
                 console.error('Can\'t find cards from the card stack with the id: ' + sub + '\n' + error);
             }).finally(() => {
-                loading.stop()
+            loading.stop()
         });
 
         db.getSubjectByCardStackId(sub)
@@ -76,9 +76,7 @@ export default function CardView() {
 
             <div className="row">
                 <div className="col">
-                    <button className='add card button' onClick={() => {
-                        setShowInput(true);
-                    }}>
+                    <button className='add card button' onClick={() => setShowInput(!showInput)}>
                         <i className="fas fa-plus icon"/>
                     </button>
                 </div>

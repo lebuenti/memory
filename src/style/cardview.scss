@@ -7,6 +7,11 @@ button.switch {
   border: 1px solid black;
 }
 
+button.switch:active,button.switch:hover  {
+  background-color: black;
+  color: $purple_contrast
+}
+
 .flip-container {
   perspective: 1000px;
 }

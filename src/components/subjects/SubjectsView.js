@@ -40,7 +40,7 @@ export default function SubjectsView(props) {
     return <>
         <div className="row">
             <div className="col">
-                <button className='add button' onClick={() => setShowInput(true)}>
+                <button className='buttonSuccess button' onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
                 </button>
             </div>

@@ -12,7 +12,8 @@
 }
 
 button.card.add:active, button.card.add:hover {
-  color: black;
+  color: $lightyellowWithGray;
+  background: $green none;
 }
 
 .card .formAdd {
