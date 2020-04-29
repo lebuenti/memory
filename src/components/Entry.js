@@ -3,6 +3,7 @@ import App from "./app/App";
 import LoginView from "./login/LoginView";
 import db from "../db/db";
 import toast from "../util/toast";
+import loading from "../util/loading";
 
 export default function Entry() {
     const [content, setContent] = useState('');
@@ -23,6 +24,7 @@ export default function Entry() {
 
     return <>
         {function () {
+            loading.stop();
             if (content === "app") {
                 return <App logout={() => setContent('login')}/>
             } else if (content === "login") {
@@ -31,7 +33,8 @@ export default function Entry() {
                     setContent('app')
                 }}/>;
             } else {
-                return "loading";
+                loading();
+                return '';
             }
         }()}
     </>

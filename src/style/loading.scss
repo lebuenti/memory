@@ -5,8 +5,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 50%;
-  height: 100px;
+  width: 40%;
+  height: 60px;
   background-color: $purple;
   color: $purple_outline;
   z-index: 2;
@@ -15,7 +15,7 @@
 }
 
 #spinner {
-  font-size: 100px;
+  font-size: 60px;
   text-align: center;
   margin: 0 auto;
   width: 100%;

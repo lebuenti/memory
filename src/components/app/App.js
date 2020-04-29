@@ -6,6 +6,7 @@ import Learning from "../learning/Learning";
 import CardView from "../cards/CardView";
 import Header from "./Header";
 import Footer from "./Footer";
+import loading from "../../util/loading";
 
 export default function App(props) {
     const [content, setContent] = useState(null);
@@ -46,6 +47,7 @@ export default function App(props) {
 
         <div id="content">
             {function () {
+                loading.stop();
                 if (content === "subjectsView") {
                     return <SubjectsView goTo={(value) => {
                         nextPage(value);
@@ -58,7 +60,8 @@ export default function App(props) {
                 } else if (content === "cards") {
                     return <CardView/>
                 } else if (content === null) {
-                    return 'loading';
+                    loading();
+                    return '';
                 } else if (content === '404') {
                     return '404 page not found';
                 }
