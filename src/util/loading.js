@@ -1,6 +1,7 @@
 import "../style/loading.scss"
 
 const loading = () => {
+    if (document.getElementById('loading')) return;
     let root = document.createElement('div');
     root.id = 'loading';
 
@@ -17,7 +18,9 @@ const loading = () => {
 
 loading.stop = () => {
     if (document.body.classList.contains('loading')) document.body.classList.remove('loading');
-    if (document.getElementById('loading')) document.body.removeChild(document.getElementById('loading'));
+    if (document.getElementById('loading')) {
+        document.body.removeChild(document.getElementById('loading'));
+    }
 };
 
 export default loading;

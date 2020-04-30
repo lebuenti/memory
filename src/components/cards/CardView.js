@@ -66,26 +66,37 @@ export default function CardView() {
     };
 
     return <div className="cardview">
-        <div id="cardHeaderAndButton" style={{'backgroundColor': subject.color}}>
 
+        <div className="colorfulRow" style={{'backgroundColor': subject.color}}>
             <div className="row">
                 <div className="col">
                     <h2>{cardStack.name}</h2>
                 </div>
             </div>
-
             <div className="row">
                 <div className="col">
-                    <button className='add card button' onClick={() => setShowInput(!showInput)}>
+                    <button className='buttonReset card button' onClick={() => setShowInput(!showInput)}>
+                        <i className="fas fa-trash icon"/>
+                    </button>
+                </div>
+                <div className="col">
+                    <button className='buttonUpdate card button' onClick={() => setShowInput(!showInput)}>
+                        <i className="fas fa-pen icon"/>
+                    </button>
+                </div>
+                <div className="col">
+                    <button className='buttonSuccess card button' onClick={() => setShowInput(!showInput)}>
                         <i className="fas fa-plus icon"/>
                     </button>
                 </div>
             </div>
-
             <div className="row" style={{display: showInput ? 'flex' : 'none'}}>
-                <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+                <div className="col">
+                    <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+                </div>
             </div>
         </div>
+
 
         <div className="row oldCards">
             <div className="cards">

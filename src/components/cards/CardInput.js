@@ -99,7 +99,7 @@ export default function (props) {
             </div>
         </div>
         <div className="row">
-            <button type="button" className="switch button" onClick={() => setFlip(!flip)}>
+            <button type="button" className="buttonUpdate switch button" onClick={() => setFlip(!flip)}>
                 <i className="fas fa-redo icon"/>
             </button>
         </div>

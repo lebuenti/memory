@@ -102,8 +102,7 @@ button:focus {
 }
 
 #newSubject {
-  border: 0.5px solid $gray;
-  background-color: $lightgray;
+  background-color: $purple;
 }
 
 .formAdd {
@@ -130,6 +129,11 @@ button:focus {
   background-color: $green;
 }
 
+button.buttonSuccess.card:active, button.buttonSuccess.card:hover  {
+  color: $lightyellowWithGray;
+  background: $green none;
+}
+
 .buttonReset {
   color: $red;
   background-color: $white;
@@ -141,6 +145,29 @@ button:focus {
   color: $white;
   background-color: $red;
 }
+
+button.buttonReset.card:active, button.buttonReset.card:hover  {
+  color: $lightyellowWithGray;
+  background: $red none;
+}
+
+.buttonUpdate {
+  color: $sunyellow;
+  background-color: $white;
+  margin: 5px 20px;
+  border: 1px solid $sunyellow;
+}
+
+.buttonUpdate:active, .buttonUpdate:hover  {
+  color: $white;
+  background-color: $sunyellow;
+}
+
+button.buttonUpdate.card:active, button.buttonUpdate.card:hover  {
+  color: $lightyellowWithGray;
+  background: $sunyellow none;
+}
+
 
 input {
   border: none;

@@ -2,14 +2,7 @@
 
 button.switch {
   margin-top:7px;
-  background-color: $purple_contrast;
   margin-bottom: 25px;
-  border: 1px solid black;
-}
-
-button.switch:active,button.switch:hover  {
-  background-color: black;
-  color: $purple_contrast
 }
 
 .flip-container {
@@ -86,7 +79,7 @@ button.switch:active,button.switch:hover  {
   color: $gray;
 }
 
-#cardHeaderAndButton {
+.colorfulRow {
   margin: 10px 5px;
   border-radius:10px;
 }

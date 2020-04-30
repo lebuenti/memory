@@ -46,7 +46,7 @@ db.getSubjectByCardStackId = async (cardStackId) => {
     return new Promise((resolve) => {
         db.getSubjects().then((querySnapshot) => {
             querySnapshot.docs.forEach((doc) => {
-                if (doc.data().cardStacks.includes(cardStackId)) {
+                if (doc.data().cardStacks && doc.data().cardStacks.includes(cardStackId)) {
                     resolve(doc);
                 }
             })

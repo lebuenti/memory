@@ -45,7 +45,7 @@ export default function Subject(props) {
 
         <div className="row">
             <div className="col">
-                <button className='add card button' onClick={() => setShowInput(!showInput)}>
+                <button className='buttonSuccess card button' onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
                 </button>
             </div>
