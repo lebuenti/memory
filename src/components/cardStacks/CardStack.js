@@ -14,7 +14,12 @@ export default function CardStack(props) {
                 <div className="card cardMiddle"/>
             </div>
             <div className="row">
-                <div className="card cardFront">{props.name}</div>
+                <div className="card cardFront">
+                    <label className="cardLabel">
+                        {(props.cards) ? props.cards.length : 0}
+                    </label>
+                    {props.name}
+                </div>
             </div>
         </div>
     </div>

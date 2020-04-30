@@ -19,7 +19,7 @@ export default function Subject(props) {
                     return 0;
                 });
                 sorted.forEach(doc => {
-                    setCardStacks(curr => [{id: doc.id, name: doc.data().name}, ...curr]);
+                    setCardStacks(curr => [{id: doc.id, name: doc.data().name, cards: doc.data().cards}, ...curr]);
                 });
             }).catch((error) => {
             toast.fail('Could not load cards stacks from database');
@@ -57,7 +57,7 @@ export default function Subject(props) {
 
         <div id="oldCards">
             {cardStacks.map(stack => (
-                <CardStack key={stack.id} id={stack.id} name={stack.name} goTo={(value) => props.goTo(value)}/>
+                <CardStack key={stack.id} id={stack.id} name={stack.name} cards={stack.cards} goTo={(value) => props.goTo(value)}/>
             ))}
         </div>
     </div>
