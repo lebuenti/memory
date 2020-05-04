@@ -58,7 +58,10 @@ export default function App(props) {
                 } else if (content === "learning") {
                     return <Learning/>;
                 } else if (content === "cards") {
-                    return <CardView/>
+                    return <CardView goTo={(value) => {
+                        nextPage(value);
+                        setContentFromPath();
+                    }}/>
                 } else if (content === null) {
                     loading();
                     return '';

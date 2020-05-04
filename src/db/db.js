@@ -137,6 +137,10 @@ db.addCardToCardStack = async (cardStackId, cardId) => {
         .update({cards: firebase.firestore.FieldValue.arrayUnion(cardId)})
 };
 
+db.deleteCardStack = async (cardStackId) => {
+    return firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).delete();
+};
+
 db.getCard = async (cardId) => {
     return firebase.firestore().collection(collectionCards)
         .doc(cardId)

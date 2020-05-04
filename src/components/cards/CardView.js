@@ -5,11 +5,13 @@ import toast from "../../util/toast";
 import db from "../../db/db";
 import CardInput from "./CardInput";
 import loading from "../../util/loading";
+import AreUSureDialog from "../AreUSureDialog";
 
-export default function CardView() {
+export default function CardView(props) {
     const [cards, setCards] = useState([]);
     const [cardStack, setCardStack] = useState({name: '', id: ''});
     const [showInput, setShowInput] = useState(false);
+    const [areUSureDialog, setAreUSureDialog] = useState(false);
     const [subject, setSubject] = useState({});
 
     useEffect(() => {
@@ -54,6 +56,21 @@ export default function CardView() {
             }).finally(() => loading.stop());
     }, []);
 
+    const deleteCardStack = () => {
+        const deleteFunction = (() => {
+            loading();
+            db.deleteCardStack(cardStack.id)
+                .then(() => {
+                    props.goTo('subjectsView');
+                    history.pushState({}, '', '/');
+                })
+                .catch(error => console.error(error))
+                .finally(() => loading.stop());
+        });
+
+        toast.success('card stack deleted', 'undo', deleteFunction);
+    };
+
     const submit = (newCard) => {
         loading();
         return db.addCard(cardStack.id, newCard.question, newCard.answer)
@@ -75,7 +92,7 @@ export default function CardView() {
             </div>
             <div className="row">
                 <div className="col">
-                    <button className='buttonReset card button' onClick={() => setShowInput(!showInput)}>
+                    <button className='buttonReset card button' onClick={() => setAreUSureDialog(!areUSureDialog)}>
                         <i className="fas fa-trash icon"/>
                     </button>
                 </div>
@@ -93,6 +110,12 @@ export default function CardView() {
             <div className="row" style={{display: showInput ? 'flex' : 'none'}}>
                 <div className="col">
                     <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+                </div>
+            </div>
+            <div className="row" style={{display: areUSureDialog ? 'flex' : 'none'}}>
+                <div className="col">
+                    <AreUSureDialog message={"Really delete the card stack " + cardStack.name + " and all of its cards?"}
+                                    onReset={() => setAreUSureDialog(!areUSureDialog)} onSubmit={() => deleteCardStack()}/>
                 </div>
             </div>
         </div>

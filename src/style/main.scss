@@ -117,6 +117,14 @@ button:focus {
   height: 50px !important;
 }
 
+.buttonSuccess.small, .buttonReset.small, .buttonUpdate.small {
+  width: 40px !important;
+  height: 40px !important;
+}
+.buttonSuccess.small .icon, .buttonReset.small .icon, .buttonUpdate.small .icon {
+  font-size: 20pt;
+}
+
 .buttonSuccess {
   color: $green;
   background-color: $white;
@@ -130,7 +138,7 @@ button:focus {
 }
 
 button.buttonSuccess.card:active, button.buttonSuccess.card:hover  {
-  color: $lightyellowWithGray;
+  color: $lightyellow;
   background: $green none;
 }
 
@@ -147,25 +155,25 @@ button.buttonSuccess.card:active, button.buttonSuccess.card:hover  {
 }
 
 button.buttonReset.card:active, button.buttonReset.card:hover  {
-  color: $lightyellowWithGray;
+  color: $lightyellow;
   background: $red none;
 }
 
 .buttonUpdate {
-  color: $sunyellow;
+  color: $updateYellow;
   background-color: $white;
   margin: 5px 20px;
-  border: 1px solid $sunyellow;
+  border: 1px solid $updateYellow;
 }
 
 .buttonUpdate:active, .buttonUpdate:hover  {
   color: $white;
-  background-color: $sunyellow;
+  background-color: $updateYellow;
 }
 
 button.buttonUpdate.card:active, button.buttonUpdate.card:hover  {
-  color: $lightyellowWithGray;
-  background: $sunyellow none;
+  color: $lightyellow;
+  background: $updateYellow none;
 }
 
 

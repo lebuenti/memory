@@ -23,15 +23,15 @@ toast.fail = (message) => {
     dispatchToast(EMOJI_SHIT + message, options.fail);
 };
 
-toast.success = (message) => {
-    dispatchToast(EMOJI_STAR_EYES + message, options.success);
+toast.success = (message, messageLink, functionForNotClicking) => {
+    dispatchToast(EMOJI_STAR_EYES + message, options.success, messageLink, functionForNotClicking);
 };
 
 toast.info = (message) => {
     dispatchToast(EMOJI_EXCLAMATION_MARK + message, options.info);
 };
 
-function dispatchToast(message, option) {
+function dispatchToast(message, option, messageLink, functionForNotClicking) {
     const outerDiv = document.createElement('div');
     outerDiv.classList.add('toast');
 
@@ -40,30 +40,46 @@ function dispatchToast(message, option) {
 
     const borderForInnerDiv = document.createElement('div');
 
-    switch (option) {
-        case options.fail:
-            innerDiv.classList.add('fail');
-            borderForInnerDiv.classList.add('fail');
-            break;
-        case options.success:
-            innerDiv.classList.add('success');
-            borderForInnerDiv.classList.add('success');
-            break;
-        case options.info:
-            innerDiv.classList.add('info');
-            borderForInnerDiv.classList.add('info');
-            break;
-        case options.default:
-            break;
-    }
+    addOptionsCssClass(innerDiv, option);
+    addOptionsCssClass(borderForInnerDiv, option);
 
     outerDiv.appendChild(innerDiv);
+
+    if (messageLink) {
+        let divLink = document.createElement('div');
+        divLink.classList.add('link');
+        addOptionsCssClass(divLink, option);
+        divLink.appendChild(document.createTextNode(messageLink));
+        divLink.onclick = () => {
+            divLink.style.color = 'lightblue';
+            functionForNotClicking = undefined;
+        };
+        outerDiv.appendChild(divLink);
+    }
+
     outerDiv.appendChild(borderForInnerDiv);
     root.appendChild(outerDiv);
 
     window.setTimeout(() => {
         root.removeChild(outerDiv);
+        if (functionForNotClicking) functionForNotClicking();
     }, 4000);
+}
+
+function addOptionsCssClass(object, option) {
+    switch (option) {
+        case options.fail:
+            object.classList.add('fail');
+            break;
+        case options.success:
+            object.classList.add('success');
+            break;
+        case options.info:
+            object.classList.add('info');
+            break;
+        case options.default:
+            break;
+    }
 }
 
 export default toast;
