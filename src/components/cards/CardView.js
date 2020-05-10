@@ -68,9 +68,7 @@ export default function CardView(props) {
                 .catch(error => console.error(error))
                 .finally(() => loading.stop());
         });
-
         toast.info('deleting ' + cardStack.name + ' ...', deleteFunction);
-
         setAreUSureDialog(!areUSureDialog);
     };
 
@@ -122,7 +120,6 @@ export default function CardView(props) {
                 </div>
             </div>
         </div>
-
 
         <div className="row oldCards">
             <div className="cards">

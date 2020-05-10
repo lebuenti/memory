@@ -4,10 +4,12 @@ import toast from "../../util/toast";
 import db from "../../db/db";
 import CardStackInput from "../cardStacks/CardStackInput";
 import loading from "../../util/loading";
+import AreUSureDialog from "../AreUSureDialog";
 
 export default function Subject(props) {
     const [cardStacks, setCardStacks] = useState([]);
     const [showInput, setShowInput] = useState(false);
+    const [areUSureDialog, setAreUSureDialog] = useState(false);
 
     useEffect(() => {
         loading();
@@ -36,6 +38,21 @@ export default function Subject(props) {
             .finally(() => loading.stop());
     };
 
+    const deleteSubject = () => {
+        const deleteFunction = (() => {
+            loading();
+            db.deleteSubject(props.id)
+                .then(() => {
+                    props.goTo('/');
+                    toast.success('subject deleted');
+                })
+                .catch(error => console.error(error))
+                .finally(() => loading.stop());
+        });
+        toast.info('deleting subject ' + props.name + ' ...', deleteFunction);
+        setAreUSureDialog(!areUSureDialog);
+    };
+
     return <div className="subject" style={{backgroundColor: props.color}}>
         <div className="row subjectHeader">
             <div className="col">
@@ -45,14 +62,30 @@ export default function Subject(props) {
 
         <div className="row">
             <div className="col">
+                <button className='buttonReset card button' onClick={() => setAreUSureDialog(!areUSureDialog)}>
+                    <i className="fas fa-trash icon"/>
+                </button>
+            </div>
+            <div className="col">
                 <button className='buttonSuccess card button' onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
+                </button>
+            </div>
+            <div className="col">
+                <button className='buttonUpdate card button' onClick={() => setShowInput(!showInput)}>
+                    <i className="fas fa-pen icon"/>
                 </button>
             </div>
         </div>
 
         <div className="row newCards" style={{display: showInput ? 'flex' : 'none'}}>
             <CardStackInput submit={(cardStack) => submit(cardStack)} setShowInput={(value) => setShowInput(value)}/>
+        </div>
+        <div className="row" style={{display: areUSureDialog ? 'flex' : 'none'}}>
+            <div className="col">
+                <AreUSureDialog message={"Really delete subject " + props.name + " and all card stacks?"}
+                                onReset={() => setAreUSureDialog(!areUSureDialog)} onSubmit={() => deleteSubject()}/>
+            </div>
         </div>
 
         <div id="oldCards">

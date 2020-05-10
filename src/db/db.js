@@ -68,6 +68,10 @@ db.addSubject = async (color, name) => {
     })
 };
 
+db.deleteSubject = async (subjectId) => {
+    return firebase.firestore().collection(collectionSubjects).doc(subjectId).delete()
+};
+
 db.addCardStackToSubject = async (subjectId, cardStackId) => {
     return firebase.firestore().collection(collectionSubjects)
         .doc(subjectId)
