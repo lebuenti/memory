@@ -63,12 +63,15 @@ export default function CardView(props) {
                 .then(() => {
                     props.goTo('subjectsView');
                     history.pushState({}, '', '/');
+                    toast.success('card stack deleted');
                 })
                 .catch(error => console.error(error))
                 .finally(() => loading.stop());
         });
 
-        toast.success('card stack deleted', 'undo', deleteFunction);
+        toast.info('deleting ' + cardStack.name + ' ...', deleteFunction);
+
+        setAreUSureDialog(!areUSureDialog);
     };
 
     const submit = (newCard) => {

@@ -15,23 +15,47 @@ let root = document.createElement('div');
 root.id = 'toastContainer';
 document.body.insertAdjacentElement('afterbegin', root);
 
-const toast = (message) => {
-    dispatchToast(EMOJI_EXCLAMATION_MARK + message, options.default);
+/**
+ * Creates a white default toast
+ *
+ * @param message | message on the toast
+ * @param fun | A function that is called at the end. There is an "undo" link that the user can press. Then the function is not called.
+ */
+const toast = (message, fun) => {
+    dispatchToast(EMOJI_EXCLAMATION_MARK + message, options.default, fun);
 };
 
-toast.fail = (message) => {
-    dispatchToast(EMOJI_SHIT + message, options.fail);
+/**
+ * Creates a white default toast
+ *
+ * @param message | message on the toast
+ * @param fun | A function that is called at the end. There is an "undo" link that the user can press. Then the function is not called.
+ */
+toast.fail = (message, fun) => {
+    dispatchToast(EMOJI_SHIT + message, options.fail, fun);
 };
 
-toast.success = (message, messageLink, functionForNotClicking) => {
-    dispatchToast(EMOJI_STAR_EYES + message, options.success, messageLink, functionForNotClicking);
+/**
+ * Creates a white default toast
+ *
+ * @param message | message on the toast
+ * @param fun | A function that is called at the end. There is an "undo" link that the user can press. Then the function is not called.
+ */
+toast.success = (message, fun) => {
+    dispatchToast(EMOJI_STAR_EYES + message, options.success, fun);
 };
 
-toast.info = (message) => {
-    dispatchToast(EMOJI_EXCLAMATION_MARK + message, options.info);
+/**
+ * Creates a white default toast
+ *
+ * @param message | message on the toast
+ * @param fun | A function that is called at the end. There is an "undo" link that the user can press. Then the function is not called.
+ */
+toast.info = (message, fun) => {
+    dispatchToast(EMOJI_EXCLAMATION_MARK + message, options.info, fun);
 };
 
-function dispatchToast(message, option, messageLink, functionForNotClicking) {
+function dispatchToast(message, option, functionForNotClicking) {
     const outerDiv = document.createElement('div');
     outerDiv.classList.add('toast');
 
@@ -45,11 +69,11 @@ function dispatchToast(message, option, messageLink, functionForNotClicking) {
 
     outerDiv.appendChild(innerDiv);
 
-    if (messageLink) {
+    if (functionForNotClicking) {
         let divLink = document.createElement('div');
         divLink.classList.add('link');
         addOptionsCssClass(divLink, option);
-        divLink.appendChild(document.createTextNode(messageLink));
+        divLink.appendChild(document.createTextNode('undo'));
         divLink.onclick = () => {
             divLink.style.color = 'lightblue';
             functionForNotClicking = undefined;
