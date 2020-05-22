@@ -34,9 +34,10 @@ h3 {
 
 #content {
   overflow: scroll;
+  overflow-x: hidden;
   height: 100%;
   color: black;
-  text-shadow: 0 0 2px white;
+  text-shadow: 0 0 1px white;
 }
 
 @media only screen and (max-width: 320px) {
@@ -166,16 +167,32 @@ button.buttonReset.card:active, button.buttonReset.card:hover  {
   border: 1px solid $updateYellow;
 }
 
-.buttonUpdate:active, .buttonUpdate:hover  {
+.buttonUpdate:active, .buttonUpdate:hover {
   color: $white;
   background-color: $updateYellow;
 }
 
-button.buttonUpdate.card:active, button.buttonUpdate.card:hover  {
+button.buttonUpdate.card:active, button.buttonUpdate.card:hover {
   color: $lightyellow;
   background: $updateYellow none;
 }
 
+.buttonInfo {
+  color: $gray;
+  background-color: $white;
+  margin: 5px 20px;
+  border: 1px solid $gray;
+}
+
+.buttonUpdate:active, .buttonUpdate:hover {
+  color: $white;
+  background-color: $gray;
+}
+
+button.buttonUpdate.card:active, button.buttonUpdate.card:hover {
+  color: $lightyellow;
+  background: $gray none;
+}
 
 input {
   border: none;

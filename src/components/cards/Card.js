@@ -23,9 +23,11 @@ export default function Card(props) {
             </div>
         </div>
         <div className="row">
-            <button className="buttonUpdate switch button" onClick={() => setFlip(!flip)}>
-                <i className="fas fa-redo icon"/>
-            </button>
+            <div className="col">
+                <button className="buttonInfo small switch button" onClick={() => setFlip(!flip)}>
+                    <i className="fas fa-redo icon"/>
+                </button>
+            </div>
         </div>
     </div>
 }
