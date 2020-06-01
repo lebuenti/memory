@@ -70,7 +70,7 @@ export default function CardView(props) {
                 .finally(() => loading.stop());
         });
         toast.info('deleting ' + cardStack.name + ' ...', deleteFunction);
-        setAreUSureDialog(!areUSureDialog);
+        setUpdateMode(false);
     };
 
     const submit = (newCard) => {
@@ -86,7 +86,7 @@ export default function CardView(props) {
 
     return <div className="cardview">
         <div className={updateMode ? 'colorfulRow updateMode' : 'colorfulRow'}
-             style={{'background-color': subject.color, 'borderColor': subject.color}}>
+             style={{'backgroundColor': subject.color, 'borderColor': subject.color}}>
             <div className="row">
                 <div className="col">
                     <h2>{cardStack.name}</h2>

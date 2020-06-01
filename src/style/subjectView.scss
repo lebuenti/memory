@@ -4,9 +4,13 @@
   margin: 20px 10px;
   border-radius: 10px;
   padding: 10px;
+  border: 1px solid;
 }
 
-
+.subject.updateMode {
+  border: 1px solid ;
+  background-color: white !important;
+}
 
 .card .formAdd {
   background-color: transparent;
