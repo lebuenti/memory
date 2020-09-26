@@ -13,7 +13,6 @@ export default function Subject(props) {
     const [updateMode, setUpdateMode] = useState(false);
 
     useEffect(() => {
-        loading();
         db.getAllCardStacksFromSubject(props.id)
             .then((docs) => {
                 let sorted = docs.docs.sort((a, b) => {
@@ -27,7 +26,7 @@ export default function Subject(props) {
             }).catch((error) => {
             toast.fail('Could not load cards stacks from database');
             console.error(error);
-        }).finally(() => loading.stop());
+        });
     }, []);
 
     const submit = (cardStack) => {
