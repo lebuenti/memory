@@ -1,7 +1,7 @@
 import React, {useState} from "react"
 import AreUSureDialog from "./AreUSureDialog";
 
-export default function DeleteUpdateButtons(props) {
+export default function DeleteAndSaveButtons(props) {
     const [areUSureDialog, setAreUSureDialog] = useState(false);
 
     return <>
@@ -12,9 +12,8 @@ export default function DeleteUpdateButtons(props) {
                 </button>
             </div>
             <div className="col">
-                <button className='buttonUpdate card button' onClick={() => {/*something happens*/
-                }}>
-                    <i className="fas fa-pen icon"/>
+                <button className='buttonUpdate card button' onClick={() => props.handleSave()}>
+                    <i className="fas fa-save icon"/>
                 </button>
             </div>
         </div>

@@ -6,7 +6,7 @@ import db from "../../db/db";
 import CardInput from "./CardInput";
 import loading from "../../util/loading";
 import HamburgerMenu from "../HamburgerMenu";
-import DeleteUpdateButtons from "../DeleteUpdateButtons";
+import DeleteAndSaveButtons from "../DeleteAndSaveButtons";
 
 export default function CardView(props) {
     const [cards, setCards] = useState([]);
@@ -107,8 +107,8 @@ export default function CardView(props) {
                 </div>
             </div>
 
-            {updateMode ? <DeleteUpdateButtons deleteMessage={"Really delete the card stack " + cardStack.name + " and all of its cards?"}
-                                               handleDelete={() => deleteCardStack()}/> : ""}
+            {updateMode ? <DeleteAndSaveButtons deleteMessage={"Really delete the card stack " + cardStack.name + " and all of its cards?"}
+                                                handleDelete={() => deleteCardStack()}/> : ""}
 
             <div className="row" style={{display: showInput ? 'flex' : 'none'}}>
                 <div className="col">

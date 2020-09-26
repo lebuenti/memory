@@ -68,6 +68,13 @@ db.addSubject = async (color, name) => {
     })
 };
 
+db.updateSubject = async (subjectId, newName, newColor) => {
+    let updates = {};
+    if (newName) updates['name'] = newName;
+    if (newColor) updates['color'] = newColor;
+    return firebase.firestore().collection(collectionSubjects).doc(subjectId).update(updates);
+}
+
 db.deleteSubject = async (subjectId) => {
     return firebase.firestore().collection(collectionSubjects).doc(subjectId).delete()
 };
