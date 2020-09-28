@@ -8,7 +8,7 @@ import loading from "../../util/loading";
 
 export default function SubjectsView(props) {
     const [subjects, setSubjects] = useState([]);
-    const [showInput, setShowInput] = useState(false);
+    const [showInput, setShowInput] = useState(undefined);
 
     useEffect(() => {
         loading();
@@ -40,13 +40,24 @@ export default function SubjectsView(props) {
     return <>
         <div className="row">
             <div className="col">
-                <button className='buttonSuccess button' onClick={() => setShowInput(!showInput)}>
+                <button className={'buttonSuccess button ' +
+                (showInput === undefined ? "visible" : (showInput ? "green-to-red-transition invisible" : "red-to-green-transition visible"))}
+                        onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
                 </button>
+
+                <button className={'buttonReset button ' + (showInput ? "visible" : "invisible")}
+                        onClick={() => setShowInput(!showInput)}>
+                    <i className="fas fa-times icon"/>
+                </button>
+
+            </div>
+            <div className="col">
+                <h2>New Subject</h2>
             </div>
         </div>
 
-        <div id="newSubject" className="row formAdd" style={{display: showInput ? 'flex' : 'none'}}>
+        <div className={showInput ? "visible" : "invisible"}>
             <SubjectInput submit={(newSubject) => submit(newSubject)} setShowInput={(value) => setShowInput(value)}/>
         </div>
 

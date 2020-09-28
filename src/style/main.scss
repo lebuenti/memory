@@ -2,6 +2,7 @@
 
 html, body, #root {
   height: 100%;
+  background-color: $dark;
 }
 
 * {
@@ -16,7 +17,8 @@ h1 {
 }
 
 h2 {
-  font-size: 16pt;
+  font-size: 18pt;
+  color: $gray;
 }
 
 h3 {
@@ -44,8 +46,7 @@ h3 {
   overflow: scroll;
   overflow-x: hidden;
   height: 100%;
-  color: black;
-  text-shadow: 0 0 1px white;
+  color: $gray;
 }
 
 @media only screen and (max-width: 320px) {
@@ -54,44 +55,52 @@ h3 {
   }
 }
 
-@media only screen and (min-width: 350px) {
-  .header {
-    padding: 20px !important;
-  }
-
-  .footer button {
-    margin: 5px 10px !important;
-  }
-}
-
 .header {
-  display: flex;
-  justify-content: center;
-  overflow: hidden;
-  background-color: $purple;
+  background-color: $dark_light;
   color: $white;
   padding: 10px;
+  margin-bottom: 10px;
+}
+
+.header .row {
+  border-bottom: 1px solid yellow;
+}
+
+.header .icon {
+  color: yellow;
+  padding-right: 20px;
+}
+
+.footer .row {
+  justify-content: center;
+}
+
+.row.center {
+  justify-content: center;
+}
+
+.row.more-space {
+  padding: 15px 0;
 }
 
 .footer {
   display: flex;
-  justify-content: center;
-  background-color: $purple;
+  background-color: $dark;
   overflow: hidden;
   flex-shrink: 0;
 }
 
 .footer button {
-  color: $white;
-  padding: 10px 30px;
+  color: $gray;
+  padding: 10px 20px;
   margin: 0 10px;
-  background-color: $purple;
+  background-color: $dark_light;
   border: none;
   border-radius: 5px;
 }
 
 .footer button:active, .footer button:hover {
-  color: $purple;
+  color: $dark;
   background-color: $purple_contrast;
 }
 
@@ -102,62 +111,128 @@ button:focus {
 .row {
   position: relative;
   display: flex;
-  justify-content: center;
-  text-align: center;
-  width:100%;
+  align-items: center;
+  width: 100%;
+  background-color: $dark_light;
 }
 
-#newSubject {
-  background-color: $purple;
+form {
+  width: 100%;
 }
 
-.formAdd {
-  margin: 10px 10px;
+.invisible {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+  opacity: 0;
+}
+
+.visible {
+  visibility: visible;
+  height: auto;
+  width: auto;
+}
+
+div.visible {
+  animation: showDiv 500ms ease-in-out;
+  -webkit-animation: showDiv 500ms ease-in-out;
+}
+
+div.invisible {
+  animation: removeDiv 500ms ease-in-out;
+  -webkit-animation: removeDiv 500ms ease-in-out;
+}
+
+@keyframes removeDiv {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes showDiv {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+form input, form label {
+  margin: 5px 10px;
+}
+
+form input {
+  outline: 0;
+  border: 1px solid $lightgray;
+  background-color: $dark_light;
+  color: $lightgray;
+  font-size: 10pt;
+  width: 100%;
+}
+
+button {
+  cursor: pointer;
   border-radius: 10px;
-  padding: 10px;
+  width: 40px;
+  height: 40px;
 }
 
-.button {
-  border-radius: 10px;
-  width: 50px !important;
-  height: 50px !important;
+button .icon {
+  font-size: 20pt;
 }
 
 .buttonSuccess.small, .buttonReset.small, .buttonUpdate.small {
   width: 40px !important;
   height: 40px !important;
 }
+
 .buttonSuccess.small .icon, .buttonReset.small .icon, .buttonUpdate.small .icon {
   font-size: 20pt;
 }
 
 .buttonSuccess {
-  color: $green;
-  background-color: $white;
-  margin: 5px 20px;
-  border: 1px solid $green;
+  background-color: $green;
+  color: $dark_light;
+  border: none;
+  //border: 1px solid $green;
 }
 
 .buttonSuccess:active, .buttonSuccess:hover {
-  color: $white;
-  background-color: $green;
+  //background-color: $dark_light;
+  //color: $green;
+  //border: 1px solid $green;
 }
 
-button.buttonSuccess.card:active, button.buttonSuccess.card:hover  {
+.buttonAdd {
+  background-color: $blue;
+  color: $dark_light;
+  border: none;
+
+}
+
+.buttonAdd:active, .buttonAdd:hover {
+  //background-color: $darkyellow;
+  //color: $dark_light;
+}
+
+button.buttonSuccess.card:active, button.buttonSuccess.card:hover {
   color: $lightyellow;
   background: $green none;
 }
 
 .buttonReset {
-  color: $red;
-  background-color: $white;
-  margin: 5px 20px;
+  background-color: $red;
+  color: $dark_light;
   border: 1px solid $red;
 }
 
 .buttonReset:active, .buttonReset:hover {
-  color: $white;
-  background-color: $red;
+  //color: $dark_light;
+  //background-color: $red;
 }
 
 button.buttonReset.card:active, button.buttonReset.card:hover  {
@@ -168,7 +243,6 @@ button.buttonReset.card:active, button.buttonReset.card:hover  {
 .buttonUpdate {
   color: $updateYellow;
   background-color: $white;
-  margin: 5px 20px;
   border: 1px solid $updateYellow;
 }
 
@@ -185,7 +259,6 @@ button.buttonUpdate.card:active, button.buttonUpdate.card:hover {
 .buttonInfo {
   color: $gray;
   background-color: $white;
-  margin: 5px 20px;
   border: 1px solid $gray;
 }
 
@@ -197,6 +270,38 @@ button.buttonUpdate.card:active, button.buttonUpdate.card:hover {
 button.buttonInfo.card:active, button.buttonInfo.card:hover {
   color: $lightyellow;
   background: $gray none;
+}
+
+button.green-to-red-transition {
+  animation: green-to-red-animation 500ms ease-in-out;
+  -webkit-animation: changeCol 500ms ease-in-out;
+}
+
+button.red-to-green-transition {
+  animation: red-to-green-animation 500ms ease-in;
+  -webkit-animation: red-to-green-animation 500ms ease-in;
+}
+
+@keyframes green-to-red-animation {
+  from {
+    background-color: $green;
+  }
+  to {
+    opacity: $red;
+  }
+}
+@keyframes red-to-green-animation {
+  from {
+    background-color: $red;
+  }
+  to {
+    opacity: $green;
+  }
+}
+
+button.visible {
+  height: 40px;
+  width: 40px;
 }
 
 input {
@@ -213,11 +318,10 @@ input:focus.inputError {
 }
 
 .col input {
-  //width: 100%;
   height: 30px;
 }
 
 .col {
-  margin: 10px 0;
+  margin: 10px;
   text-align: center;
 }

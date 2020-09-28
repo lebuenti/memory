@@ -32,31 +32,32 @@ export default function SubjectInput(props) {
     };
 
     return <form onSubmit={handleSubmit}>
-        <div className="col">
-            <h3>New subject</h3>
+        <div className="row">
+            <label>Name</label>
         </div>
-        <div className="col">
-            <label>
-                Name
-                <input className={(inputError.subjectName ? 'inputError' : '')}
-                       type="text" value={subject.name} placeholder="Math"
-                       onChange={e => setSubject({...subject, name: e.target.value})}/>
-            </label>
+        <div className="row">
+            <input className={(inputError.subjectName ? 'inputError' : '')}
+                   type="text" value={subject.name} placeholder="Math"
+                   onChange={e => setSubject({...subject, name: e.target.value})}/>
         </div>
-        <div className="col">
-            <label>
-                Color
-                <input type="color" value={subject.color}
-                       onChange={e => setSubject({...subject, color: e.target.value})}/>
-            </label>
+        <div className="row">
+            <label>Color</label>
         </div>
-        <div className="col">
-            <button type="reset" className="buttonReset button" onClick={handleReset}>
-                <i className="fas fa-times icon"/>
-            </button>
-            <button type="submit" className="buttonSuccess button">
-                <i className="fas fa-check icon"/>
-            </button>
+        <div className="row">
+            <input type="color" value={subject.color}
+                   onChange={e => setSubject({...subject, color: e.target.value})}/>
+        </div>
+        <div className="row center more-space">
+            <div className="col">
+                <button type="reset" className="buttonReset button" onClick={handleReset}>
+                    <i className="fas fa-times icon"/>
+                </button>
+            </div>
+            <div className="col">
+                <button type="submit" className="buttonSuccess button">
+                    <i className="fas fa-check icon"/>
+                </button>
+            </div>
         </div>
     </form>
 }
