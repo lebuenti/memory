@@ -1,4 +1,4 @@
-import "../style/toast.scss";
+import "./toast.scss";
 
 const EMOJI_SHIT = String.fromCodePoint(0x1F4A9);
 const EMOJI_STAR_EYES = String.fromCodePoint(0x1F929);

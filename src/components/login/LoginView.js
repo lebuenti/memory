@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import "../../style/login.scss"
-import "../../style/main.scss"
+import "./login.scss"
+import "../main.scss"
 import Login from "./Login";
 import Register from "./Register";
 

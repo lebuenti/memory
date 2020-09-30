@@ -4,8 +4,8 @@ import toast from "../../util/toast";
 import db from "../../db/db";
 import CardStackInput from "../cardStacks/CardStackInput";
 import loading from "../../util/loading";
-import HamburgerMenu from "../HamburgerMenu";
-import DeleteAndSaveButtons from "../DeleteAndSaveButtons";
+import HamburgerMenu from "../app/HamburgerMenu";
+import DeleteAndSaveButtons from "../inputFields/DeleteAndSaveButtons";
 
 export default function Subject(props) {
     const [cardStacks, setCardStacks] = useState([]);

@@ -1,4 +1,4 @@
-import '../../style/main.scss';
+import '../main.scss';
 import React, {useEffect, useState} from "react";
 import SubjectsView from "../subjects/SubjectsView";
 import Profile from "../profile/Profile";

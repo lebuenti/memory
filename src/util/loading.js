@@ -1,4 +1,4 @@
-import "../style/loading.scss"
+import "./loading.scss"
 
 const loading = () => {
     if (document.getElementById('loading')) return;

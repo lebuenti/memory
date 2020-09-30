@@ -1,5 +1,5 @@
 import React from "react"
-import "../style/menu.scss"
+import "./menu.scss"
 
 export default function HamburgerMenu(props) {
     return <div className="col">

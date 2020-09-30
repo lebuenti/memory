@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
-import "../../style/cardview.scss";
+import "./cardview.scss";
 import Card from "./Card";
 import toast from "../../util/toast";
 import db from "../../db/db";
 import CardInput from "./CardInput";
 import loading from "../../util/loading";
-import HamburgerMenu from "../HamburgerMenu";
-import DeleteAndSaveButtons from "../DeleteAndSaveButtons";
+import HamburgerMenu from "../app/HamburgerMenu";
+import DeleteAndSaveButtons from "../inputFields/DeleteAndSaveButtons";
 
 export default function CardView(props) {
     const [cards, setCards] = useState([]);
