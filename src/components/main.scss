@@ -139,6 +139,11 @@ div.invisible * {
   width: auto;
 }
 
+button.visible {
+  height: 40px;
+  width: 40px;
+}
+
 div.visible {
   max-height: 300px;
   transition: max-height 0.25s ease-in;
@@ -253,38 +258,6 @@ button.buttonUpdate.card:active, button.buttonUpdate.card:hover {
 button.buttonInfo.card:active, button.buttonInfo.card:hover {
   color: $lightyellow;
   background: $gray none;
-}
-
-button.green-to-red-transition {
-  animation: green-to-red-animation 500ms ease-in-out;
-  -webkit-animation: changeCol 500ms ease-in-out;
-}
-
-button.red-to-green-transition {
-  animation: red-to-green-animation 500ms ease-in;
-  -webkit-animation: red-to-green-animation 500ms ease-in;
-}
-
-@keyframes green-to-red-animation {
-  from {
-    background-color: $green;
-  }
-  to {
-    opacity: $red;
-  }
-}
-@keyframes red-to-green-animation {
-  from {
-    background-color: $red;
-  }
-  to {
-    opacity: $green;
-  }
-}
-
-button.visible {
-  height: 40px;
-  width: 40px;
 }
 
 input {

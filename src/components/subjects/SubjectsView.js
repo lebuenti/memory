@@ -8,7 +8,7 @@ import loading from "../../util/loading";
 
 export default function SubjectsView(props) {
     const [subjects, setSubjects] = useState([]);
-    const [showInput, setShowInput] = useState(undefined);
+    const [showInput, setShowInput] = useState(false);
 
     useEffect(() => {
         loading();
@@ -40,8 +40,7 @@ export default function SubjectsView(props) {
     return <>
         <div className="row">
             <div className="col">
-                <button className={'buttonSuccess button ' +
-                (showInput === undefined ? "visible" : (showInput ? "green-to-red-transition invisible" : "red-to-green-transition visible"))}
+                <button className={'buttonSuccess button ' + (showInput ? "invisible" : "visible")}
                         onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
                 </button>
