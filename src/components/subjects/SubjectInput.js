@@ -1,22 +1,27 @@
 import React, {useState} from "react"
 import toast from "../../util/toast";
-
-const initialColor = '#ff0000';
+import ColorPicker from "../inputFields/ColorPicker";
 
 export default function SubjectInput(props) {
-    const [subject, setSubject] = useState({name: '', color: initialColor});
-    const [inputError, setInputError] = useState({subjectName: false});
+    const [subject, setSubject] = useState({name: '', color: ''});
+    const [inputError, setInputError] = useState({name: false, color: false});
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         setInputError({
-            subjectName: subject.name.length === 0
+            color: subject.color.length === 0,
+            name: subject.name.length === 0
         });
         if (subject.name.length === 0) {
             toast.fail("Subject name ist empty");
             return;
         }
+        if (subject.color.length === 0) {
+            toast.fail("Subject color ist empty");
+            return;
+        }
+
         props.submit(subject).catch((error) => {
             toast.fail('Could not save subject into database');
             console.error(error);
@@ -27,8 +32,8 @@ export default function SubjectInput(props) {
 
     const handleReset = () => {
         props.setShowInput(false);
-        setInputError({subjectName: false});
-        setSubject({name: '', color: initialColor});
+        setInputError({name: false, color: false});
+        setSubject({name: '', color: ''});
     };
 
     return <form onSubmit={handleSubmit}>
@@ -36,17 +41,14 @@ export default function SubjectInput(props) {
             <label>Name</label>
         </div>
         <div className="row">
-            <input className={(inputError.subjectName ? 'inputError' : '')}
+            <input className={(inputError.name ? 'inputError' : '')}
                    type="text" value={subject.name} placeholder="Math"
                    onChange={e => setSubject({...subject, name: e.target.value})}/>
         </div>
         <div className="row">
             <label>Color</label>
         </div>
-        <div className="row">
-            <input type="color" value={subject.color}
-                   onChange={e => setSubject({...subject, color: e.target.value})}/>
-        </div>
+        <ColorPicker onColorClicked={(color) => setSubject({...subject, color: color})}/>
         <div className="row center more-space">
             <div className="col">
                 <button type="reset" className="buttonReset button" onClick={handleReset}>

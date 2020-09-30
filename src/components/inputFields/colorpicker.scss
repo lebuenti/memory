@@ -1,0 +1,34 @@
+@import "src/style/_colors.scss";
+
+#color-picker.row {
+  justify-content: space-between;
+}
+
+#color-picker button {
+  border-radius: 0;
+  border: none;
+  margin-top: 5px;
+}
+
+.small {
+  height: 30px;
+  width: 30px;
+}
+
+.big {
+  height: 45px;
+  width: 45px;
+}
+
+#color-picker :first-child {
+  margin-left: 10px;
+}
+
+#color-picker :last-child {
+  margin-right: 10px;
+}
+
+#color-picker button:active, #color-picker button:hover {
+  height: 45px;
+  width:  45px;
+}
