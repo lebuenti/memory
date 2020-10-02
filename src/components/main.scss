@@ -147,6 +147,7 @@ button.visible {
 div.visible {
   max-height: 300px;
   transition: max-height 0.25s ease-in;
+  overflow: hidden;
 }
 
 form input, form label {
