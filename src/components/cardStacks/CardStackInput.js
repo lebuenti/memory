@@ -29,39 +29,26 @@ export default function CardStackInput(props) {
         setInputError({cardStackName: false});
     };
 
-    return <div className="cards">
+    return <form onSubmit={handleSubmit}>
         <div className="row">
-            <div className="card cardBack"/>
+            <label>Name</label>
         </div>
         <div className="row">
-            <div className="card cardMiddle"/>
+            <input className={(inputError.cardStackName ? 'inputError' : '')}
+                   type="text" value={cardStack.name} placeholder="Geometry"
+                   onChange={e => setCardStack({name: e.target.value})}/>
         </div>
-        <div className="row">
-            <div className="card cardFront cardBigger">
-                <div className="row formAdd">
-                    <form onSubmit={handleSubmit}>
-                        <div className="col">
-                            <h3>New card stack</h3>
-                        </div>
-                        <div className="col">
-                            <label>
-                                Name
-                                <input className={(inputError.cardStackName ? 'inputError' : '')}
-                                       type="text" value={cardStack.name} placeholder="Geometry"
-                                       onChange={e => setCardStack({name: e.target.value})}/>
-                            </label>
-                        </div>
-                        <div className="col">
-                            <button type="reset" className="buttonReset button" onClick={handleReset}>
-                                <i className="fas fa-times icon"/>
-                            </button>
-                            <button type="submit" className="buttonSuccess button">
-                                <i className="fas fa-check icon"/>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <div className="row center more-space">
+            <div className="col">
+                <button type="reset" className="buttonReset button" onClick={handleReset}>
+                    <i className="fas fa-times icon"/>
+                </button>
+            </div>
+            <div className="col">
+                <button type="submit" className="buttonSuccess button">
+                    <i className="fas fa-check icon"/>
+                </button>
             </div>
         </div>
-    </div>
+    </form>
 }

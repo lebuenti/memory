@@ -49,7 +49,6 @@ export default function SubjectsView(props) {
                         onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-times icon"/>
                 </button>
-
             </div>
             <div className="col">
                 <h2>New Subject</h2>

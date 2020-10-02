@@ -4,7 +4,7 @@ import React, {useState} from "react"
 export default function ColorPicker(props) {
     const colors = ['#B71C1C', '#880E4F', '#4A148C', '#311B92',
         '#1A237E', '#0D47A1', '#006064', '#004D40',
-        '#1B5E20', '#DFA820', '#BF360C', '#3E2723'];
+        '#1B5E20', '#BD9C0A', '#BF360C', '#3E2723'];
     const [currentBtn, setCurrentBtn] = useState(undefined);
 
     const submitColor = (btn) => {

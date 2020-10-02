@@ -1,7 +1,7 @@
 $dark: #000;
 $dark_light: #1B2021;
-$gray: #808080;
-$lightgray: #cacaca;
+$gray: #706e6e;
+$lightgray: #939393;
 
 $black: #000000;
 $white: #ffffff;
@@ -26,8 +26,17 @@ $lightyellowWithGray: #E1E1B0;
 $darkbeige: #AEAE9D;
 
 $cardBackground: linear-gradient(
-                to bottom,
-                $lightyellow,
-                $lightyellow 85%,
-                $lightyellowWithGray 90%,
-                $lightyellowWithGray);
+                  to bottom,
+                  $dark_light,
+                $dark_light 85%,
+                #282727 90%,
+                #282727);
+
+//ackground: linear-gradient(to bottom, #1B2021, #1B2021 85%, #282727 90%, #1B2021);
+
+//$cardBackground: linear-gradient(
+//                to bottom,
+//                $lightyellow,
+//                $lightyellow 85%,
+//                $lightyellowWithGray 90%,
+//                $lightyellowWithGray);

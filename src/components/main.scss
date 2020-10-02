@@ -26,6 +26,19 @@ h3 {
   color: $gray;
 }
 
+//***************** PLACEHOLDER
+::placeholder {
+  color: red;
+  opacity: 0.5;
+}
+
+:-ms-input-placeholder {
+  color: red;
+  opacity: 0.5;
+}
+
+//***************** PLACEHOLDER
+
 .updateInput {
   font-size: 16pt;
   text-align: center;
@@ -189,7 +202,7 @@ button .icon {
 }
 
 .buttonSuccess {
-  background-color: $green;
+  background-color: $green !important;
   color: $dark_light;
   border: none;
   //width: 40px;
@@ -203,13 +216,6 @@ button .icon {
   //border: 1px solid $green;
 }
 
-.buttonAdd {
-  background-color: $blue;
-  color: $dark_light;
-  border: none;
-
-}
-
 .buttonAdd:active, .buttonAdd:hover {
   //background-color: $darkyellow;
   //color: $dark_light;
@@ -221,7 +227,7 @@ button.buttonSuccess.card:active, button.buttonSuccess.card:hover {
 }
 
 .buttonReset {
-  background-color: $red;
+  background-color: $red !important;
   color: $dark_light;
   border: 1px solid $red;
 }

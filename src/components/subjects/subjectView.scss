@@ -2,7 +2,7 @@
 
 .subject {
   margin: 20px 10px;
-  border-radius: 10px;
+  //border-radius: 10px;
   padding: 10px;
   border: 3px solid;
 }
@@ -10,6 +10,14 @@
 .subject.updateMode {
   border: 3px solid ;
   background-color: white !important;
+}
+
+#subjects h2 {
+  color: black;
+}
+
+#newCardStack, #subjects .visible, #subjects .invisible, {
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .card {
@@ -49,7 +57,7 @@
 }
 
 .cardFront, .cardMiddle {
-  box-shadow: 0 -2px 3px $darkbeige;
+  box-shadow: 0 -2px 3px #0f0f0f;
 }
 
 .flipper .cardFront {

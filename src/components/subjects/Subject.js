@@ -84,10 +84,15 @@ export default function Subject(props) {
             </div>
         </div> : ''}
 
-        <div className="row" style={{'display': (updateMode ? 'none' : 'flex')}}>
+        <div id={"newCardStack"} className="row" style={{'display': (updateMode ? 'none' : 'flex')}}>
             <div className="col">
-                <button className='buttonSuccess button' onClick={() => setShowInput(!showInput)}>
+                <button className={'buttonSuccess button ' + (showInput ? "invisible" : "visible")}
+                        onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
+                </button>
+                <button className={'buttonReset button ' + (showInput ? "visible" : "invisible")}
+                        onClick={() => setShowInput(!showInput)}>
+                    <i className="fas fa-times icon"/>
                 </button>
             </div>
             <div className="col">
@@ -99,7 +104,7 @@ export default function Subject(props) {
                                             handleDelete={() => deleteSubject()}
                                             handleSave={() => handleUpdate()}/> : ""}
 
-        <div className="row newCards" style={{display: showInput ? 'flex' : 'none'}}>
+        <div className={showInput ? "visible" : "invisible"}>
             <CardStackInput submit={(cardStack) => submit(cardStack)} setShowInput={(value) => setShowInput(value)}/>
         </div>
 
