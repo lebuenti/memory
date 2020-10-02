@@ -18,11 +18,12 @@ h1 {
 
 h2 {
   font-size: 18pt;
-  color: $gray;
+  color: $lightgray;
 }
 
 h3 {
-  font-size: 14pt;
+  font-size: 16pt;
+  color: $gray;
 }
 
 .updateInput {
@@ -113,6 +114,10 @@ button:focus {
   display: flex;
   align-items: center;
   width: 100%;
+
+}
+
+.dark {
   background-color: $dark_light;
 }
 
@@ -187,6 +192,8 @@ button .icon {
   background-color: $green;
   color: $dark_light;
   border: none;
+  //width: 40px;
+  //height: 40px;
   //border: 1px solid $green;
 }
 

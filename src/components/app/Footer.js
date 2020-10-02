@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer(props) {
     return <footer className="footer">
-        <div className="row">
+        <div className="row dark">
             <div className="col">
                 <button onClick={() => props.nextPage("subjectsView")}>
                     <i className="fas fa-home icon"/>

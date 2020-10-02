@@ -38,7 +38,7 @@ export default function SubjectsView(props) {
     };
 
     return <>
-        <div className="row">
+        <div className="row dark">
             <div className="col">
                 <button className={'buttonSuccess button ' + (showInput ? "invisible" : "visible")}
                         onClick={() => setShowInput(!showInput)}>
@@ -56,7 +56,7 @@ export default function SubjectsView(props) {
             </div>
         </div>
 
-        <div className={showInput ? "visible" : "invisible"}>
+        <div className={'dark ' + (showInput ? "visible" : "invisible")}>
             <SubjectInput submit={(newSubject) => submit(newSubject)} setShowInput={(value) => setShowInput(value)}/>
         </div>
 

@@ -2,8 +2,9 @@ import "./colorpicker.scss"
 import React, {useState} from "react"
 
 export default function ColorPicker(props) {
-    const colors = ['#EC7063', '#AF7AC5', '#5499C7', '#45B39D', '#F4D03F', '#F39C12', '#CACFD2', '#7B241C',
-        '#6C3483', '#1A5276', '#0E6655', '#00CED1'];
+    const colors = ['#B71C1C', '#880E4F', '#4A148C', '#311B92',
+        '#1A237E', '#0D47A1', '#006064', '#004D40',
+        '#1B5E20', '#DFA820', '#BF360C', '#3E2723'];
     const [currentBtn, setCurrentBtn] = useState(undefined);
 
     const submitColor = (btn) => {

@@ -1,3 +1,5 @@
+@import "src/components/_colors.scss";
+
 .settings {
   font-size: 14pt;
 }
@@ -17,8 +19,8 @@
   top:-30px;
   height: 60px;
   width: 60px;
-  background-color: white;
-  border:1px solid white;
+  background-color: $dark;
+  border:1px solid $dark;
   padding: 4px;
   text-align: left;
 }

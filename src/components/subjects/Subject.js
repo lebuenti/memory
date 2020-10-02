@@ -70,13 +70,13 @@ export default function Subject(props) {
             <div className="col">
                 {updateMode ? <input className="updateInput" type="text" value={updates.name}
                                      onChange={e => setUpdates({...updates, name: e.target.value})}
-                                     style={{'borderColor': props.color}}/>
-                    : <h2>{props.name}</h2>}
+                                     style={{'borderColor': props.color}}/> : <h2>{props.name}</h2>}
             </div>
             <HamburgerMenu iconColor={props.color} onClick={() => {
                 setUpdateMode(!updateMode)
             }}/>
         </div>
+
         {updateMode ? <div className="row">
             <div className="col">
                 <input type="color" value={updates.color}
@@ -86,9 +86,12 @@ export default function Subject(props) {
 
         <div className="row" style={{'display': (updateMode ? 'none' : 'flex')}}>
             <div className="col">
-                <button className='buttonSuccess card button' onClick={() => setShowInput(!showInput)}>
+                <button className='buttonSuccess button' onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
                 </button>
+            </div>
+            <div className="col">
+                <h3>New card stack</h3>
             </div>
         </div>
 
