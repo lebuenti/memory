@@ -5,7 +5,7 @@ import toast from "../../util/toast";
 import db from "../../db/db";
 import CardInput from "./CardInput";
 import loading from "../../util/loading";
-import HamburgerMenu from "../app/HamburgerMenu";
+import UpdateMenu from "../app/UpdateMenu";
 import DeleteAndSaveButtons from "../inputFields/DeleteAndSaveButtons";
 
 export default function CardView(props) {
@@ -91,7 +91,7 @@ export default function CardView(props) {
                 <div className="col">
                     <h2>{cardStack.name}</h2>
                 </div>
-                <HamburgerMenu iconColor={subject.color} onClick={() => {
+                <UpdateMenu iconColor={subject.color} onClick={() => {
                     let tmp = !updateMode;
                     setUpdateMode(tmp);
                     setShowInput(false);

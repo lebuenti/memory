@@ -3,7 +3,7 @@ import toast from "../../util/toast";
 import ColorPicker from "../inputFields/ColorPicker";
 
 export default function SubjectInput(props) {
-    const [subject, setSubject] = useState({name: '', color: ''});
+    const [subject, setSubject] = useState({name: props.oldName || '', color: props.oldColor || ''});
     const [inputError, setInputError] = useState({name: false, color: false});
 
     const handleSubmit = (event) => {
@@ -22,11 +22,7 @@ export default function SubjectInput(props) {
             return;
         }
 
-        props.submit(subject).catch((error) => {
-            toast.fail('Could not save subject into database');
-            console.error(error);
-        });
-
+        props.submit(subject)
         handleReset();
     };
 
@@ -38,15 +34,15 @@ export default function SubjectInput(props) {
 
     return <form onSubmit={handleSubmit}>
         <div className="row">
-            <label>Name</label>
+            <label>{props.nameLabel || 'Name'}</label>
         </div>
         <div className="row">
             <input className={(inputError.name ? 'inputError' : '')}
-                   type="text" value={subject.name} placeholder="Math"
+                   type="text" value={subject.name} placeholder={'Math'}
                    onChange={e => setSubject({...subject, name: e.target.value})}/>
         </div>
         <div className="row">
-            <label>Color</label>
+            <label>{props.colorLabel || 'Color'}</label>
         </div>
         <ColorPicker onColorClicked={(color) => setSubject({...subject, color: color})}/>
         <div className="row center more-space">

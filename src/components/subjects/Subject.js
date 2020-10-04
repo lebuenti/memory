@@ -4,14 +4,13 @@ import toast from "../../util/toast";
 import db from "../../db/db";
 import CardStackInput from "../cardStacks/CardStackInput";
 import loading from "../../util/loading";
-import HamburgerMenu from "../app/HamburgerMenu";
-import DeleteAndSaveButtons from "../inputFields/DeleteAndSaveButtons";
+import UpdateMenu from "../app/UpdateMenu";
+import SubjectInput from "./SubjectInput";
 
 export default function Subject(props) {
     const [cardStacks, setCardStacks] = useState([]);
     const [showInput, setShowInput] = useState(false);
     const [updateMode, setUpdateMode] = useState(false);
-    const [updates, setUpdates] = useState({color: props.color, name: props.name});
 
     useEffect(() => {
         db.getAllCardStacksFromSubject(props.id)
@@ -54,9 +53,10 @@ export default function Subject(props) {
         setUpdateMode(false);
     };
 
-    const handleUpdate = () => {
+    const handleUpdate = (newSubject) => {
         loading();
-        return db.updateSubject(props.id, (updates.name !== props.name ? updates.name : undefined), (updates.color !== props.color ? updates.color : undefined))
+        return db.updateSubject(props.id, (newSubject.name !== props.name ? newSubject.name : undefined),
+            (newSubject.color !== props.color ? newSubject.color : undefined))
             .then(() => {
                 props.goTo('/')
                 toast.success('updated subject')
@@ -68,29 +68,23 @@ export default function Subject(props) {
                 style={{'backgroundColor': props.color, 'borderColor': props.color}}>
         <div className="row subjectHeader">
             <div className="col">
-                {updateMode ? <input className="updateInput" type="text" value={updates.name}
-                                     onChange={e => setUpdates({...updates, name: e.target.value})}
-                                     style={{'borderColor': props.color}}/> : <h2>{props.name}</h2>}
+                <h2 style={{'color': (updateMode ? props.color : 'black')}}>{props.name}</h2>
             </div>
-            <HamburgerMenu iconColor={props.color} onClick={() => {
+            <UpdateMenu iconColor={props.color} onClick={() => {
                 setUpdateMode(!updateMode)
             }}/>
         </div>
 
-        {updateMode ? <div className="row">
-            <div className="col">
-                <input type="color" value={updates.color}
-                       onChange={e => setUpdates({...updates, color: e.target.value})}/>
-            </div>
-        </div> : ''}
-
+        {updateMode ? <SubjectInput oldName={props.name} oldColor={props.color} nameLabel={'New Name'} colorLabel={'New Color'}
+                                    submit={changes => handleUpdate(changes)}
+                                    setShowInput={(value) => setShowInput(value)}/> : ''}
         <div id={"newCardStack"} className="row" style={{'display': (updateMode ? 'none' : 'flex')}}>
             <div className="col">
-                <button className={'buttonSuccess button ' + (showInput ? "invisible" : "visible")}
+                <button className={'buttonSuccess ' + (showInput ? "invisible" : "visible")}
                         onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-plus icon"/>
                 </button>
-                <button className={'buttonReset button ' + (showInput ? "visible" : "invisible")}
+                <button className={'buttonReset ' + (showInput ? "visible" : "invisible")}
                         onClick={() => setShowInput(!showInput)}>
                     <i className="fas fa-times icon"/>
                 </button>
@@ -100,18 +94,29 @@ export default function Subject(props) {
             </div>
         </div>
 
-        {updateMode ? <DeleteAndSaveButtons deleteMessage={"Really delete subject " + props.name + " and all card stacks?"}
-                                            handleDelete={() => deleteSubject()}
-                                            handleSave={() => handleUpdate()}/> : ""}
+        {updateMode ?
+            <div className="row danger">
+                <div className="col">
+                    <button className={'buttonReset'}
+                            onClick={() => deleteSubject()}>
+                        <i className="fas fa-trash icon"/>
+                    </button>
+                </div>
+                <div className="col">
+                    <h2>Delete Subject</h2>
+                </div>
+            </div>
+            : '' }
 
         <div className={showInput ? "visible" : "invisible"}>
             <CardStackInput submit={(cardStack) => submit(cardStack)} setShowInput={(value) => setShowInput(value)}/>
         </div>
 
-        <div id="oldCards">
-            {cardStacks.map(stack => (
-                <CardStack key={stack.id} id={stack.id} name={stack.name} cards={stack.cards} goTo={(value) => props.goTo(value)}/>
-            ))}
-        </div>
+        {updateMode ? '' :
+            <div id="oldCards">
+                {cardStacks.map(stack => (
+                    <CardStack key={stack.id} id={stack.id} name={stack.name} cards={stack.cards} goTo={(value) => props.goTo(value)}/>
+                ))}
+            </div>}
     </div>
 }
