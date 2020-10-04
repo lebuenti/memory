@@ -28,12 +28,12 @@ h3 {
 
 //***************** PLACEHOLDER
 ::placeholder {
-  color: red;
+  color: $gray;
   opacity: 0.5;
 }
 
 :-ms-input-placeholder {
-  color: red;
+  color: $gray;
   opacity: 0.5;
 }
 
