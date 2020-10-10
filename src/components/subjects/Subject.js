@@ -6,6 +6,7 @@ import CardStackInput from "../cardStacks/CardStackInput";
 import loading from "../../util/loading";
 import UpdateMenu from "../app/UpdateMenu";
 import SubjectInput from "./SubjectInput";
+import SwipeButton from "../inputFields/SwipeButton";
 
 export default function Subject(props) {
     const [cardStacks, setCardStacks] = useState([]);
@@ -94,19 +95,7 @@ export default function Subject(props) {
             </div>
         </div>
 
-        {updateMode ?
-            <div className="row danger">
-                <div className="col">
-                    <button className={'buttonReset'}
-                            onClick={() => deleteSubject()}>
-                        <i className="fas fa-trash icon"/>
-                    </button>
-                </div>
-                <div className="col">
-                    <h2>Delete Subject</h2>
-                </div>
-            </div>
-            : '' }
+        {updateMode ? <SwipeButton onSuccess={() =>deleteSubject()}/> : '' }
 
         <div className={showInput ? "visible" : "invisible"}>
             <CardStackInput submit={(cardStack) => submit(cardStack)} setShowInput={(value) => setShowInput(value)}/>
