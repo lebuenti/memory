@@ -95,7 +95,7 @@ export default function Subject(props) {
             </div>
         </div>
 
-        {updateMode ? <SwipeButton onSuccess={() =>deleteSubject()}/> : '' }
+        {updateMode ? <SwipeButton text={"Swipe to delete subject"} onSuccess={() => deleteSubject()}/> : ''}
 
         <div className={showInput ? "visible" : "invisible"}>
             <CardStackInput submit={(cardStack) => submit(cardStack)} setShowInput={(value) => setShowInput(value)}/>

@@ -67,7 +67,7 @@ export default function SwipeButton(props) {
                 </div>}
         </div>
         <div className="col drag-label">
-            <label>Swipe to delete subject</label>
+            <label>{props.text}</label>
         </div>
         <div className="col dropzone" ref={dropObj} onDragOver={onDragOver} onDrop={onDrop}>
             {isDropped ?
@@ -76,5 +76,4 @@ export default function SwipeButton(props) {
                 </div> : ''}
         </div>
     </div>
-
 }
