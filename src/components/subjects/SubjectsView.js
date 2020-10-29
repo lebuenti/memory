@@ -30,10 +30,13 @@ export default function SubjectsView(props) {
 
     const submit = (newSubject) => {
         loading();
+
         return db.addSubject(newSubject.color, newSubject.name)
-            .then((doc) => {
-                setSubjects(curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr]);
-            }).catch((error) => console.error(error))
+            .then((doc) =>
+                db.addCardStack(doc.id, "all cards")
+                    .then(() => setSubjects(
+                        curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr])))
+            .catch((error) => console.error(error))
             .finally(() => loading.stop());
     };
 

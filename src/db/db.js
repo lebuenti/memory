@@ -4,187 +4,120 @@ const collectionSubjects = 'subjects';
 const collectionsCardStacks = 'cardStacks';
 const collectionCards = 'cards';
 
-const db = () => {
-};
+const db = {};
 
-db.getCurrentUser = () => {
-    return new Promise((resolve => firebase.auth().onAuthStateChanged((user) => {
-            resolve(user)
-        })
+db.getCurrentUser = () =>
+    new Promise((resolve => firebase.auth().onAuthStateChanged((user) => resolve(user))
     ));
-};
 
-db.login = async (email, password) => {
-    return firebase.auth().signInWithEmailAndPassword(email, password)
-};
+db.login = (email, password) => firebase.auth().signInWithEmailAndPassword(email, password);
 
-db.logout = async () => {
-    return firebase.auth().signOut()
-};
+db.logout = () => firebase.auth().signOut();
 
-db.createUser = async (email, password) => {
-    return firebase.auth().createUserWithEmailAndPassword(email, password)
-};
+db.createUser = (email, password) => firebase.auth().createUserWithEmailAndPassword(email, password);
 
-db.getSubjects = async () => {
-    return new Promise((resolve) => {
-        db.getCurrentUser().then((user) => {
-            resolve(firebase.firestore().collection(collectionSubjects)
-                .where('user', '==', user.uid)
-                .get())
+db.getSubjects = async () =>
+    firebase.firestore().collection(collectionSubjects)
+        .where('user', '==', (await db.getCurrentUser()).uid)
+        .get();
+
+db.getSubject = (subjectId) => firebase.firestore().collection(collectionSubjects)
+    .doc(subjectId)
+    .get();
+
+db.getSubjectByCardStackId = async (cardStackId) =>
+    (await db.getSubjects()).docs.find(doc => doc.data().cardStacks && doc.data().cardStacks.includes(cardStackId));
+
+db.addSubject = async (color, name) =>
+    firebase.firestore()
+        .collection(collectionSubjects)
+        .add({
+            color: color,
+            name: name,
+            user: (await db.getCurrentUser()).uid,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
         });
-    });
-};
 
-db.getSubject = async (subjectId) => {
-    return firebase.firestore().collection(collectionSubjects)
-        .doc(subjectId)
-        .get()
-};
-
-db.getSubjectByCardStackId = async (cardStackId) => {
-    return new Promise((resolve) => {
-        db.getSubjects().then((querySnapshot) => {
-            querySnapshot.docs.forEach((doc) => {
-                if (doc.data().cardStacks && doc.data().cardStacks.includes(cardStackId)) {
-                    resolve(doc);
-                }
-            })
-        })
-    });
-};
-
-db.addSubject = async (color, name) => {
-    return new Promise(resolve => {
-        db.getCurrentUser().then((user) => {
-            resolve(firebase.firestore().collection(collectionSubjects)
-                .add({
-                    color: color,
-                    name: name,
-                    user: user.uid,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                }))
-        })
-    })
-};
-
-db.updateSubject = async (subjectId, newName, newColor) => {
+db.updateSubject = (subjectId, newName, newColor) => {
     let updates = {};
     if (newName) updates['name'] = newName;
     if (newColor) updates['color'] = newColor;
     return firebase.firestore().collection(collectionSubjects).doc(subjectId).update(updates);
 }
 
-db.deleteSubject = async (subjectId) => {
-    return firebase.firestore().collection(collectionSubjects).doc(subjectId).delete()
-};
+db.deleteSubject = (subjectId) => firebase.firestore().collection(collectionSubjects).doc(subjectId).delete();
 
-db.addCardStackToSubject = async (subjectId, cardStackId) => {
-    return firebase.firestore().collection(collectionSubjects)
+db.addCardStackToSubject = (subjectId, cardStackId) =>
+    firebase.firestore()
+        .collection(collectionSubjects)
         .doc(subjectId)
         .update({
             cardStacks: firebase.firestore.FieldValue.arrayUnion(cardStackId)
-        })
-};
+        });
 
 db.getAllCardsFromCardStack = async (cardStackId) => {
-    return new Promise(resolve => {
-        db.getCardStack(cardStackId)
-            .then((doc) => {
-                if (!doc.data() || !doc.data().cards) return;
-                resolve(db.getCards(doc.data().cards));
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-    })
+    const cardStacks = await db.getCardStack(cardStackId);
+    if (!cardStacks.data() || !cardStacks.data().cards) return {docs: []};
+    return db.getCards(cardStacks.data().cards);
 };
 
-db.getCardStack = async (cardStackId) => {
-    return firebase.firestore().collection(collectionsCardStacks)
+db.getCardStack = (cardStackId) =>
+    firebase.firestore().collection(collectionsCardStacks)
         .doc(cardStackId)
-        .get()
-};
+        .get();
 
-db.getCardStacks = async (cardStacksIds) => {
-    return firebase.firestore().collection(collectionsCardStacks)
+db.getCardStacks = (cardStacksIds) =>
+    firebase.firestore().collection(collectionsCardStacks)
         .where(firebase.firestore.FieldPath.documentId(), 'in', cardStacksIds)
-        .get()
-};
+        .get();
 
 db.getAllCardStacksFromSubject = async (subjectId) => {
-    return new Promise(resolve => {
-        db.getSubject(subjectId)
-            .then((doc) => {
-                if (!doc.data() || !doc.data().cardStacks) return;
-                resolve(db.getCardStacks(doc.data().cardStacks))
-            })
-    })
+    const doc = await db.getSubject(subjectId);
+    if (!doc.data() || !doc.data().cardStacks) return {docs: []};
+    return db.getCardStacks(doc.data().cardStacks);
 };
 
 db.addCardStack = async (subjectId, name) => {
-    return new Promise((resolve) => {
-        firebase.firestore().collection(collectionsCardStacks)
-            .add({
-                name: name,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then((docCardStack) =>
-                db.addCardStackToSubject(subjectId, docCardStack.id)
-                    .then(() => {
-                        resolve({id: docCardStack.id, name: name})
-                    }).catch((error) => {
-                    console.error(error);
-                }))
-            .catch((error) => {
-                console.error(error);
-            })
-    });
+    const cardStack = await firebase.firestore()
+        .collection(collectionsCardStacks)
+        .add({
+            name: name,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+    await db.addCardStackToSubject(subjectId, cardStack.id)
+    return cardStack.get();
 };
 
-db.addCardToCardStack = async (cardStackId, cardId) => {
-    return firebase.firestore().collection(collectionsCardStacks)
+db.addCardToCardStack = (cardStackId, cardId) =>
+    firebase.firestore()
+        .collection(collectionsCardStacks)
         .doc(cardStackId)
-        .update({cards: firebase.firestore.FieldValue.arrayUnion(cardId)})
-};
+        .update({cards: firebase.firestore.FieldValue.arrayUnion(cardId)});
 
-db.deleteCardStack = async (cardStackId) => {
-    return firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).delete();
-};
+db.deleteCardStack = (cardStackId) => firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).delete();
 
-db.getCard = async (cardId) => {
-    return firebase.firestore().collection(collectionCards)
+db.getCard = (cardId) =>
+    firebase.firestore()
+        .collection(collectionCards)
         .doc(cardId)
-        .get()
-};
+        .get();
 
-db.getCards = async (cardIds) => {
-    return firebase.firestore().collection(collectionCards)
+db.getCards = (cardIds) =>
+    firebase.firestore()
+        .collection(collectionCards)
         .where(firebase.firestore.FieldPath.documentId(), 'in', cardIds)
-        .get()
-};
+        .get();
 
 db.addCard = async (cardStackId, question, answer) => {
-    return new Promise(resolve => {
-        firebase.firestore().collection(collectionCards)
-            .add({
-                question: question,
-                answer: answer,
-                timestamp: firebase.firestore.FieldValue.serverTimestamp()
-            })
-            .then((dbCard) => {
-                db.addCardToCardStack(cardStackId, dbCard.id)
-                    .then(() => {
-                        resolve({id: dbCard.id, question: question, answer: answer})
-                    }).catch((error) => {
-                        console.error(error);
-                    }
-                );
-            }).catch((error) => {
-                console.error(error);
-            }
-        );
-    });
+    let card = await firebase.firestore()
+        .collection(collectionCards)
+        .add({
+            question: question,
+            answer: answer,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+    await db.addCardToCardStack(cardStackId, card.id)
+    return card.get();
 };
 
 export default db;
