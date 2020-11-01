@@ -176,73 +176,12 @@ button .icon {
   background-color: $green !important;
   color: $dark_light;
   border: none;
-  //width: 40px;
-  //height: 40px;
-  //border: 1px solid $green;
-}
-
-.buttonSuccess:active, .buttonSuccess:hover {
-  //background-color: $dark_light;
-  //color: $green;
-  //border: 1px solid $green;
-}
-
-.buttonAdd:active, .buttonAdd:hover {
-  //background-color: $darkyellow;
-  //color: $dark_light;
-}
-
-button.buttonSuccess.card:active, button.buttonSuccess.card:hover {
-  color: $lightyellow;
-  background: $green none;
 }
 
 .buttonReset {
   background-color: $red !important;
   color: $dark_light;
   border: 1px solid $red;
-}
-
-.buttonReset:active, .buttonReset:hover {
-  //color: $dark_light;
-  //background-color: $red;
-}
-
-button.buttonReset.card:active, button.buttonReset.card:hover  {
-  color: $lightyellow;
-  background: $red none;
-}
-
-.buttonUpdate {
-  color: $updateYellow;
-  background-color: $white;
-  border: 1px solid $updateYellow;
-}
-
-.buttonUpdate:active, .buttonUpdate:hover {
-  color: $white;
-  background-color: $updateYellow;
-}
-
-button.buttonUpdate.card:active, button.buttonUpdate.card:hover {
-  color: $lightyellow;
-  background: $updateYellow none;
-}
-
-.buttonInfo {
-  color: $gray;
-  background-color: $white;
-  border: 1px solid $gray;
-}
-
-.buttonInfo:active, .buttonInfo:hover {
-  color: $white;
-  background-color: $gray;
-}
-
-button.buttonInfo.card:active, button.buttonInfo.card:hover {
-  color: $lightyellow;
-  background: $gray none;
 }
 
 input {

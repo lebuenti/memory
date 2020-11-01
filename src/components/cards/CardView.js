@@ -3,10 +3,10 @@ import "./cardview.scss";
 import Card from "./Card";
 import toast from "../../util/toast";
 import db from "../../db/db";
-import CardInput from "./CardInput";
 import loading from "../../util/loading";
 import UpdateMenu from "../app/UpdateMenu";
 import DeleteAndSaveButtons from "../inputFields/DeleteAndSaveButtons";
+import CardInput from "./CardInput";
 
 export default function CardView(props) {
     const [cards, setCards] = useState([]);
@@ -99,31 +99,35 @@ export default function CardView(props) {
                 }}/>
             </div>
 
-            <div className="row" style={{'display': (updateMode ? 'none' : 'flex')}}>
-                <div className="col">
-                    <button className='buttonSuccess card button' onClick={() => setShowInput(!showInput)}>
-                        <i className="fas fa-plus icon"/>
-                    </button>
-                </div>
-            </div>
-
             {updateMode ? <DeleteAndSaveButtons deleteMessage={"Really delete the card stack " + cardStack.name + " and all of its cards?"}
                                                 handleDelete={() => deleteCardStack()}/> : ""}
 
-            <div className="row" style={{display: showInput ? 'flex' : 'none'}}>
+
+            <div id={"newCard"} className="row" style={{'display': (updateMode ? 'none' : 'flex')}}>
                 <div className="col">
-                    <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+                    <button className={'buttonSuccess ' + (showInput ? "invisible" : "visible")}
+                            onClick={() => setShowInput(!showInput)}>
+                        <i className="fas fa-plus icon"/>
+                    </button>
+                    <button className={'buttonReset ' + (showInput ? "visible" : "invisible")}
+                            onClick={() => setShowInput(!showInput)}>
+                        <i className="fas fa-times icon"/>
+                    </button>
+                </div>
+                <div className="col">
+                    <h3>New card</h3>
                 </div>
             </div>
 
+            <div className={showInput ? "visible" : "invisible"}>
+                <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+            </div>
         </div>
 
-        <div className="row oldCards">
-            <div className="cards">
-                {cards.map(c => (
-                    <Card key={c.id} id={c.id} answer={c.answer} question={c.question}/>
-                ))}
-            </div>
+        <div className={"allCards"}>
+            {cards.map(c => (
+                <Card key={c.id} id={c.id} answer={c.answer} question={c.question}/>
+            ))}
         </div>
     </div>
 
