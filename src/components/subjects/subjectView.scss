@@ -6,12 +6,8 @@
   border: 3px solid;
 }
 
-.row.oldCards {
-  justify-content: center;
-}
-
 .subject.updateMode {
-  border: 3px solid ;
+  border: 3px solid;
   background-color: $dark_light !important;
 }
 
@@ -23,50 +19,8 @@
   background: rgba(0, 0, 0, 0.2);
 }
 
-.card {
-  width: 100%;
-  background: $cardBackground;
-  background-size: 100% 10px;
-  border-radius: 7.5px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.card.button {
-  box-shadow: none;
-}
-
-.cards {
-  margin: 10px 0;
-  max-width: 350px;
-  width: 100%;
-  cursor: pointer;
-}
-
-.cardBack {
-  height: 20px;
-}
-
-.cardMiddle {
-  height: 20px;
-  margin-top: -10px;
-}
-
-.cardFront {
-  margin-top: -10px;
-  height: 130px;
-  justify-content: center;
-  align-items: center;
+.cardStacksContainer {
   display: flex;
-}
-
-.cardFront, .cardMiddle {
-  box-shadow: 0 -2px 3px #0f0f0f;
-}
-
-.flipper .cardFront {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
-
-.cardFront.cardBigger {
-  height: 180px;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }

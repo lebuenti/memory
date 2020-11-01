@@ -1,0 +1,45 @@
+@import "src/components/_colors.scss";
+
+#cardStackLengthLabel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-right: 10px;
+  font-size: 12pt;
+  color: $dark_light_lighter;
+}
+
+.cardStack {
+  margin: 10px 0;
+  max-width: 160px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.card {
+  width: 100%;
+  background: $cardBackground;
+  background-size: 100% 10px;
+  border-radius: 7.5px;
+}
+
+.cardBack {
+  height: 20px;
+}
+
+.cardMiddle {
+  height: 20px;
+  margin-top: -10px;
+}
+
+.cardFront {
+  margin-top: -10px;
+  height: 80px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.cardFront, .cardMiddle, .cardBack, {
+  box-shadow: 0 -2px 3px #0f0f0f;
+}

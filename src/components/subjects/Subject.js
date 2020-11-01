@@ -96,7 +96,7 @@ export default function Subject(props) {
         </div>
 
         {updateMode ? '' :
-            <div id="oldCards">
+            <div className={"cardStacksContainer"}>
                 {cardStacks.map(stack => (
                     <CardStack key={stack.id} id={stack.id} name={stack.name} cards={stack.cards} goTo={(value) => props.goTo(value)}/>
                 ))}
