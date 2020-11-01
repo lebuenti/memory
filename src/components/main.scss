@@ -63,12 +63,6 @@ h3 {
   color: $gray;
 }
 
-@media only screen and (max-width: 320px) {
-  .footer .icon {
-    font-size: 20pt !important;
-  }
-}
-
 .header {
   background-color: $dark_light;
   color: $white;
@@ -85,10 +79,6 @@ h3 {
   padding-right: 20px;
 }
 
-.footer .row {
-  justify-content: center;
-}
-
 .row.center {
   justify-content: center;
 }
@@ -97,26 +87,7 @@ h3 {
   padding: 15px 0;
 }
 
-.footer {
-  display: flex;
-  background-color: $dark;
-  overflow: hidden;
-  flex-shrink: 0;
-}
 
-.footer button {
-  color: $gray;
-  padding: 10px 20px;
-  margin: 0 10px;
-  background-color: $dark_light;
-  border: none;
-  border-radius: 5px;
-}
-
-.footer button:active, .footer button:hover {
-  color: $dark;
-  background-color: $purple_contrast;
-}
 
 button:focus {
   outline: 0;

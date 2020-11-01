@@ -1,0 +1,30 @@
+@import "src/components/_colors.scss";
+
+.footer .icon {
+  font-size: 20pt;
+}
+
+.footer .row {
+  justify-content: space-around;
+}
+
+.footer {
+  display: flex;
+  background-color: $dark;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.footer button {
+  color: $lightgray;
+  height: 50px;
+  width: 70px;
+  background-color: $dark_light;
+  border: none;
+  border-radius: 5px;
+}
+
+.footer button:active, .footer button:hover {
+  color: $dark;
+  background-color: $purple_contrast;
+}
