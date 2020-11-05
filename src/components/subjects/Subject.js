@@ -66,7 +66,8 @@ export default function Subject(props) {
                 <h2 style={{'color': (updateMode ? props.color : 'black')}}>{props.name}</h2>
             </div>
             <UpdateMenu iconColor={props.color} onClick={() => {
-                setUpdateMode(!updateMode)
+                if (!updateMode) setShowInput(false);
+                setUpdateMode(!updateMode);
             }}/>
         </div>
 

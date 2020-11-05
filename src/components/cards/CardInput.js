@@ -35,7 +35,7 @@ export default function (props) {
         setCard({question: '', answer: ''});
     };
 
-    return <form onSubmit={handleSubmit}>
+    return <form id={"formNewCard"} onSubmit={handleSubmit}>
         <div className="row">
             <label>{props.nameLabel || 'Question'}</label>
         </div>
