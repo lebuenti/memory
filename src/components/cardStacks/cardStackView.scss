@@ -9,13 +9,13 @@
 }
 
 .allCards {
-  background-color: $dark_light;
+  background-color: $dark_dark_light;
   margin: 0 10px 30px 10px;
   border-radius: 5px;
 }
 
 button.switch {
-  margin-top:10px;
+  margin-top: 10px;
   margin-bottom: 25px;
 }
 
@@ -31,18 +31,6 @@ button.switch {
   text-align: center;
 }
 
-.colorfulRow {
-  margin: 10px 10px 30px 10px;
-  border-radius: 10px;
-  padding: 10px;
-  border: 1px solid;
-}
-
-.colorfulRow.updateMode {
-  border: 1px solid ;
-  background-color: white !important;
-}
-
 .buttonFlip {
   background-color: $darkyellow !important;
   color: $dark_light;
@@ -55,7 +43,7 @@ button.switch {
 
 .flip-container {
   perspective: 1000px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 
 .flip-container.flip .flipper {

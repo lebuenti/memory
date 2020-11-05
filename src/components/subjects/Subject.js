@@ -59,7 +59,7 @@ export default function Subject(props) {
             .finally(() => loading.stop())
     }
 
-    return <div className={updateMode ? 'subject updateMode' : 'subject'}
+    return <div className={updateMode ? 'colorfulRow updateMode' : 'colorfulRow'}
                 style={{'backgroundColor': props.color, 'borderColor': props.color}}>
         <div className="row subjectHeader">
             <div className="col">

@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from "react";
-import "./cardview.scss";
-import Card from "./Card";
+import "./cardStackView.scss";
+import Card from "../cards/Card";
 import toast from "../../util/toast";
 import db from "../../db/db";
 import loading from "../../util/loading";
 import UpdateMenu from "../app/UpdateMenu";
-import DeleteAndSaveButtons from "../inputFields/DeleteAndSaveButtons";
-import CardInput from "./CardInput";
+import CardInput from "../cards/CardInput";
+import SwipeButton from "../inputFields/SwipeButton";
+import CardStackInput from "./CardStackInput";
 
-export default function CardView(props) {
+export default function CardStackView(props) {
     const [cards, setCards] = useState([]);
     const [cardStack, setCardStack] = useState({name: '', id: ''});
     const [showInput, setShowInput] = useState(false);
@@ -84,6 +85,19 @@ export default function CardView(props) {
             .finally(() => loading.stop());
     };
 
+    const handleUpdate = (cardStackUpdate) => {
+        db.updateCardStack(cardStack.id, cardStackUpdate.name)
+            .then(() => {
+                setCardStack({...cardStack, name: cardStackUpdate.name})
+                setUpdateMode(false);
+                toast.success('Updated subject');
+            })
+            .catch((e) => {
+                console.error(e);
+                toast.fail(e);
+            })
+    }
+
     return <div className="cardview">
         <div className={updateMode ? 'colorfulRow updateMode' : 'colorfulRow'}
              style={{'backgroundColor': subject.color, 'borderColor': subject.color}}>
@@ -92,16 +106,16 @@ export default function CardView(props) {
                     <h2>{cardStack.name}</h2>
                 </div>
                 <UpdateMenu iconColor={subject.color} onClick={() => {
-                    let tmp = !updateMode;
-                    setUpdateMode(tmp);
+                    setUpdateMode(!updateMode);
                     setShowInput(false);
-                    if (!tmp) setAreUSureDialog(false);
                 }}/>
             </div>
 
-            {updateMode ? <DeleteAndSaveButtons deleteMessage={"Really delete the card stack " + cardStack.name + " and all of its cards?"}
-                                                handleDelete={() => deleteCardStack()}/> : ""}
-
+            {updateMode ?
+                <CardStackInput nameLabel={"New name"} name={cardStack.name} submit={(cardStackUpdate) => handleUpdate(cardStackUpdate)}
+                                setShowInput={(value) => setShowInput(value)}/>
+                : ""}
+            {updateMode ? <SwipeButton text={"Swipe to delete card stack and all cards"} onSuccess={() => deleteCardStack()}/> : ''}
 
             <div id={"newCard"} className="row" style={{'display': (updateMode ? 'none' : 'flex')}}>
                 <div className="col">

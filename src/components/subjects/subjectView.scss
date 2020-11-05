@@ -1,16 +1,5 @@
 @import "src/components/colors";
 
-.subject {
-  margin: 20px 10px;
-  padding: 10px;
-  border: 3px solid;
-}
-
-.subject.updateMode {
-  border: 3px solid;
-  background-color: $dark_light !important;
-}
-
 #subjects h2 {
   color: black;
 }

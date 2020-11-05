@@ -96,6 +96,9 @@ db.addCardToCardStack = (cardStackId, cardId) =>
 
 db.deleteCardStack = (cardStackId) => firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).delete();
 
+db.updateCardStack = (cardStackId, newName) =>
+    firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).update({'name': newName})
+
 db.getCard = (cardId) =>
     firebase.firestore()
         .collection(collectionCards)

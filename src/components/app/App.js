@@ -3,7 +3,7 @@ import React, {useEffect, useState} from "react";
 import SubjectsView from "../subjects/SubjectsView";
 import Profile from "../profile/Profile";
 import Learning from "../learning/Learning";
-import CardView from "../cards/CardView";
+import CardStackView from "../cardStacks/CardStackView";
 import Header from "./Header";
 import Footer from "./Footer";
 import loading from "../../util/loading";
@@ -58,7 +58,7 @@ export default function App(props) {
                 } else if (content === "learning") {
                     return <Learning/>;
                 } else if (content === "cards") {
-                    return <CardView goTo={(value) => {
+                    return <CardStackView goTo={(value) => {
                         nextPage(value);
                         setContentFromPath();
                     }}/>

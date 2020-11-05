@@ -3,24 +3,20 @@ import toast from "../../util/toast";
 
 export default function CardStackInput(props) {
     const [inputError, setInputError] = useState({cardStackName: false});
-    const [cardStack, setCardStack] = useState({name: ''});
+    const [cardStack, setCardStack] = useState({name: props.name || ''});
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        setInputError({
-            cardStackName: cardStack.name.length === 0
-        });
+        setInputError({cardStackName: cardStack.name.length === 0});
+
         if (cardStack.name.length === 0) {
             toast.fail('Name of card stack is empty');
             return;
         }
-        handleReset();
 
-        props.submit(cardStack).catch((error) => {
-            toast.fail('Could not save card stack into database');
-            console.error(error);
-        });
+        handleReset();
+        props.submit(cardStack);
     };
 
     const handleReset = () => {
@@ -31,11 +27,11 @@ export default function CardStackInput(props) {
 
     return <form onSubmit={handleSubmit}>
         <div className="row">
-            <label>Name</label>
+            <label>{props.nameLabel ? props.nameLabel : 'Name'}</label>
         </div>
         <div className="row">
             <input className={(inputError.cardStackName ? 'inputError' : '')}
-                   type="text" value={cardStack.name} placeholder="Geometry"
+                   type="text" value={cardStack.name} placeholder={'e.g. geometry'}
                    onChange={e => setCardStack({name: e.target.value})}/>
         </div>
         <div className="row center more-space">
