@@ -62,13 +62,13 @@ export default function Subject(props) {
     return <div className={updateMode ? 'colorfulRow updateMode' : 'colorfulRow'}
                 style={{'backgroundColor': props.color, 'borderColor': props.color}}>
         <div className="row subjectHeader">
-            <div className="col">
-                <h2 style={{'color': (updateMode ? props.color : 'black')}}>{props.name}</h2>
-            </div>
             <UpdateMenu iconColor={props.color} onClick={() => {
                 if (!updateMode) setShowInput(false);
                 setUpdateMode(!updateMode);
             }}/>
+            <div className="col">
+                <h2 style={{'color': (updateMode ? props.color : 'black')}}>{props.name}</h2>
+            </div>
         </div>
 
         {updateMode ? <SubjectInput oldName={props.name} oldColor={props.color} nameLabel={'New Name'} colorLabel={'New Color'}
