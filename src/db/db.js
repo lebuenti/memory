@@ -123,4 +123,11 @@ db.addCard = async (cardStackId, question, answer) => {
     return card.get();
 };
 
+db.updateCard = (cardId, newQuestion, newAnswer) => {
+    let updates = {};
+    if (newQuestion) updates['question'] = newQuestion;
+    if (newAnswer) updates['answer'] = newAnswer;
+    return firebase.firestore().collection(collectionCards).doc(cardId).update(updates);
+}
+
 export default db;

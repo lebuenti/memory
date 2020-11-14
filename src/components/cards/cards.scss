@@ -1,0 +1,26 @@
+@import "src/components/_colors.scss";
+
+.flipper #updateMenu {
+  top: -21px;
+  right: -17px;
+}
+
+.flipper #updateMenuWithIcon {
+  top: -7px;
+  right: -5px;
+}
+
+.flip-container.update, .front.update, .back.update, .bigCards.update {
+  height: 210px;
+}
+
+textarea {
+  background-color: $dark_light;
+  margin: 0 10px 5px 10px;
+  width: 100%;
+  outline: 0;
+  border: 1px solid $lightgray;
+  color: $lightgray;
+  font-size: 10pt;
+  height: 70px;
+}

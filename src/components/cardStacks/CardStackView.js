@@ -77,8 +77,8 @@ export default function CardStackView(props) {
     const submit = (newCard) => {
         loading();
         return db.addCard(cardStack.id, newCard.question, newCard.answer)
-            .then((dbCard) => {
-                setCards(curr => [dbCard, ...curr]);
+            .then((doc) => {
+                setCards(curr => [{id: doc.id, question: doc.data().question, answer: doc.data().answer}, ...curr]);
                 setShowInput(false);
             })
             .catch((error) => console.error(error))

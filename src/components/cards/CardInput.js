@@ -1,32 +1,32 @@
 import toast from "../../util/toast";
 import React, {useState} from "react";
 import loading from "../../util/loading";
+import "./cards.scss"
 
-export default function (props) {
+export default function CardInput(props) {
     const [inputError, setInputError] = useState({question: false, answer: false});
-    const [card, setCard] = useState({question: '', answer: ''});
+    const [card, setCard] = useState({question: props.question || '', answer: props.answer || ''});
+    const showAnswer = (props.showAnswer === undefined ? true : props.showAnswer);
+    const showQuestion = (props.showQuestion === undefined ? true : props.showQuestion);
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         setInputError({
-            answer: card.answer.length === 0,
-            question: card.question.length === 0
+            answer: card.answer.length === 0 && showAnswer,
+            question: card.question.length === 0 && showQuestion
         });
-        if (card.question.length === 0 || card.answer.length === 0) {
-            if (card.question.length === 0) toast.fail('Question is empty');
-            if (card.answer.length === 0) toast.fail('Answer ist empty');
+        if ((card.question.length === 0 && showQuestion)) {
+            toast.fail('Question is empty');
+            return;
+        }
+        if ((card.answer.length === 0 && showAnswer)) {
+            toast.fail('Answer ist empty');
             return;
         }
 
         loading();
-        props.submit(card)
-            .then(() => handleReset())
-            .catch((error) => {
-                toast.fail('Could not save card into database');
-                console.error(error);
-            })
-            .finally(() => loading.stop());
+        props.submit(card);
     };
 
     const handleReset = () => {
@@ -36,24 +36,30 @@ export default function (props) {
     };
 
     return <form id={"formNewCard"} onSubmit={handleSubmit}>
-        <div className="row">
-            <label>{props.nameLabel || 'Question'}</label>
-        </div>
-        <div className="row">
-            <input className={(inputError.question ? 'inputError' : '')}
-                   type="text" value={card.question} placeholder={'Question'}
-                   onChange={e => setCard({...card, question: e.target.value})}/>
-        </div>
-        <div className="row">
-            <label>{props.colorLabel || 'Answer'}</label>
-        </div>
-        <div className="row">
-            <input className={(inputError.answer ? 'inputError' : '')}
-                   type="text" value={card.answer} placeholder={'Answer'}
-                   onChange={e => setCard({...card, answer: e.target.value})}/>
-        </div>
+        {showQuestion ? <>
+            <div className="row">
+                <label>{props.questionLabel || 'Question'}</label>
+            </div>
+            <div className="row">
+            <textarea className={(inputError.question ? 'inputError' : '')}
+                      value={card.question} placeholder={'Question'}
+                      onChange={e => setCard({...card, question: e.target.value})}/>
+            </div>
+        </> : ''
+        }
 
-        <div className="row center more-space">
+        {showAnswer ? <>
+            <div className="row">
+                <label>{props.answerLabel || 'Answer'}</label>
+            </div>
+            <div className="row">
+            <textarea className={(inputError.answer ? 'inputError' : '')}
+                      value={card.answer} placeholder={'Answer'}
+                      onChange={e => setCard({...card, answer: e.target.value})}/>
+            </div>
+        </> : ''}
+
+        <div className="row center">
             <div className="col">
                 <button type="reset" className="buttonReset button" onClick={handleReset}>
                     <i className="fas fa-times icon"/>
