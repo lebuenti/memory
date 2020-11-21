@@ -100,7 +100,16 @@ db.deleteCardFromCardStack = (cardStackId, cardId) =>
         .doc(cardStackId)
         .update({cards: firebase.firestore.FieldValue.arrayRemove(cardId)})
 
-db.deleteCardStack = (cardStackId) => firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).delete();
+db.deleteCardStack = (cardStackId) => {
+    return db.getAllCardsFromCardStack(cardStackId)
+        .then(async ({docs}) => {
+            docs.forEach(doc => db.deleteCard(doc.id).catch(e => console.error(e)))
+            return await firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).delete();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
 
 db.updateCardStack = (cardStackId, newName) =>
     firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).update({'name': newName})
@@ -136,10 +145,12 @@ db.updateCard = (cardId, newQuestion, newAnswer) => {
     return firebase.firestore().collection(collectionCards).doc(cardId).update(updates);
 }
 
-db.deleteCard = (cardId, cardStackId) => {
+db.deleteCard = (cardId) => firebase.firestore().collection(collectionCards).doc(cardId).delete()
+
+db.deleteCardAndDeleteCardFromCardStack = (cardId, cardStackId) => {
     db.deleteCardFromCardStack(cardStackId, cardId)
         .catch(e => console.error(e));
-    return firebase.firestore().collection(collectionCards).doc(cardId).delete();
+    return db.deleteCard(cardId);
 }
 
 export default db;

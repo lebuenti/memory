@@ -28,7 +28,7 @@ export default function Card(props) {
     const deleteCard = () => {
         setUpdateMode(false);
         toast.info('Deleting card', () => {
-            db.deleteCard(card.id, props.cardStackId)
+            db.deleteCardAndDeleteCardFromCardStack(card.id, props.cardStackId)
                 .then(() => {
                     props.onDeletedCard(card);
                     toast.success('Deleted card');

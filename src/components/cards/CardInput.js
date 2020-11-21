@@ -27,6 +27,7 @@ export default function CardInput(props) {
 
         loading();
         props.submit(card);
+        handleReset();
     };
 
     const handleReset = () => {
