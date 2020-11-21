@@ -4,8 +4,8 @@
   height: 50px;
   background: rgba(255, 0, 0, 0.5);
   color: red;
-  margin-left: 15px;
-  width: auto;
+  //margin: 0 15px;
+  width: 100%;
 }
 
 .drag-object {
@@ -27,7 +27,10 @@
   align-items: center;
   display: flex;
   justify-content: center;
-  font-size: 16pt;
+}
+
+.drag-label > label {
+  font-size:12pt;
 }
 
 .btn .icon {

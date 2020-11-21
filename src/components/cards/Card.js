@@ -5,6 +5,7 @@ import CardInput from "./CardInput";
 import db from "../../db/db";
 import loading from "../../util/loading";
 import toast from "../../util/toast";
+import SwipeButton from "../inputFields/SwipeButton";
 
 export default function Card(props) {
     const [flip, setFlip] = useState(false);
@@ -22,6 +23,19 @@ export default function Card(props) {
             })
             .catch(e => console.error(e))
             .finally(() => loading.stop());
+    }
+
+    const deleteCard = () => {
+        setUpdateMode(false);
+        toast.info('Deleting card', () => {
+            db.deleteCard(card.id, props.cardStackId)
+                .then(() => {
+                    props.onDeletedCard(card);
+                    toast.success('Deleted card');
+                })
+                .catch(e => console.error(e))
+                .finally(() => loading.stop());
+        })
     }
 
     return <>
@@ -50,6 +64,9 @@ export default function Card(props) {
                 </div>
             </div>
         </div>
+        {updateMode ? <div className={"swipe-button-card row"}>
+            <SwipeButton text={"Swipe to delete card"} onSuccess={() => deleteCard()}/>
+        </div> : ''}
         <div className="flipper-card row">
             <div className="col">
                 <button className="buttonFlip button" onClick={() => setFlip(!flip)}>

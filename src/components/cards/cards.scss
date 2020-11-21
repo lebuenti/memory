@@ -24,3 +24,25 @@ textarea {
   font-size: 10pt;
   height: 70px;
 }
+
+.swipe-button-card {
+  margin-top: 7px;
+}
+
+.swipe-button-card > .row.danger {
+  height: 32.5px;
+}
+
+.swipe-button-card > * .drag-button {
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+}
+
+.swipe-button-card label {
+  font-size: 12pt;
+}
+
+.swipe-button-card > * .icon {
+  font-size: 20pt;
+}

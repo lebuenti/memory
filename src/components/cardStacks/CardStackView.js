@@ -11,7 +11,7 @@ import CardStackInput from "./CardStackInput";
 
 export default function CardStackView(props) {
     const [cards, setCards] = useState([]);
-    const [cardStack, setCardStack] = useState({name: '', id: ''});
+    const [cardStack, setCardStack] = useState({name: '', id: '', cards: []});
     const [showInput, setShowInput] = useState(false);
     const [subject, setSubject] = useState({});
     const [updateMode, setUpdateMode] = useState(false);
@@ -74,9 +74,9 @@ export default function CardStackView(props) {
         setUpdateMode(false);
     };
 
-    const submit = (newCard) => {
+    const addCard = (newCard) => {
         loading();
-        return db.addCard(cardStack.id, newCard.question, newCard.answer)
+        db.addCard(cardStack.id, newCard.question, newCard.answer)
             .then((doc) => {
                 setCards(curr => [{id: doc.id, question: doc.data().question, answer: doc.data().answer}, ...curr]);
                 setShowInput(false);
@@ -134,13 +134,15 @@ export default function CardStackView(props) {
             </div>
 
             <div className={showInput ? "visible" : "invisible"}>
-                <CardInput submit={(newCard) => submit(newCard)} setShowInput={(value) => setShowInput(value)}/>
+                <CardInput submit={(newCard) => addCard(newCard)} setShowInput={(value) => setShowInput(value)}/>
             </div>
         </div>
 
         <div className={"allCards"}>
             {cards.map(c => (
-                <Card key={c.id} id={c.id} answer={c.answer} question={c.question}/>
+                <Card onDeletedCard={(deletedCard) => setCards([...cards.filter(card => card.id !== deletedCard.id)])}
+                      key={c.id} id={c.id} answer={c.answer} question={c.question}
+                      cardStackId={cardStack.id}/>
             ))}
         </div>
     </div>

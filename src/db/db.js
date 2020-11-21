@@ -94,6 +94,12 @@ db.addCardToCardStack = (cardStackId, cardId) =>
         .doc(cardStackId)
         .update({cards: firebase.firestore.FieldValue.arrayUnion(cardId)});
 
+db.deleteCardFromCardStack = (cardStackId, cardId) =>
+    firebase.firestore()
+        .collection(collectionsCardStacks)
+        .doc(cardStackId)
+        .update({cards: firebase.firestore.FieldValue.arrayRemove(cardId)})
+
 db.deleteCardStack = (cardStackId) => firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).delete();
 
 db.updateCardStack = (cardStackId, newName) =>
@@ -128,6 +134,12 @@ db.updateCard = (cardId, newQuestion, newAnswer) => {
     if (newQuestion) updates['question'] = newQuestion;
     if (newAnswer) updates['answer'] = newAnswer;
     return firebase.firestore().collection(collectionCards).doc(cardId).update(updates);
+}
+
+db.deleteCard = (cardId, cardStackId) => {
+    db.deleteCardFromCardStack(cardStackId, cardId)
+        .catch(e => console.error(e));
+    return firebase.firestore().collection(collectionCards).doc(cardId).delete();
 }
 
 export default db;
