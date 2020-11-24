@@ -33,9 +33,8 @@ export default function SubjectsView(props) {
 
         return db.addSubject(newSubject.color, newSubject.name)
             .then((doc) =>
-                db.addCardStack(doc.id, "all cards")
-                    .then(() => setSubjects(
-                        curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr])))
+                //TODO create a card stack 'all cards' which is not in data base!
+                setSubjects(curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr]))
             .catch((error) => console.error(error))
             .finally(() => loading.stop());
     };

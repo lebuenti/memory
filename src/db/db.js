@@ -45,7 +45,16 @@ db.updateSubject = (subjectId, newName, newColor) => {
     return firebase.firestore().collection(collectionSubjects).doc(subjectId).update(updates);
 }
 
-db.deleteSubject = (subjectId) => firebase.firestore().collection(collectionSubjects).doc(subjectId).delete();
+db.deleteSubject = (subjectId) => {
+    return db.getAllCardStacksFromSubject(subjectId)
+        .then(async ({docs}) => {
+            docs.forEach(doc => db.deleteCardStack(doc.id).catch(e => console.error(e)))
+            return await firebase.firestore().collection(collectionSubjects).doc(subjectId).delete();
+        })
+        .catch((error) => {
+            console.error(error);
+        });
+}
 
 db.addCardStackToSubject = (subjectId, cardStackId) =>
     firebase.firestore()
