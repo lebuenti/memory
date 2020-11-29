@@ -16,23 +16,8 @@ export default function CardStackView(props) {
     const [subject, setSubject] = useState({});
     const [updateMode, setUpdateMode] = useState(false);
 
-    useEffect(() => {
-        let i = location.pathname.lastIndexOf('/');
-        let sub = location.pathname.substring(i + 1, location.pathname.length);
-        if (sub.length < 20) {
-            toast.fail('id from card stack is less then 20 chars!');
-            return;
-        }
-
-        loading();
-        db.getCardStack(sub)
-            .then(dbCardStack => setCardStack({name: dbCardStack.data().name, id: dbCardStack.id}))
-            .catch((error) => {
-                toast.fail('Can\'t find a card stack with the id ' + sub);
-                console.error('Can\'t find a card stack with the id ' + sub + '\n' + error);
-            }).finally(() => loading.stop());
-
-        db.getAllCardsFromCardStack(sub)
+    const readAllCardsFromCardStack = (cardStackId) => {
+        db.getAllCardsFromCardStack(cardStackId)
             .then((docs) => {
                 let sorted = docs.docs.sort((a, b) => {
                     if (a.data().timestamp > b.data().timestamp) return 1;
@@ -41,21 +26,28 @@ export default function CardStackView(props) {
                 });
                 sorted.forEach(doc => setCards(curr => [{id: doc.id, question: doc.data().question, answer: doc.data().answer}, ...curr]));
             })
-            .catch((error) => {
-                toast.fail('Can\'t find cards from the card stack with the id: ' + sub);
-                console.error('Can\'t find cards from the card stack with the id: ' + sub + '\n' + error);
-            }).finally(() => {
-            loading.stop()
-        });
+            .catch((error) => toast.fail(error))
+            .finally(() => loading.stop());
+    }
 
-        db.getSubjectByCardStackId(sub)
-            .then((doc) => {
-                setSubject({name: doc.data().name, color: doc.data().color, id: doc.id});
+    useEffect(() => {
+        let decoded = decodeURIComponent(location.pathname);
+        let beginSubjectName = decoded.lastIndexOf('cards/');
+        let beginCardStackName = decoded.lastIndexOf('/');
+        let subjectName = decoded.substring(beginSubjectName + 6, beginCardStackName);
+        let cardStackName = decoded.substring(beginCardStackName + 1, decoded.length);
+
+        db.getSubjectByName(subjectName)
+            .then(subjectDoc => {
+                setSubject({name: subjectDoc.data().name, color: subjectDoc.data().color, id: subjectDoc.id});
+                db.getCardStackByName(subjectDoc.id, cardStackName)
+                    .then(dbCardStack => {
+                        setCardStack({name: dbCardStack.data().name, id: dbCardStack.id});
+                        readAllCardsFromCardStack(dbCardStack.id)
+                    })
+                    .catch(error => toast.fail(error))
             })
-            .catch((error) => {
-                console.error(error);
-                toast.fail('Cannot load subject from the current card stack');
-            }).finally(() => loading.stop());
+            .catch(error => toast.fail(error))
     }, []);
 
     const deleteCardStack = () => {

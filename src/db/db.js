@@ -89,6 +89,31 @@ db.getCardStack = (cardStackId) =>
         .doc(cardStackId)
         .get();
 
+db.getSubjectByName = (subjectName) => {
+    return db.getSubjects()
+        .then(async qs => {
+            let tmp = await qs.docs.find(subject => subject.data().name === subjectName)
+            if (tmp == null) {
+                return Promise.reject(new Error('No subject to name ' + subjectName + ' found.'))
+            } else {
+                return tmp;
+            }
+        })
+}
+
+db.getCardStackByName = (subjectId, cardStackName) => {
+    return db.getAllCardStacksFromSubject(subjectId)
+        .then(async cardStacks => {
+            let tmp = await cardStacks.docs.find(cardStack => cardStack.data().name === cardStackName)
+            if (tmp == null) {
+                return Promise.reject(new Error('No card stack to name ' + cardStackName + ' found.'))
+            } else {
+                return tmp;
+            }
+        })
+        .catch(error => console.error(error))
+}
+
 db.getCardStacks = (cardStacksIds) =>
     firebase.firestore().collection(collectionsCardStacks)
         .where(firebase.firestore.FieldPath.documentId(), 'in', cardStacksIds)
