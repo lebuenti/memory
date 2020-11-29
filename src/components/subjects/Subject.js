@@ -29,7 +29,7 @@ export default function Subject(props) {
         loading();
         return db.addCardStack(props.id, cardStack.name)
             .then(doc => setCardStacks(curr => [{id: doc.id, name: doc.data().name, cards: doc.data().cards}, ...curr]))
-            .catch((error) => console.error(error))
+            .catch((error) => toast.fail(error))
             .finally(() => loading.stop());
     };
 
@@ -56,6 +56,7 @@ export default function Subject(props) {
                 props.goTo('/')
                 toast.success('updated subject')
             })
+            .catch(error => toast.fail(error))
             .finally(() => loading.stop())
     }
 

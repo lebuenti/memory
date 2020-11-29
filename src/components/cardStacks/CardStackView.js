@@ -50,7 +50,7 @@ export default function CardStackView(props) {
 
         db.getSubjectByCardStackId(sub)
             .then((doc) => {
-                setSubject({name: doc.data().name, color: doc.data().color});
+                setSubject({name: doc.data().name, color: doc.data().color, id: doc.id});
             })
             .catch((error) => {
                 console.error(error);
@@ -86,7 +86,7 @@ export default function CardStackView(props) {
     };
 
     const handleUpdate = (cardStackUpdate) => {
-        db.updateCardStack(cardStack.id, cardStackUpdate.name)
+        db.updateCardStack(cardStack.id, cardStackUpdate.name, subject.id)
             .then(() => {
                 setCardStack({...cardStack, name: cardStackUpdate.name})
                 setUpdateMode(false);

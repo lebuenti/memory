@@ -30,12 +30,9 @@ export default function SubjectsView(props) {
 
     const submit = (newSubject) => {
         loading();
-
-        return db.addSubject(newSubject.color, newSubject.name)
-            .then((doc) =>
-                //TODO create a card stack 'all cards' which is not in data base!
-                setSubjects(curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr]))
-            .catch((error) => console.error(error))
+        db.addSubject(newSubject.color, newSubject.name)
+            .then((doc) => setSubjects(curr => [{id: doc.id, name: newSubject.name, color: newSubject.color}, ...curr]))
+            .catch((error) => toast.fail(error))
             .finally(() => loading.stop());
     };
 

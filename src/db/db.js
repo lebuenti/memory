@@ -28,19 +28,33 @@ db.getSubject = (subjectId) => firebase.firestore().collection(collectionSubject
 db.getSubjectByCardStackId = async (cardStackId) =>
     (await db.getSubjects()).docs.find(doc => doc.data().cardStacks && doc.data().cardStacks.includes(cardStackId));
 
-db.addSubject = async (color, name) =>
-    firebase.firestore()
-        .collection(collectionSubjects)
-        .add({
-            color: color,
-            name: name,
-            user: (await db.getCurrentUser()).uid,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
+db.checkUniqueSubjectName = (name) =>
+    db.getSubjects()
+        .then(async qs => (await qs.docs.find(subject => subject.data().name === name)) == null)
+        .catch((error) => console.error(error))
 
-db.updateSubject = (subjectId, newName, newColor) => {
+db.addSubject = async (color, name) => {
+    if (await db.checkUniqueSubjectName(name)) {
+        return await firebase.firestore()
+            .collection(collectionSubjects)
+            .add({
+                color: color,
+                name: name,
+                user: (await db.getCurrentUser()).uid,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+
+    } else {
+        return Promise.reject(new Error('Subject name already exists'));
+    }
+}
+
+db.updateSubject = async (subjectId, newName, newColor) => {
     let updates = {};
-    if (newName) updates['name'] = newName;
+    if (newName) {
+        updates['name'] = newName;
+        if (!(await db.checkUniqueSubjectName(newName))) return Promise.reject(new Error('Subject name already exists'));
+    }
     if (newColor) updates['color'] = newColor;
     return firebase.firestore().collection(collectionSubjects).doc(subjectId).update(updates);
 }
@@ -86,15 +100,24 @@ db.getAllCardStacksFromSubject = async (subjectId) => {
     return db.getCardStacks(doc.data().cardStacks);
 };
 
+db.checkUniqueCardStackName = (subjectId, name) =>
+    db.getAllCardStacksFromSubject(subjectId)
+        .then(async ({docs}) => (await docs.find(cardStack => cardStack.data().name === name) == null))
+        .catch(error => console.error(error))
+
 db.addCardStack = async (subjectId, name) => {
-    const cardStack = await firebase.firestore()
-        .collection(collectionsCardStacks)
-        .add({
-            name: name,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-    await db.addCardStackToSubject(subjectId, cardStack.id)
-    return cardStack.get();
+    if (!(await db.checkUniqueCardStackName(subjectId, name))) {
+        return Promise.reject(new Error('Card stack name already exists.'))
+    } else {
+        const cardStack = await firebase.firestore()
+            .collection(collectionsCardStacks)
+            .add({
+                name: name,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            });
+        await db.addCardStackToSubject(subjectId, cardStack.id)
+        return cardStack.get();
+    }
 };
 
 db.addCardToCardStack = (cardStackId, cardId) =>
@@ -120,8 +143,16 @@ db.deleteCardStack = (cardStackId) => {
         });
 }
 
-db.updateCardStack = (cardStackId, newName) =>
-    firebase.firestore().collection(collectionsCardStacks).doc(cardStackId).update({'name': newName})
+db.updateCardStack = async (cardStackId, newName, subjectId) => {
+    if (!(await db.checkUniqueCardStackName(subjectId, newName))) {
+        return Promise.reject(new Error('Card stack name already exists.'))
+    } else {
+        return firebase.firestore()
+            .collection(collectionsCardStacks)
+            .doc(cardStackId)
+            .update({'name': newName})
+    }
+}
 
 db.getCard = (cardId) =>
     firebase.firestore()
