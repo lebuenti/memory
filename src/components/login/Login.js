@@ -11,22 +11,18 @@ export default function Login(props) {
         }).finally(() => loading.stop());
     };
 
-    return <div>
+    return <div id="login-content">
         <div className="row">
             <div className="col" id="headerLogin">
                 <h1>memory</h1>
             </div>
         </div>
         <div className="formAdd">
-            <div className="row">
-                <div className="col">
-                    <h2>Login</h2>
-                </div>
+            <div className="row" id="subHeaderLogin">
+                <h2>Login</h2>
             </div>
-            <div className="row">
-                <div className="col">
-                    <p onClick={() => props.showRegister(true)}>or register</p>
-                </div>
+            <div className="row" id="col-register-link">
+                <p onClick={() => props.showRegister(true)}>or register</p>
             </div>
             <LoginRegisterInput submit={(value) => submit(value)}/>
         </div>

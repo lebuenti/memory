@@ -32,29 +32,32 @@ export default function LoginRegisterInput(props) {
     };
 
     return <form onSubmit={handleSubmit}>
-
-        <div className="col">
-            <label>
-                Email
-                <input className={(inputError.email ? 'inputError' : '')} type="text" value={user.email}
-                       onChange={e => setUser({...user, email: e.target.value})}/>
-            </label>
+        <div className="row">
+            <label>Email</label>
         </div>
-        <div className="col">
-            <label>
-                Password
-                <input className={(inputError.password ? 'inputError' : '')} type="password"
-                       value={user.password}
-                       onChange={e => setUser({...user, password: e.target.value})}/>
-            </label>
+        <div className="row">
+            <input className={(inputError.email ? 'inputError' : '')} type="text" value={user.email}
+                   onChange={e => setUser({...user, email: e.target.value})}/>
         </div>
-        <div className="col">
-            <button type="reset" className="buttonReset button" onClick={handleReset}>
-                <i className="fas fa-times icon"/>
-            </button>
-            <button type="submit" className="buttonSuccess button">
-                <i className="fas fa-check icon"/>
-            </button>
+        <div className="row ">
+            <label>Password</label>
+        </div>
+        <div className="row">
+            <input className={(inputError.password ? 'inputError' : '')} type="password"
+                   value={user.password}
+                   onChange={e => setUser({...user, password: e.target.value})}/>
+        </div>
+        <div className="row">
+            <div className="col">
+                <button type="reset" className="buttonReset button" onClick={handleReset}>
+                    <i className="fas fa-times icon"/>
+                </button>
+            </div>
+            <div className="col">
+                <button type="submit" className="buttonSuccess button">
+                    <i className="fas fa-check icon"/>
+                </button>
+            </div>
         </div>
     </form>
 }

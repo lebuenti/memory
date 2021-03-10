@@ -24,15 +24,13 @@ export default function LoginView(props) {
         }
     };
 
-    return <div id="loginBody">
+    return <div id="login-background">
         <div id="login">
-            <div>
-                {showRegister ? <Register login={props.login}/>
-                    : <Login login={props.login} showRegister={(value) => {
-                        setShowRegister(value);
-                        history.pushState({}, '', 'register');
-                    }}/>}
-            </div>
+            {showRegister ? <Register login={props.login}/>
+                : <Login login={props.login} showRegister={(value) => {
+                    setShowRegister(value);
+                    history.pushState({}, '', 'register');
+                }}/>}
         </div>
     </div>
 }

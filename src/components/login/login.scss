@@ -1,25 +1,40 @@
 @import "src/components/colors";
 
-#loginBody {
+#login-background {
   height: 100%;
   background: $cardBackground;
   background-size: 100% 10px;
+  width: 100%;
 }
 
 #login {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  overflow: hidden;
+  width: 100%;
+}
+
+#login-content {
+  width: 90%;
 }
 
 #login .formAdd {
   background-color: $dark;
   color: white;
+  padding: 10px 0;
 }
 
 #login .formAdd form {
-  width:100%;
+  width: 100%;
+}
+
+#col-register-link {
+  margin: 0 0 30px 10px;
+}
+
+#subHeaderLogin {
+  margin-left: 10px;
 }
 
 #headerLogin {
