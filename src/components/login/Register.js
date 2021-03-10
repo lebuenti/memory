@@ -21,19 +21,15 @@ export default function Register(props) {
             }).finally(() => loading.stop());
     };
 
-    return <div>
+    return <div className="login-register-content">
         <div className="row">
-            <div className="col" id="headerLogin">
+            <div className="col login-register-header">
                 <h1>memory</h1>
             </div>
         </div>
-        <div className=" formAdd">
-            <div className="row">
-
-
-                <div className="col">
-                    <h2>Register</h2>
-                </div>
+        <div className="formAdd">
+            <div className="row login-register-subheader" id="subheader-register">
+                <h2>Register</h2>
             </div>
             <LoginRegisterInput submit={(user) => submit(user)}/>
         </div>

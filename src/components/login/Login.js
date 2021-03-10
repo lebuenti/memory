@@ -11,14 +11,14 @@ export default function Login(props) {
         }).finally(() => loading.stop());
     };
 
-    return <div id="login-content">
+    return <div className="login-register-content">
         <div className="row">
-            <div className="col" id="headerLogin">
+            <div className="col login-register-header">
                 <h1>memory</h1>
             </div>
         </div>
         <div className="formAdd">
-            <div className="row" id="subHeaderLogin">
+            <div className="row login-register-subheader">
                 <h2>Login</h2>
             </div>
             <div className="row" id="col-register-link">

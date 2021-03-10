@@ -15,7 +15,7 @@
   width: 100%;
 }
 
-#login-content {
+.login-register-content {
   width: 90%;
 }
 
@@ -33,16 +33,20 @@
   margin: 0 0 30px 10px;
 }
 
-#subHeaderLogin {
-  margin-left: 10px;
-}
-
-#headerLogin {
+.login-register-header {
   width: 95%;
   padding: 20px 0;
 }
 
-#headerLogin h1 {
+.login-register-subheader {
+  margin-left: 10px;
+}
+
+#subheader-register {
+  margin-bottom: 30px;
+}
+
+.login-register-header h1 {
   font-size: 35pt;
   color: $white;
   text-shadow: 0 0 10px $dark;
